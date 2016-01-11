@@ -1,0 +1,23 @@
+{
+  "name": "goco-api",
+  "version": "1.0.0",
+  "description": "API server for the GoCo Student app.",
+  "main": "index.js",
+  "dependencies": {
+    "restify": "4.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adamvig/gocoapi.git"
+  },
+  "author": "Adam Vigneaux",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adamvig/gocoapi/issues"
+  },
+  "homepage": "https://github.com/adamvig/gocoapi#readme"
+}
