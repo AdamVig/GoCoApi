@@ -35,13 +35,13 @@ module.exports = (app) => {
  * @return {number}    Chapel credits
  */
 function extractChapelCredits($) {
-    try {
-        const dataString = $("body").find("table")
-            .last()
-            .children().first()
-            .children().last()
-            .text();
-    } catch (e) {
+    const dataString = $("body").find("table")
+        .last()
+        .children().first()
+        .children().last()
+        .text();
+
+    if (dataString.length === 0 || !dataString) {
         throw new Error("Could not find chapel credits in HTML.");
     }
 
