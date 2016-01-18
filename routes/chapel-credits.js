@@ -6,11 +6,9 @@ const cheerio = require('cheerio');
 const URL = "https://go.gordon.edu/student/chapelcredits/viewattendance.cfm";
 
 module.exports = (app) => {
-    app.get(config.PREFIX + 'chapelcredits',
-        utils.getAuth,
-        (req, res, next, auth) => {
-        console.log(auth);
-        // const auth = util.getAuth(req, res, next);
+    app.get(config.PREFIX + 'chapelcredits', (req, res, next) => {
+
+        const auth = utils.getAuth(req, res, next);
 
         rp({url: URL, auth: auth, transform: cheerio.load})
             .then(extractChapelCredits)
