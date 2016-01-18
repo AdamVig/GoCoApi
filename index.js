@@ -13,8 +13,12 @@ const app = restify.createServer({
 app.use(restify.CORS());
 app.use(restify.bodyParser());
 
-app.on('InternalServerError', utils.handleError);
-app.on('uncaughtException', utils.handleError);
+app.on('InternalServerError', (req, res, route, error) => {
+    utils.handleError(req, res, route.spec.path, error);
+});
+app.on('uncaughtException', (req, res, route, error) => {
+    utils.handleError(req, res, route.spec.path, error);
+});
 
 require('./routes/chapel-credits.js')(app);
 
