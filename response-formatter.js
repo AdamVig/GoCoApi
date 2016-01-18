@@ -16,19 +16,8 @@ function formatResponse(req, res, body, next) {
 
     // Handle error
     if (body instanceof Error) {
-
         res.statusCode = body.statusCode || 500;
-
-        // Set error message
-        if (res.statusCode == 500) {
-            console.log("Error: %s", body.message);
-            body = config.ERROR.InternalServerError;
-        } else {
-            body = utils.getError(res.statusCode);
-        }
-
-        // Set content type to handle transmitted emoji
-        res.setHeader('Content-Type', 'text/html');
+        body = utils.getErrorMessage(body);
     }
 
     const data = JSON.stringify(body);
