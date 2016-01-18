@@ -7,7 +7,7 @@ const config = require('./config');
  * @param  {Function}  next Callback
  * @return {object}         Contains username and password in plaintext
  */
-module.exports.getAuth = function (req, res, next) {
+function getAuth(req, res, next) {
 
     try {
         const auth = JSON.parse(req.body);
@@ -17,7 +17,9 @@ module.exports.getAuth = function (req, res, next) {
     }
 
     return auth;
-};
+}
+
+module.exports.getAuth = getAuth();
 
 /**
  * Get user-friendly error message and log actual error
@@ -25,11 +27,13 @@ module.exports.getAuth = function (req, res, next) {
  * @param  {error} e HttpError from Requests library, contains statusCode
  * @return {error}   restify error from restify's errors module
  */
-module.exports.getErrorMessage = function (e) {
+function getErrorMessage(e) {
     const statusCode = e.statusCode || 500;
     const errorMessage = config.ERROR[statusCode] || config.ERROR[500];
     return errorMessage;
-};
+}
+
+module.exports.getErrorMessage = getErrorMessage();
 
 /**
  * Log and send error
@@ -38,7 +42,10 @@ module.exports.getErrorMessage = function (e) {
  * @param  {string}   route  Name of error's origin route
  * @param  {Error}    error  Error object, contains 'message'
  */
-module.exports.handleError = function (req, res, route, error) {
+function handleError(req, res, route, error) {
     console.log("Error in %s: %s", route, error.message);
     res.send(error);
+}
+
+module.exports.handleError = handleError();
 };
