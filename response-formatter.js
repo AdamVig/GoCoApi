@@ -24,6 +24,8 @@ function formatResponse(req, res, body, next) {
             body = config.ERROR.InternalServerError;
         }
 
+        res.setHeader('Content-Type', 'text/html');
+
     } else if (Buffer.isBuffer(body)) {
 
         body = body.toString('base64');

@@ -24,3 +24,9 @@ module.exports.getError = function (e) {
         return errorName;
     }
 };
+
+module.exports.handleError = function (req, res, route, error) {
+    console.log("Error in %s: %s", route.spec.path, error);
+    res.setHeader('Content-Type', 'text/html');
+    res.send(config.ERROR.InternalServerError);
+};

@@ -1,4 +1,5 @@
 const config = require('./config');
+const utils = require('./utils');
 const responseFormatter = require('./response-formatter');
 const restify = require('restify');
 
@@ -12,15 +13,10 @@ const app = restify.createServer({
 app.use(restify.CORS());
 app.use(restify.bodyParser());
 
+app.on('InternalServerError', utils.handleError);
+app.on('uncaughtException', utils.handleError);
+
 require('./routes/chapel-credits.js')(app);
-
-app.on('InternalServerError', (req, res, route, error) => {
-    console.log("ERROR");
-});
-
-app.on('uncaughtException', (req, res, route, error) => {
-    console.log("Error in %s: %s", route.spec.path, error);
-});
 
 app.listen(8080, function() {
     console.log('%s listening at %s', app.name, app.url);
