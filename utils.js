@@ -20,16 +20,16 @@ module.exports.getAuth = function (req, res, next) {
     return auth;
 };
 
-module.exports.getError = function (e) {
-    const errorName = httpStatus[e.statusCode];
-    const errorMessage = config.ERROR[errorName.replace(/ /g, "")];
-    console.log("Error Name: %s", errorName);
-    console.log("Error Message: %s", errorMessage);
-    if (errorMessage) {
-        return errorMessage;
-    } else {
-        return errorName;
-    }
+/**
+ * Get user-friendly error message and log actual error
+ * Defaults to 500 Internal Server Error if unknown status code
+ * @param  {error} e HttpError from Requests library, contains statusCode
+ * @return {error}   restify error from restify's errors module
+ */
+module.exports.getErrorMessage = function (e) {
+    const statusCode = e.statusCode || 500;
+    const errorMessage = config.ERROR[statusCode] || config.ERROR[500];
+    return errorMessage;
 };
 
 module.exports.handleError = function (req, res, route, error) {
