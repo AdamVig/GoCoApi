@@ -1,6 +1,13 @@
 const config = require('./config');
 const httpStatus = require('http-status');
 
+/**
+ * Get authentication parameters from request
+ * @param  {request}   req  Contains parameters in 'body'
+ * @param  {response}  res  Response object
+ * @param  {Function}  next Callback
+ * @return {object}         Contains username and password in plaintext
+ */
 module.exports.getAuth = function (req, res, next) {
 
     try {
@@ -10,7 +17,7 @@ module.exports.getAuth = function (req, res, next) {
         throw new Error("Could not get auth from request body.");
     }
 
-    return next(auth);
+    return auth;
 };
 
 module.exports.getError = function (e) {
