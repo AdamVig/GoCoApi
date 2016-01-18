@@ -1,5 +1,4 @@
 const config = require('./config');
-const httpStatus = require('http-status');
 
 /**
  * Get authentication parameters from request
