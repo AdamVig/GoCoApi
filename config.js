@@ -10,9 +10,10 @@ module.exports = config = {};
 config.APP_NAME = "GoCoAPI";
 config.PREFIX = "/gocostudent/:version/";
 config.ERROR = {
-    // Character measurement: 0_____________________23
-    "InternalServerError":    "Something went wrong! " + EMOJI.sos,
-    "NotFound":               "Couldn't find data. " + EMOJI.sad_face,
-    "Unauthorized":           "Your login is wrong. " + EMOJI.information_desk_person,
-    "Conflict":               "Could not save data. " + EMOJI.crossed_swords
+    // Character measurement: 
+    //   0_____________________23
+    500: "Something went wrong! " + EMOJI.sos,
+    404: "Couldn't find data. " + EMOJI.sad_face,
+    401: "Your login is wrong. " + EMOJI.information_desk_person,
+    409: "Could not save data. " + EMOJI.crossed_swords
 };
