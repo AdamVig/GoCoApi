@@ -2,6 +2,7 @@
 'use strict';
 
 const config = require('./config');
+const utils = require('./utils');
 
 /**
  * JSON formatter.
@@ -13,26 +14,24 @@ const config = require('./config');
  */
 function formatResponse(req, res, body, next) {
 
-    let data;
-
+    // Handle error
     if (body instanceof Error) {
 
         res.statusCode = body.statusCode || 500;
 
+        // Set error message
         if (res.statusCode == 500) {
             console.log("Error: %s", body.message);
             body = config.ERROR.InternalServerError;
+        } else {
+            body = utils.getError(res.statusCode);
         }
 
+        // Set content type to handle transmitted emoji
         res.setHeader('Content-Type', 'text/html');
-
-    } else if (Buffer.isBuffer(body)) {
-
-        body = body.toString('base64');
-        data = body;
     }
 
-    data = JSON.stringify(body);
+    const data = JSON.stringify(body);
     res.setHeader('Content-Length', Buffer.byteLength(data));
 
     return next(null, data);
