@@ -1,6 +1,5 @@
 const config = require('../config');
 const utils = require('../utils');
-const restify = require('restify');
 const rp = require('request-promise');
 const cheerio = require('cheerio');
 
@@ -17,15 +16,9 @@ module.exports = (app) => {
             .then(extractChapelCredits)
             .then((chapelCredits) => {
                 res.send({data: chapelCredits});
-                return next();
-            })
-            .catch((e) => {
-                if (e.name == "StatusCodeError") {
-                    return next(utils.getError(e));
-                } else {
-                    return next(new restify.InternalServerError(e.message));
-                }
-            });
+            }).catch((e) => {
+                utils.handleError(req, res, 'chapelcredits', e);
+            }).finally(next);
     });
 };
 
