@@ -32,6 +32,13 @@ module.exports.getErrorMessage = function (e) {
     return errorMessage;
 };
 
+/**
+ * Log and send error
+ * @param  {request}  req    Request object
+ * @param  {response} res    Response object
+ * @param  {string}   route  Name of error's origin route
+ * @param  {Error}    error  Error object, contains 'message'
+ */
 module.exports.handleError = function (req, res, route, error) {
     console.log("Error in %s: %s", route, error.message);
     res.send(error);
