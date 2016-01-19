@@ -52,6 +52,17 @@ function handleError(req, res, route, error) {
 module.exports.handleError = handleError;
 
 /**
+ * Cache data
+ * @param  {varies} data      Data to cache
+ * @param  {string} endpoint  Name of endpoint, used as key in cache
+ * @param  {string} cacheType Either "user" or "global"
+ * @param  {object} username  User to cache data for (optional, only needed for
+ *                            cacheType "user")
+ */
+function cache(data, endpoint, cacheType, username) {
+
+}
+
  * Make a GET endpoint
  * 1. Request a webpage
  * 2. Extract data from raw HTML using processor function
