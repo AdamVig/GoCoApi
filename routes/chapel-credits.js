@@ -1,11 +1,15 @@
 const config = require('../config');
 const utils = require('../utils');
 
-const ENDPOINT = "chapelcredits";
-const URL = "https://go.gordon.edu/student/chapelcredits/viewattendance.cfm";
+const ENDPOINT = {
+    name: "chapelcredits",
+    url: "https://go.gordon.edu/student/chapelcredits/viewattendance.cfm",
+    processor: getChapelCredits,
+    cache: "user"
+};
 
 module.exports = (app) => {
-    utils.makeGetEndpoint(app, ENDPOINT, URL, getChapelCredits);
+    utils.makeScraperEndpoint(app, ENDPOINT);
 };
 
 /**

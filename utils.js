@@ -63,35 +63,45 @@ function cache(data, endpoint, cacheType, username) {
 
 }
 
+/**
  * Make a GET endpoint
  * 1. Request a webpage
  * 2. Extract data from raw HTML using processor function
  * 3. Return data or error response
  * @param  {restify}  app       restify server
- * @param  {string}   endpoint  Name of endpoint, lowercase
- * @param  {string}   url       Location to get webpage from
- * @param  {function} processor Process the result of the HTTP request
+ * @param  {object}   endpoint  Contains lowercase name of endpoint,
+ *                              URL of webpage to get,
+ *                              processor function to extract data from webpage,
+ *                              and cache settings (user, global, or false)
  */
-function makeGetEndpoint(app, endpoint, url, processor) {
+function makeScraperEndpoint(app, endpoint) {
 
     // Define GET Endpoint on server object
-    app.get(config.PREFIX + endpoint, (req, res, next) => {
+    app.get(config.PREFIX + endpoint.name, (req, res, next) => {
 
         // Get credentials from request
         try {
             const auth = getAuth(req, res, next);
         } catch (e) {
-            handleError(req, res, endpoint, e);
+            handleError(req, res, endpoint.name, e);
         }
 
         // Get webpage, extract data, and send response or handle error
-        rp({url: url, auth: auth, transform: cheerio.load})
+        rp({url: endpoint.url, auth: auth, transform: cheerio.load})
             .then(($) => {
-                res.send({data: processor($)});
+
+                const data = endpoint.processor($);
+
+                if (endpoint.cache) {
+                    cache(data, endpoint.cache);
+                }
+
+                res.send({data: data});
+
             }).catch((e) => {
-                handleError(req, res, endpoint, e);
+                handleError(req, res, endpoint.name, e);
             }).finally(next);
     });
 }
 
-module.exports.makeGetEndpoint = makeGetEndpoint;
+module.exports.makeScraperEndpoint = makeScraperEndpoint;
