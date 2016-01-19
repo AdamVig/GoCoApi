@@ -17,3 +17,8 @@ config.ERROR = {
     401: "Your login is wrong. " + EMOJI.information_desk_person,
     409: "Could not save data. " + EMOJI.crossed_swords
 };
+config.FORMAT = {
+    date: "MMMM D, YYYY", // January 4, 2016
+    time: "h:mm A", // 10:04 AM
+    datetime: "MMM D h:mm A",   // Jan 4 10:04 AM
+};
