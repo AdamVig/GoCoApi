@@ -13,8 +13,8 @@ The GoCo Student API provides data from a variety of Gordon College websites and
 1. Definition (app.get())
 2. Get authentication
 3. Get raw data
-    - from web page
-    - from external API
+    - from web page (requires parsing and processing)
+    - from external API (requires processing)
     - from database
 4. Cache data
     - in user document
