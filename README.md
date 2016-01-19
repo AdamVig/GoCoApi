@@ -25,7 +25,7 @@ The GoCo Student API provides data from a variety of Gordon College websites and
 ## Endpoint List
 - Athletics Schedule (not implemented)
 - Chapel Credits
-- Chapel Events (not implemented)
+- Chapel Events
 - Check Login (not implemented)
 - Days Left In Semester (not implemented)
 - Highland Express (not implemented)
