@@ -1,5 +1,6 @@
 const config = require('../config');
 const utils = require('../utils');
+const endpoint = require('../endpoint');
 
 const ENDPOINT = {
     name: "chapelcredits",
@@ -9,7 +10,7 @@ const ENDPOINT = {
 };
 
 module.exports = (app) => {
-    utils.makeScraperEndpoint(app, ENDPOINT);
+    endpoint.make(app, ENDPOINT);
 };
 
 /**
