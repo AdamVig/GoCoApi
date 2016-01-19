@@ -1,4 +1,6 @@
 const config = require('./config');
+const rp = require('request-promise');
+const cheerio = require('cheerio');
 
 /**
  * Get authentication parameters from request
@@ -19,7 +21,7 @@ function getAuth(req, res, next) {
     return auth;
 }
 
-module.exports.getAuth = getAuth();
+module.exports.getAuth = getAuth;
 
 /**
  * Get user-friendly error message and log actual error
@@ -33,7 +35,7 @@ function getErrorMessage(e) {
     return errorMessage;
 }
 
-module.exports.getErrorMessage = getErrorMessage();
+module.exports.getErrorMessage = getErrorMessage;
 
 /**
  * Log and send error
@@ -47,5 +49,38 @@ function handleError(req, res, route, error) {
     res.send(error);
 }
 
-module.exports.handleError = handleError();
-};
+module.exports.handleError = handleError;
+
+/**
+ * Make a GET endpoint
+ * 1. Request a webpage
+ * 2. Extract data from raw HTML using processor function
+ * 3. Return data or error response
+ * @param  {restify}  app       restify server
+ * @param  {string}   endpoint  Name of endpoint, lowercase
+ * @param  {string}   url       Location to get webpage from
+ * @param  {function} processor Process the result of the HTTP request
+ */
+function makeGetEndpoint(app, endpoint, url, processor) {
+
+    // Define GET Endpoint on server object
+    app.get(config.PREFIX + endpoint, (req, res, next) => {
+
+        // Get credentials from request
+        try {
+            const auth = getAuth(req, res, next);
+        } catch (e) {
+            handleError(req, res, endpoint, e);
+        }
+
+        // Get webpage, extract data, and send response or handle error
+        rp({url: url, auth: auth, transform: cheerio.load})
+            .then(($) => {
+                res.send({data: processor($)});
+            }).catch((e) => {
+                handleError(req, res, endpoint, e);
+            }).finally(next);
+    });
+}
+
+module.exports.makeGetEndpoint = makeGetEndpoint;
