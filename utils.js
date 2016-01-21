@@ -39,11 +39,12 @@ module.exports.getErrorMessage = getErrorMessage;
  * Log and send error
  * @param  {request}  req    Request object
  * @param  {response} res    Response object
+ * @param  {string}   source Name of error's origin function
  * @param  {string}   route  Name of error's origin route
  * @param  {Error}    error  Error object, contains 'message'
  */
-function handleError(req, res, route, error) {
-    console.log("Error in %s: %s", route, error.message);
+function handleError(req, res, source, route, error) {
+    console.log("%s Error in %s: %s", source, route, error.message);
     res.send(error);
 }
 

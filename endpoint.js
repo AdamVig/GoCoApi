@@ -39,7 +39,7 @@ function make(app, endpoint) {
                 res.send({data: data});
 
             }).catch((e) => {
-                utils.handleError(req, res, endpoint.name, e);
+                utils.handleError(req, res, "Endpoint", endpoint.name, e);
             }).finally(next);
     });
 }

@@ -23,10 +23,10 @@ app.use(restify.CORS());
 app.use(restify.bodyParser());
 
 app.on('InternalServerError', (req, res, route, error) => {
-    utils.handleError(req, res, route.spec.path, error);
+    utils.handleError(req, res, "Internal Server", route.spec.path, error);
 });
 app.on('uncaughtException', (req, res, route, error) => {
-    utils.handleError(req, res, route.spec.path, error);
+    utils.handleError(req, res, "Uncaught", route.spec.path, error);
 });
 
 require('./routes/chapel-credits.js')(app);
