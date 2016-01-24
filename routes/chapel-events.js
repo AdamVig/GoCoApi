@@ -1,11 +1,13 @@
 const config = require('../config');
 const utils = require('../utils');
 const endpoint = require('../endpoint');
+const getters = require('../getters');
 const moment = require('moment');
 
 const ENDPOINT = {
     name: "chapelevents",
-    url: "https://go.gordon.edu/student/chapelcredits/viewupcoming.cfm",
+    getter: getters.getGoGordon,
+    location: "student/chapelcredits/viewupcoming.cfm",
     processor: getChapelEvents,
     cache: "global"
 };
