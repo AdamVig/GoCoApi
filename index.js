@@ -31,6 +31,7 @@ app.on('uncaughtException', (req, res, route, error) => {
 
 require('./routes/chapel-credits.js')(app);
 require('./routes/chapel-events.js')(app);
+require('./routes/temperature.js')(app);
 
 app.listen(8080, function() {
     console.log('%s listening at %s', app.name, app.url);
