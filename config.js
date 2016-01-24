@@ -22,3 +22,7 @@ config.FORMAT = {
     time: "h:mm A", // 10:04 AM
     datetime: "MMM D h:mm A",   // Jan 4 10:04 AM
 };
+config.COORDINATES = {
+    latitude: "42.587576",
+    longitude: "-70.824631"
+};
