@@ -31,6 +31,6 @@ endpoint.make = function (app, endpoint) {
                 }
             }).catch((e) => {
                 utils.handleError(req, res, "Endpoint", endpoint.name, e);
-            }).finally(next);
+            }).then(next);
     });
 };
