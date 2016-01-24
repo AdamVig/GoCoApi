@@ -7,6 +7,7 @@
     "cheerio": "0.19.0",
     "forecast.io-bluebird": "0.0.1",
     "moment": "2.11.1",
+    "nano": "6.2.0",
     "request": "2.67.0",
     "request-promise": "2.0.0",
     "restify": "4.0.3"
