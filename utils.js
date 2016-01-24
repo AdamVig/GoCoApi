@@ -1,5 +1,7 @@
 const config = require('./config');
 
+module.exports = utils = {};
+
 /**
  * Get authentication parameters from request
  * @param  {request}   req  Contains parameters in 'body'
@@ -7,7 +9,7 @@ const config = require('./config');
  * @param  {Function}  next Callback
  * @return {object}         Contains username and password in plaintext
  */
-function getAuth(req, res, next) {
+utils.getAuth = function (req, res, next) {
 
     try {
         const auth = JSON.parse(req.body);
@@ -17,9 +19,7 @@ function getAuth(req, res, next) {
     }
 
     return auth;
-}
-
-module.exports.getAuth = getAuth;
+};
 
 /**
  * Get user-friendly error message and log actual error
@@ -27,13 +27,11 @@ module.exports.getAuth = getAuth;
  * @param  {error} e HttpError from Requests library, contains statusCode
  * @return {error}   restify error from restify's errors module
  */
-function getErrorMessage(e) {
+utils.getErrorMessage = function (e) {
     const statusCode = e.statusCode || 500;
     const errorMessage = config.ERROR[statusCode] || config.ERROR[500];
     return errorMessage;
-}
-
-module.exports.getErrorMessage = getErrorMessage;
+};
 
 /**
  * Log and send error
@@ -43,12 +41,10 @@ module.exports.getErrorMessage = getErrorMessage;
  * @param  {string}   route  Name of error's origin route
  * @param  {Error}    error  Error object, contains 'message'
  */
-function handleError(req, res, source, route, error) {
+utils.handleError = function (req, res, source, route, error) {
     console.log("%s Error in %s: %s", source, route, error.message);
     res.send(error);
-}
-
-module.exports.handleError = handleError;
+};
 
 /**
  * Cache data
@@ -58,8 +54,6 @@ module.exports.handleError = handleError;
  * @param  {object} username  User to cache data for (optional, only needed for
  *                            cacheType "user")
  */
-function cache(data, endpoint, cacheType, username) {
+utils.cache = function (data, endpoint, cacheType, username) {
 
-}
-
-module.exports.cache = cache;
+};
