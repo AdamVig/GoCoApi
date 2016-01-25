@@ -49,7 +49,7 @@ The GoCo Student API provides data from a variety of Gordon College websites and
 - Meal Points (not implemented)
 - Meal Points Per Day (not implemented)
 - Mock Error (not implemented)
-- Next Meal (not implemented)
+- Next Meal
 - Student ID (not implemented)
 - Student Info (not implemented)
 - Temperature
