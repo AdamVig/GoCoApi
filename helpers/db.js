@@ -1,5 +1,4 @@
-const config = require('./config');
-const vars = require('./vars');
+const vars = require('../vars');
 const nano = require('nano')("https://" + vars.db.user + ":" +
         vars.db.password + "@" + vars.db.url);
 

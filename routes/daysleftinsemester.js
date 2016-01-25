@@ -1,6 +1,5 @@
-const utils = require('../utils');
-const endpoint = require('../endpoint');
-const db = require('../db');
+const endpoint = require('../helpers/endpoint');
+const db = require('../helpers/db');
 const moment = require('moment');
 
 const ENDPOINT = {

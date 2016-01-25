@@ -1,7 +1,6 @@
 const config = require('../config');
-const utils = require('../utils');
-const endpoint = require('../endpoint');
 const vars = require('../vars');
+const endpoint = require('../helpers/endpoint');
 const Forecast = require('forecast.io-bluebird');
 
 const ENDPOINT = {

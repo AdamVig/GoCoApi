@@ -1,7 +1,5 @@
 // Based on JSON Formatter by Mark Cavage
-'use strict';
 
-const config = require('./config');
 const utils = require('./utils');
 
 /**
@@ -12,7 +10,7 @@ const utils = require('./utils');
  * @param    {Function} next next
  * @returns  {String}
  */
-function formatResponse(req, res, body, next) {
+module.exports = function (req, res, body, next) {
 
     // Handle error
     if (body instanceof Error) {
@@ -24,6 +22,4 @@ function formatResponse(req, res, body, next) {
     res.setHeader('Content-Length', Buffer.byteLength(data));
 
     return next(null, data);
-}
-
-module.exports = formatResponse;
+};

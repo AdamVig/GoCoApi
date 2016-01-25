@@ -1,6 +1,6 @@
 const config = require('./config');
-const utils = require('./utils');
-const responseFormatter = require('./response-formatter');
+const utils = require('./helpers/utils');
+const responseFormatter = require('./helpers/response-formatter');
 const fs = require('fs');
 const restify = require('restify');
 

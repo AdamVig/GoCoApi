@@ -1,7 +1,6 @@
 const config = require('../config');
-const utils = require('../utils');
-const endpoint = require('../endpoint');
-const getters = require('../getters');
+const endpoint = require('../helpers/endpoint');
+const getters = require('../helpers/getters');
 const moment = require('moment');
 
 const ENDPOINT = {
