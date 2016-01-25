@@ -7,7 +7,7 @@ const ENDPOINT = {
     getter: db.get,
     location: "info",
     processor: getDaysLeftInSemester,
-    cache: "global"
+    cache: false
 };
 
 module.exports = (app) => {
