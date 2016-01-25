@@ -32,12 +32,12 @@ The GoCo Student API provides data from a variety of Gordon College websites and
 3. Get raw data
     - from web page (requires parsing and processing)
     - from external API (requires processing)
-    - from database
-4. Cache data
+    - from database (may require processing)
+4. Return data or error
+5. Cache data
     - in user document
     - in global document
     - skip caching private user data and data from database
-5. Return data or error
 
 ## Endpoint List
 - Athletics Schedule (not implemented)
