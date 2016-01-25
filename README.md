@@ -40,7 +40,7 @@ The GoCo Student API provides data from a variety of Gordon College websites and
     - skip caching private user data and data from database
 
 ## Endpoint List
-- Athletics Schedule (not implemented)
+- Athletics Schedule
 - Chapel Credits
 - Chapel Events
 - Check Login (not implemented)
