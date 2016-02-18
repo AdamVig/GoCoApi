@@ -48,7 +48,7 @@ The GoCo Student API provides data from a variety of Gordon College websites and
 - Highland Express (partially implemented, needs PUT functionality)
 - Meal Points (not implemented)
 - Meal Points Per Day (not implemented)
-- Mock Error (not implemented)
+- Mock Error
 - Next Meal
 - Student ID (not implemented)
 - Temperature
