@@ -32,6 +32,7 @@ app.on('uncaughtException', (req, res, route, error) => {
 require('./routes/chapel-credits.js')(app);
 require('./routes/athletics-schedule.js')(app);
 require('./routes/chapel-events.js')(app);
+require('./routes/check-login.js')(app);
 require('./routes/days-left-in-semester.js')(app);
 require('./routes/highland-express.js')(app);
 require('./routes/next-meal.js')(app);
