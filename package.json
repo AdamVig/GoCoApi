@@ -12,7 +12,9 @@
     "request-promise": "2.0.0",
     "restify": "4.0.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "request-debug": "0.2.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
