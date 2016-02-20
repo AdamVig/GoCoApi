@@ -37,6 +37,7 @@ require('./routes/days-left-in-semester.js')(app);
 require('./routes/highland-express.js')(app);
 require('./routes/mock-error.js')(app);
 require('./routes/next-meal.js')(app);
+require('./routes/student-id.js')(app);
 require('./routes/temperature.js')(app);
 
 app.listen(8080, function() {
