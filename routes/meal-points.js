@@ -1,25 +1,14 @@
 const endpoint = require('../helpers/endpoint');
 const getters = require ('../helpers/getters');
 
-const ENDPOINT = {
-    name: "mealpoints",
-    getter: getters.getMealpointsPage,
-    location: "/ICS/Students/Mealpoints.jnz",
-    processor: parseMealPoints,
-    cache: "user"
-};
-
-module.exports = (app) => {
-    endpoint.make(app, ENDPOINT);
-};
-
+module.exports = routeMealPoints = {};
 
 /**
  * Get meal points from page
  * @param  {cheerio} $ Cheerio page object
  * @return {number}    Meal points, rounded to the nearest dollar
  */
-function parseMealPoints($) {
+routeMealPoints.parseMealPoints = function ($) {
     const dataString = $("body").find("table")
         .last()
         .children().first()
@@ -39,4 +28,16 @@ function parseMealPoints($) {
     }
 
     return Math.round(mealPoints);
-}
+};
+
+const ENDPOINT = {
+    name: "mealpoints",
+    getter: getters.getMealpointsPage,
+    location: "/ICS/Students/Mealpoints.jnz",
+    processor: routeMealPoints.parseMealPoints,
+    cache: "user"
+};
+
+routeMealPoints.endpoint = (app) => {
+    endpoint.make(app, ENDPOINT);
+};

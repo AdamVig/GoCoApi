@@ -1,24 +1,14 @@
 const endpoint = require('../helpers/endpoint');
 const getters = require ('../helpers/getters');
 
-const ENDPOINT = {
-    name: "studentid",
-    getter: getters.getGoGordonSecure,
-    location: "general/whoami.cfm",
-    processor: getStudentID,
-    cache: false
-};
-
-module.exports = (app) => {
-    endpoint.make(app, ENDPOINT);
-};
+module.exports = routeStudentID = {};
 
 /**
  * Get student ID from page
  * @param  {cheerio} $ Cheerio page object
  * @return {string}    Student ID with space inserted after 4 digits
  */
-function getStudentID($) {
+routeStudentID.getStudentID = function ($) {
     const studentID = $("body").find("table")
         .last()
         .children().last()
@@ -30,4 +20,16 @@ function getStudentID($) {
     }
 
     return studentID.substring(0, 4) + " " + studentID.substring(4);
-}
+};
+
+const ENDPOINT = {
+    name: "studentid",
+    getter: getters.getGoGordonSecure,
+    location: "general/whoami.cfm",
+    processor: routeStudentID.getStudentID,
+    cache: false
+};
+
+routeStudentID.endpoint = (app) => {
+    endpoint.make(app, ENDPOINT);
+};

@@ -1,6 +1,8 @@
 const endpoint = require('../helpers/endpoint');
 const getters = require ('../helpers/getters');
 
+module.exports = routeCheckLogin = {};
+
 const ENDPOINT = {
     name: "checklogin",
     getter: getters.getGoGordon,
@@ -9,6 +11,6 @@ const ENDPOINT = {
     cache: false
 };
 
-module.exports = (app) => {
+routeCheckLogin.endpoint = (app) => {
     endpoint.make(app, ENDPOINT);
 };

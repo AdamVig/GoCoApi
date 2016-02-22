@@ -29,17 +29,28 @@ app.on('uncaughtException', (req, res, route, error) => {
     utils.handleError(req, res, "Uncaught", route.spec.path, error);
 });
 
-require('./routes/chapel-credits.js')(app);
-require('./routes/athletics-schedule.js')(app);
-require('./routes/chapel-events.js')(app);
-require('./routes/check-login.js')(app);
-require('./routes/days-left-in-semester.js')(app);
-require('./routes/highland-express.js')(app);
-require('./routes/meal-points.js')(app);
-require('./routes/mock-error.js')(app);
-require('./routes/next-meal.js')(app);
-require('./routes/student-id.js')(app);
-require('./routes/temperature.js')(app);
+// Names of files for enabled routes
+const enabledRoutes = [
+    "athletics-schedule",
+    "chapel-credits",
+    "chapel-events",
+    "check-login",
+    "days-left-in-semester",
+    "highland-express",
+    "meal-points",
+    "mock-error",
+    "next-meal",
+    "student-id",
+    "temperature"
+];
+
+// Import files for all enabled routes
+for (var i = 0; i < enabledRoutes.length; i++) {
+    var routeName = enabledRoutes[i];
+
+    // Pass app object to the endpoint function on the route
+    require(`./routes/${routeName}.js`).endpoint(app);
+}
 
 app.listen(8080, function() {
     console.log('%s listening at %s', app.name, app.url);

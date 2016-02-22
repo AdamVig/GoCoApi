@@ -1,24 +1,14 @@
 const endpoint = require('../helpers/endpoint');
 const getters = require ('../helpers/getters');
 
-const ENDPOINT = {
-    name: "chapelcredits",
-    getter: getters.getGoGordon,
-    location: "/student/chapelcredits/viewattendance.cfm",
-    processor: getChapelCredits,
-    cache: "user"
-};
-
-module.exports = (app) => {
-    endpoint.make(app, ENDPOINT);
-};
+module.exports = routeChapelCredits = {};
 
 /**
  * Get chapel credits from page
  * @param  {cheerio} $ Cheerio page object
  * @return {number}    Chapel credits
  */
-function getChapelCredits($) {
+routeChapelCredits.getChapelCredits = function ($) {
     const dataString = $("body").find("table")
         .last()
         .children().first()
@@ -36,4 +26,17 @@ function getChapelCredits($) {
     }
 
     return chapelCredits;
-}
+};
+
+
+const ENDPOINT = {
+    name: "chapelcredits",
+    getter: getters.getGoGordon,
+    location: "/student/chapelcredits/viewattendance.cfm",
+    processor: routeChapelCredits.getChapelCredits,
+    cache: "user"
+};
+
+routeChapelCredits.endpoint = (app) => {
+    endpoint.make(app, ENDPOINT);
+};

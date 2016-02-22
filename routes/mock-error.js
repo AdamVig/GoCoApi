@@ -1,10 +1,18 @@
 const config = require('../config.js');
 
+module.exports = routeMockError = {};
+
+// Returns a random integer between min (included) and max (excluded)
+// From MDN reference on Math.random()
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 const ENDPOINT = {
   name: "mockerror"
 };
 
-module.exports = (app) => {
+routeMockError.endpoint = (app) => {
     app.get(config.PREFIX + ENDPOINT.name, (req, res, next) => {
 
         const errorCodes = Object.keys(config.ERROR);
@@ -16,9 +24,3 @@ module.exports = (app) => {
         res.send(config.ERROR[errorCode]);
     });
 };
-
-// Returns a random integer between min (included) and max (excluded)
-// From MDN reference on Math.random()
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
-}

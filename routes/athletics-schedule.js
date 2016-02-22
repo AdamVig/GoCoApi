@@ -5,17 +5,7 @@ const rp = require('request-promise');
 const agents = require('browser-agents');
 const cheerio = require('cheerio');
 
-const ENDPOINT = {
-    name: "athleticsschedule",
-    getter: getAthleticsSchedule,
-    location: "http://athletics.gordon.edu/calendar.ashx/calendar.rss",
-    processor: parseAthleticsSchedule,
-    cache: "global"
-};
-
-module.exports = (app) => {
-    endpoint.make(app, ENDPOINT);
-};
+module.exports = routeAthleticsSchedule = {};
 
 /**
  * Get athletics schedule
@@ -28,7 +18,7 @@ module.exports = (app) => {
  * @param  {string} url Location of schedule
  * @return {promise}    Resolved by RSS feed object
  */
-function getAthleticsSchedule(url) {
+routeAthleticsSchedule.getAthleticsSchedule = function (url) {
     return rp({
         url: url,
         headers: { "User-Agent": agents.random() },
@@ -37,7 +27,7 @@ function getAthleticsSchedule(url) {
             normalizeWhitespace: true
         })
     });
-}
+};
 
 /**
  * Parse athletics schedule RSS feed
@@ -54,7 +44,7 @@ function getAthleticsSchedule(url) {
  * @return {array}     List of athletics events, each containing title, url,
  *                     location, opponentLogoURL, datetime, and relative time
  */
-function parseAthleticsSchedule($) {
+routeAthleticsSchedule.parseAthleticsSchedule = function ($) {
 
     const athleticsEvents = [];
 
@@ -81,4 +71,16 @@ function parseAthleticsSchedule($) {
     });
 
     return athleticsEvents;
-}
+};
+
+const ENDPOINT = {
+    name: "athleticsschedule",
+    getter: routeAthleticsSchedule.getAthleticsSchedule,
+    location: "http://athletics.gordon.edu/calendar.ashx/calendar.rss",
+    processor: routeAthleticsSchedule.parseAthleticsSchedule,
+    cache: "global"
+};
+
+routeAthleticsSchedule.endpoint = (app) => {
+    endpoint.make(app, ENDPOINT);
+};

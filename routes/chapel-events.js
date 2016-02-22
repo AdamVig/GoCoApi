@@ -3,24 +3,14 @@ const endpoint = require('../helpers/endpoint');
 const getters = require('../helpers/getters');
 const moment = require('moment');
 
-const ENDPOINT = {
-    name: "chapelevents",
-    getter: getters.getGoGordon,
-    location: "student/chapelcredits/viewupcoming.cfm",
-    processor: getChapelEvents,
-    cache: "global"
-};
-
-module.exports = (app) => {
-    endpoint.make(app, ENDPOINT);
-};
+module.exports = routeChapelEvents = {};
 
 /**
  * Get chapel events from page
  * @param  {cheerio} $ Cheerio page object
  * @return {array}     Chapel events
  */
-function getChapelEvents($) {
+routeChapelEvents.getChapelEvents = function ($) {
     const chapelEvents = [];
     const chapelEventsTable = $("body").find("table")
         .last()
@@ -47,4 +37,16 @@ function getChapelEvents($) {
     });
 
     return chapelEvents;
-}
+};
+
+const ENDPOINT = {
+    name: "chapelevents",
+    getter: getters.getGoGordon,
+    location: "student/chapelcredits/viewupcoming.cfm",
+    processor: routeChapelEvents.getChapelEvents,
+    cache: "global"
+};
+
+routeChapelEvents.endpoint = (app) => {
+    endpoint.make(app, ENDPOINT);
+};

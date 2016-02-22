@@ -1,24 +1,14 @@
 const endpoint = require('../helpers/endpoint');
 const getters = require ('../helpers/getters');
 
-const ENDPOINT = {
-    name: "nextmeal",
-    getter: getters.getGoGordon,
-    location: "departments/dining",
-    processor: getNextMeal,
-    cache: "global"
-};
-
-module.exports = (app) => {
-    endpoint.make(app, ENDPOINT);
-};
+module.exports = routeNextMeal = {};
 
 /**
  * Get next meal from page
  * @param  {cheerio} $ Cheerio page object
  * @return {string}    Description of next meal
  */
-function getNextMeal($) {
+routeNextMeal.getNextMeal = function ($) {
     const nextMeal = $("body").find("table")
         .last()
         .children().last()
@@ -28,4 +18,16 @@ function getNextMeal($) {
         .trim();
 
     return nextMeal;
-}
+};
+
+const ENDPOINT = {
+    name: "nextmeal",
+    getter: getters.getGoGordon,
+    location: "departments/dining",
+    processor: routeNextMeal.getNextMeal,
+    cache: "global"
+};
+
+routeNextMeal.endpoint = (app) => {
+    endpoint.make(app, ENDPOINT);
+};
