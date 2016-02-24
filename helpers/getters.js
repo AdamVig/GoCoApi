@@ -43,7 +43,15 @@ getters.getGoGordonSecure = function (url, auth) {
 };
 
 
-getters.getMealpointsPage = function (url, auth) {
+/**
+ * Get meal points page from My Gordon
+ * Login, navigate to meal points viewing page, get token, use token to
+ * make request to token-creation URL, then request actual meal points page
+ * @param  {string}  url   Partial URL, ex: general/whoami.cfm
+ * @param  {object}  auth  Contains username and password in plaintext
+ * @return {promise}       Resolved by meal points webpage as Cheerio object
+ */
+getters.getMealPointsPage = function (url, auth) {
 
     const formData = {
         "userName": auth.username,
