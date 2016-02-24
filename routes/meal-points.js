@@ -32,7 +32,7 @@ routeMealPoints.parseMealPoints = function ($) {
 
 const ENDPOINT = {
     name: "mealpoints",
-    getter: getters.getMealpointsPage,
+    getter: getters.getMealPointsPage,
     location: "/ICS/Students/Mealpoints.jnz",
     processor: routeMealPoints.parseMealPoints,
     cache: "user"
