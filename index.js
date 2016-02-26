@@ -38,6 +38,7 @@ const enabledRoutes = [
     "days-left-in-semester",
     "highland-express",
     "meal-points",
+    "meal-points-per-day",
     "mock-error",
     "next-meal",
     "student-id",
