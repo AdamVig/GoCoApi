@@ -15,7 +15,7 @@ routeDaysLeftInSemester.getDaysLeftInSemester = function (infoDoc) {
     return daysLeft;
 };
 
-const ENDPOINT = {
+routeDaysLeftInSemester.ENDPOINT = {
     name: "daysleftinsemester",
     getter: db.get,
     location: "info",
@@ -24,5 +24,5 @@ const ENDPOINT = {
 };
 
 routeDaysLeftInSemester.endpoint = (app) => {
-    endpoint.make(app, ENDPOINT);
+    endpoint.make(app, routeDaysLeftInSemester.ENDPOINT);
 };

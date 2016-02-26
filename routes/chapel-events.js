@@ -39,7 +39,7 @@ routeChapelEvents.getChapelEvents = function ($) {
     return chapelEvents;
 };
 
-const ENDPOINT = {
+routeChapelEvents.ENDPOINT = {
     name: "chapelevents",
     getter: getters.getGoGordon,
     location: "student/chapelcredits/viewupcoming.cfm",
@@ -48,5 +48,5 @@ const ENDPOINT = {
 };
 
 routeChapelEvents.endpoint = (app) => {
-    endpoint.make(app, ENDPOINT);
+    endpoint.make(app, routeChapelEvents.ENDPOINT);
 };

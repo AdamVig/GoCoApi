@@ -28,7 +28,7 @@ routeTemperature.getTemperature = function (forecast) {
     return Math.round(forecast.currently.temperature);
 };
 
-const ENDPOINT = {
+routeTemperature.ENDPOINT = {
     name: "temperature",
     getter: routeTemperature.getForecast,
     location: "",
@@ -37,5 +37,5 @@ const ENDPOINT = {
 };
 
 routeTemperature.endpoint = (app) => {
-    endpoint.make(app, ENDPOINT);
+    endpoint.make(app, routeTemperature.ENDPOINT);
 };

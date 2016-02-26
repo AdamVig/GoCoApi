@@ -8,12 +8,13 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-const ENDPOINT = {
+routeMockError.ENDPOINT = {
   name: "mockerror"
 };
 
 routeMockError.endpoint = (app) => {
-    app.get(config.PREFIX + ENDPOINT.name, (req, res, next) => {
+    app.get(config.PREFIX + routeMockError.ENDPOINT.name,
+            (req, res, next) => {
 
         const errorCodes = Object.keys(config.ERROR);
         const randomIndex = getRandomInt(0, errorCodes.length - 1);

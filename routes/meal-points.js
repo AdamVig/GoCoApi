@@ -85,7 +85,7 @@ routeMealPoints.parseMealPoints = function ($) {
     return Math.round(mealPoints);
 };
 
-const ENDPOINT = {
+routeMealPoints.ENDPOINT = {
     name: "mealpoints",
     getter: routeMealPoints.getMealPointsPage,
     location: "/ICS/Students/Mealpoints.jnz",
@@ -94,5 +94,5 @@ const ENDPOINT = {
 };
 
 routeMealPoints.endpoint = (app) => {
-    endpoint.make(app, ENDPOINT);
+    endpoint.make(app, routeMealPoints.ENDPOINT);
 };

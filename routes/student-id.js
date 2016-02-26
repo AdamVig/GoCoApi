@@ -22,7 +22,7 @@ routeStudentID.getStudentID = function ($) {
     return studentID.substring(0, 4) + " " + studentID.substring(4);
 };
 
-const ENDPOINT = {
+routeStudentID.ENDPOINT = {
     name: "studentid",
     getter: getters.getGoGordonSecure,
     location: "general/whoami.cfm",
@@ -31,5 +31,5 @@ const ENDPOINT = {
 };
 
 routeStudentID.endpoint = (app) => {
-    endpoint.make(app, ENDPOINT);
+    endpoint.make(app, routeStudentID.ENDPOINT);
 };

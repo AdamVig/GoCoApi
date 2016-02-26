@@ -73,7 +73,7 @@ routeAthleticsSchedule.parseAthleticsSchedule = function ($) {
     return athleticsEvents;
 };
 
-const ENDPOINT = {
+routeAthleticsSchedule.ENDPOINT = {
     name: "athleticsschedule",
     getter: routeAthleticsSchedule.getAthleticsSchedule,
     location: "http://athletics.gordon.edu/calendar.ashx/calendar.rss",
@@ -82,5 +82,5 @@ const ENDPOINT = {
 };
 
 routeAthleticsSchedule.endpoint = (app) => {
-    endpoint.make(app, ENDPOINT);
+    endpoint.make(app, routeAthleticsSchedule.ENDPOINT);
 };

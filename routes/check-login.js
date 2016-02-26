@@ -3,7 +3,7 @@ const getters = require ('../helpers/getters');
 
 module.exports = routeCheckLogin = {};
 
-const ENDPOINT = {
+routeCheckLogin.ENDPOINT = {
     name: "checklogin",
     getter: getters.getGoGordon,
     location: "/",
@@ -12,5 +12,5 @@ const ENDPOINT = {
 };
 
 routeCheckLogin.endpoint = (app) => {
-    endpoint.make(app, ENDPOINT);
+    endpoint.make(app, routeCheckLogin.ENDPOINT);
 };

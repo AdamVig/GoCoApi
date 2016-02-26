@@ -20,7 +20,7 @@ routeNextMeal.getNextMeal = function ($) {
     return nextMeal;
 };
 
-const ENDPOINT = {
+routeNextMeal.ENDPOINT = {
     name: "nextmeal",
     getter: getters.getGoGordon,
     location: "departments/dining",
@@ -29,5 +29,5 @@ const ENDPOINT = {
 };
 
 routeNextMeal.endpoint = (app) => {
-    endpoint.make(app, ENDPOINT);
+    endpoint.make(app, routeNextMeal.ENDPOINT);
 };

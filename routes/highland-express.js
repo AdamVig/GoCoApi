@@ -26,7 +26,7 @@ routeHighlandExpress.processHighlandExpress = function (highlandExpressDoc) {
     return highlandExpressDoc;
 };
 
-const ENDPOINT = {
+routeHighlandExpress.ENDPOINT = {
     name: "highlandexpress",
     getter: db.get,
     location: "highlandexpress",
@@ -35,5 +35,5 @@ const ENDPOINT = {
 };
 
 routeHighlandExpress.endpoint = (app) => {
-    endpoint.make(app, ENDPOINT);
+    endpoint.make(app, routeHighlandExpress.ENDPOINT);
 };
