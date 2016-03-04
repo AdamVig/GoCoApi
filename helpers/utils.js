@@ -12,7 +12,7 @@ module.exports = utils = {};
 utils.getAuth = function (req, res, next) {
 
     try {
-        const auth = JSON.parse(req.body);
+        const auth = req.body;
         auth.password = new Buffer(auth.password, "base64").toString("ascii");
     } catch (e) {
         throw new Error("Could not get auth from request body.");

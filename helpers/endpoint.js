@@ -17,7 +17,7 @@ module.exports = endpoint = {};
  */
 endpoint.make = function (app, endpoint) {
 
-    app.get(config.PREFIX + endpoint.name, (req, res, next) => {
+    app.post(config.PREFIX + endpoint.name, (req, res, next) => {
 
         const auth = utils.getAuth(req, res, next);
 
