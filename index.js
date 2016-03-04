@@ -29,25 +29,9 @@ app.on('uncaughtException', (req, res, route, error) => {
     utils.handleError(req, res, "Uncaught", route.spec.path, error);
 });
 
-// Names of files for enabled routes
-const enabledRoutes = [
-    "athletics-schedule",
-    "chapel-credits",
-    "chapel-events",
-    "check-login",
-    "days-left-in-semester",
-    "highland-express",
-    "meal-points",
-    "meal-points-per-day",
-    "mock-error",
-    "next-meal",
-    "student-id",
-    "temperature"
-];
-
 // Import files for all enabled routes
-for (var i = 0; i < enabledRoutes.length; i++) {
-    var routeName = enabledRoutes[i];
+for (var i = 0; i < config.ROUTES.length; i++) {
+    var routeName = config.ROUTES[i];
 
     // Pass app object to the endpoint function on the route
     require(`./routes/${routeName}.js`).endpoint(app);

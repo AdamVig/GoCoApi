@@ -26,3 +26,17 @@ config.COORDINATES = {
     latitude: "42.587576",
     longitude: "-70.824631"
 };
+config.ROUTES = [
+    "athletics-schedule",
+    "chapel-credits",
+    "chapel-events",
+    "check-login",
+    "days-left-in-semester",
+    "highland-express",
+    "meal-points",
+    "meal-points-per-day",
+    "mock-error",
+    "next-meal",
+    "student-id",
+    "temperature"
+];
