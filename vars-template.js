@@ -6,5 +6,9 @@ vars.db = {
     password: "" // API key password
 };
 vars.forecastio = {
-    key: "" // Register for an API key at https://developer.forecast.io/
+    key: "" // Register at https://developer.forecast.io/
+};
+vars.test = {
+    username: "", // Must be firstname.lastname
+    password: ""
 };
