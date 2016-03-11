@@ -13,8 +13,9 @@ const client = restify.createJsonClient({
 
 /**
  * Test a route for a 200 response
+ * @param {string} routeName name of route, dash-separated
  */
-function testRoute() {
+function testRoute(routeName) {
     it('should get a 200 response', function(done) {
 
         this.timeout(timeout);
@@ -44,10 +45,10 @@ function testRoute() {
     });
 }
 
-var routeName;
-
 // Test all enabled routes
 for (var i = 0; i < config.ROUTES.length; i++) {
-    routeName = config.ROUTES[i];
-    describe(routeName, testRoute);
+    var routeName = config.ROUTES[i];
+
+    // testRoute must be in a function call for access to routeName
+    describe(routeName, () => { testRoute(routeName); });
 }
