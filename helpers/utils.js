@@ -45,15 +45,3 @@ utils.handleError = function (req, res, source, route, error) {
     console.log("%s Error in %s: %s", source, route, error.message);
     res.send(error);
 };
-
-/**
- * Cache data
- * @param  {varies} data      Data to cache
- * @param  {string} endpoint  Name of endpoint, used as key in cache
- * @param  {string} cacheType Either "user" or "global"
- * @param  {object} username  User to cache data for (optional, only needed for
- *                            cacheType "user")
- */
-utils.cache = function (data, endpoint, cacheType, username) {
-
-};

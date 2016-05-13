@@ -40,3 +40,8 @@ config.ROUTES = [
     "student-id",
     "temperature"
 ];
+config.CACHE_DOC_NAME = "cache";
+config.CACHE_LENGTH = {
+    "default": {hours: 1},
+    "temperature": {minutes: 15}
+};
