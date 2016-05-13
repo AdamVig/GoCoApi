@@ -22,3 +22,19 @@ db.get = function (key) {
         });
     });
 };
+
+/**
+ * Save document in database
+ * @param {object} doc CouchDB document, containing _id and _rev
+ */
+db.save = function (doc) {
+    return new Promise((resolve, reject) => {
+        couch.insert(doc, (err, body) => {
+            if (!err) {
+                resolve(body);
+            } else {
+                reject(err);
+            }
+        });
+    });
+};
