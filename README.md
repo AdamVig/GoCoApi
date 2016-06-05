@@ -19,6 +19,17 @@ The GoCo Student API provides data from a variety of Gordon College websites and
     - replace `[username]` with username, ex: `firstname.lastname`
     - replace `[password]` with Base64-encoded password
 
+# How to Test
+All endpoints listed in `config.routes`, as defined in `config.js`, are included in a simple regression test located in `tests/test.js`. This test simply checks for `200 OK` responses from all endpoints with the test username and password provided in `vars.test`, defined in `vars.js` (as specified above, you must create your own `vars.js` file based on `vars-template.js`).
+
+You can run the tests with the following commands:
+```bash
+npm install -g mocha
+npm test
+```
+
+The test will print each endpoint's name with its response status code, response time, and the data it returned (except when the data is an object, because it would be extremely long).
+
 # Endpoints
 ## Types of Endpoint
 - scrape user-specific data from webpage, cache in user database, return data (ex: chapel credits, meal points)

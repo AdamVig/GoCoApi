@@ -10,12 +10,12 @@ module.exports = utils = {};
  * @return {object}         Contains username and password in plaintext
  */
 utils.getAuth = function (req, res, next) {
+    const auth = req.body;
 
     try {
-        const auth = req.body;
         auth.password = new Buffer(auth.password, "base64").toString("ascii");
     } catch (e) {
-        throw new Error("Could not get auth from request body.");
+        throw new Error("Could not read password from request body.");
     }
 
     return auth;
