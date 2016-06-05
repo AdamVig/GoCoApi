@@ -7,7 +7,7 @@ const version = "2.7.0";
 const timeout = 20000; // 20 seconds
 const client = restify.createJsonClient({
     version: '*',
-    url: 'http://127.0.0.1:8080',
+    url: `http://localhost:${config.PORT}`,
     requestTimeout: timeout
 });
 
