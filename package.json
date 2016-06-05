@@ -28,5 +28,9 @@
   "bugs": {
     "url": "https://github.com/adamvig/gocoapi/issues"
   },
-  "homepage": "https://github.com/adamvig/gocoapi#readme"
+  "homepage": "https://github.com/adamvig/gocoapi#readme",
+  "scripts": {
+    "prestart": "npm install",
+    "start": "pm2 start index.js --name goco_student"
+  }
 }
