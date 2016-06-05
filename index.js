@@ -37,6 +37,6 @@ for (var i = 0; i < config.ROUTES.length; i++) {
     require(`./routes/${routeName}.js`).endpoint(app);
 }
 
-app.listen(8080, function() {
+app.listen(config.PORT, function() {
     console.log('%s listening at %s', app.name, app.url);
 });
