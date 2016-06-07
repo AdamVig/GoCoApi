@@ -19,7 +19,25 @@ const app = restify.createServer({
     }
 });
 
-app.use(restify.CORS());
+// Add CORS headers to all responses
+// Send back CORS headers set in the request,
+// otherwise use preset values for the headers
+app.use(function corsHandler(req, res, next) {
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header("Access-Control-Allow-Origin", req.headers.origin);
+    res.header("Access-Control-Allow-Headers",
+               req.headers['access-control-request-headers'] ||
+               "Accept, Content-Type");
+    res.header("Access-Control-Allow-Methods",
+               req.headers['access-control-request-method'] ||
+               "POST, GET, PUT, DELETE, OPTIONS");
+
+    next();
+});
+
+// Allow all OPTIONS requests
+app.opts(/.*/, (req, res) => res.send(204));
+
 app.use(restify.bodyParser());
 
 app.on('InternalServerError', (req, res, route, error) => {
