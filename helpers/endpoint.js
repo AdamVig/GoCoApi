@@ -78,7 +78,11 @@ endpoint.make = function (app, endpoint) {
         const auth = utils.getAuth(req, res, next);
 
         getData(endpoint, auth).then((data) => {
-            res.send({data: data});
+            if (typeof data === "object") {
+                res.send(data);
+            } else {
+                res.send({data: data});
+            }
         }).catch((e) => {
             utils.handleError(req, res, "Endpoint", endpoint.name, e);
         }).then(next);
