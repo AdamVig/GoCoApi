@@ -1,34 +1,26 @@
 GoCo Student API
 ------
-The GoCo Student API provides data from a variety of Gordon College websites and other Gordon-relevant data sources. It also logs user activity, caches data to reduce load on Gordon servers, and generates user-friendly errors for direct display in the application.
+The GoCo Student API provides data from a variety of Gordon College websites and other Gordon-relevant data sources. It also logs user activity, caches data to reduce load on Gordon servers, and generates user-friendly errors intended for direct display in an application.
 
 # How to Run
-1. `cd [desired project directory]`
-2. To get source: `git clone https://github.com/AdamVig/GoCoApi.git .`
-3. To install dependencies: `npm install`
-4. Add your data to `vars-template.js` and rename the file to `vars.js`.
-5. To run server: `node index.js`
-6. To access data:
-    ```
-    curl -i -X GET localhost:8080/gocostudent/[version]/[endpoint] \
-    -H Content-Type:application/json \
-    -d '{"username":"[username]", "password": "'[password]'"}'
-    ```
-    - replace `[version]` with version number, ex: `2.5`
-    - replace `[endpoint]` with name of endpoint, ex: `chapelcredits`
-    - replace `[username]` with username, ex: `firstname.lastname`
-    - replace `[password]` with Base64-encoded password
-
-# How to Test
-All endpoints listed in `config.routes`, as defined in `config.js`, are included in a simple regression test located in `tests/test.js`. This test simply checks for `200 OK` responses from all endpoints with the test username and password provided in `vars.test`, defined in `vars.js` (as specified above, you must create your own `vars.js` file based on `vars-template.js`).
-
-You can run the tests with the following commands:
+1. `git clone https://github.com/AdamVig/GoCoApi.git gocoapi`
+2. Copy `vars-template.js` to a file called `vars.js` and fill it in with your data.
+3. Install dependencies and run the server: `npm start`
+4. To make a request using [HTTPie](https://github.com/jkbrzt/httpie):
 ```bash
-npm install -g mocha
-npm test
+http POST http://local.dev:4626/api/[version]/[endpoint] username=[username] password=[password]
 ```
+- replace `[version]` with version number, ex: `2.5.0`
+- replace `[endpoint]` with name of endpoint, ex: `chapelcredits`
+- replace `[username]` with username, ex: `firstname.lastname`
+- replace `[password]` with Base64-encoded password
 
-The test will print each endpoint's name with its response status code, response time, and the data it returned (except when the data is an object, because it would be extremely long).
+### Why a Base64-encoded password?
+Good question! Base64 encoding is an easily-reversible process and therefore not secure for transmission of a password. Despite this, it provides a layer of security through obscurity by hiding the plaintext of a password when it shows up in the command line and browser local storage. The obvious alternative is to use a one-way hash to encrypt the password, but the web scraper component of the server requires the plaintext of the password in order to log in to websites on behalf of the user.
+
+Of course, obscuring the password is not all that needs to be done. To attain some semblance of security while running this server, also do the following:  
+1. Use HTTPS for all communication to and from the server.  
+2. Send parameters in the `POST` body, not a `GET` query string. This method of security through obscurity prevents sensitive user data from showing up in logs, where URLs containing query parameters often show up.
 
 # Endpoints
 ## Types of Endpoint
@@ -63,6 +55,14 @@ The test will print each endpoint's name with its response status code, response
 - Next Meal
 - Student ID
 - Temperature
+
+# How to Test
+All endpoints listed in `config.routes`, as defined in `config.js`, are included in a simple regression test located in `tests/test.js`. This test simply checks for `200 OK` responses from all endpoints with the test username and password provided in `vars.test`, defined in `vars.js` (as specified above, you must create your own `vars.js` file based on `vars-template.js`).
+
+You can run the tests with `npm test`.
+
+The test will print each endpoint's name with its response status code, response time, and the data it returned (except when the data is an object, because it would be extremely long).
+
 # License
 The GoCo Student API, a programmatic interface for Gordon College student data.  
 Copyright © 2016 Adam Vigneaux  
