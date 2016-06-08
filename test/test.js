@@ -22,7 +22,7 @@ function testRoute(routeName) {
 
         // Remove dashes from route name and build URL
         const endpoint = routeName.split("-").join("");
-        const url = `/api/${version}/${endpoint}`;
+        const url = `/${version}/${endpoint}`;
 
         // Construct request body with encoded password
         const body = {
