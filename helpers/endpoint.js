@@ -60,7 +60,7 @@ function getData(endpoint, auth) {
 }
 
 /**
- * Make a GET endpoint
+ * Make an endpoint
  * 1. Request a webpage
  * 2. Extract data from raw HTML using processor function
  * 3. Return data or error response
@@ -73,9 +73,17 @@ function getData(endpoint, auth) {
  */
 endpoint.make = function (app, endpoint) {
 
-    app.post(config.PREFIX + endpoint.name, (req, res, next) => {
+    // Get method type from endpoint definition, default to "post"
+    const method = endpoint.method || "post";
 
-        const auth = utils.getAuth(req, res, next);
+    // Define endpoint on app
+    app[method](config.PREFIX + endpoint.name, (req, res, next) => {
+
+        // Auth is only required when method is POST
+        let auth = {};
+        if (method === "post") {
+            auth = utils.getAuth(req, res, next);
+        }
 
         getData(endpoint, auth).then((data) => {
             if (typeof data === "object") {
