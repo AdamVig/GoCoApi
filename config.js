@@ -11,7 +11,7 @@ config.APP_NAME = "GoCoAPI";
 config.PREFIX = "/:version/";
 config.PORT = "4626";
 config.ERROR = {
-    // Character measurement: 
+    // Character measurement:
     //   0_____________________23
     500: "Something went wrong! " + EMOJI.sos,
     404: "Couldn't find data. " + EMOJI.sad_face,
@@ -36,6 +36,7 @@ config.ROUTES = [
     "highland-express",
     "meal-points",
     "meal-points-per-day",
+    "meta",
     "mock-error",
     "next-meal",
     "student-id",
