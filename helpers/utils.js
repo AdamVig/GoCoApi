@@ -42,6 +42,6 @@ utils.getErrorMessage = function (e) {
  * @param  {Error}    error  Error object, contains 'message'
  */
 utils.handleError = function (req, res, source, route, error) {
-    console.log("%s Error in %s: %s", source, route, error.message);
+    console.error("%s Error in %s: %s", source, route, error.message);
     res.send(error);
 };
