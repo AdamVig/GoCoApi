@@ -11,7 +11,13 @@ module.exports = routeDaysLeftInSemester = {};
  */
 routeDaysLeftInSemester.getDaysLeftInSemester = function (infoDoc) {
     const endDate = moment(infoDoc.lastDayOfSemester, "MM/DD/YYYY");
-    const daysLeft = endDate.diff(moment(), "days");
+    let daysLeft = endDate.diff(moment(), "days");
+
+    // Correct negative numbers to zero
+    if (daysLeft < 0) {
+        daysLeft = 0;
+    }
+
     return daysLeft;
 };
 

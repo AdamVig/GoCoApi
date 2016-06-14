@@ -3,6 +3,9 @@ const getters = require ('../helpers/getters');
 const request = require('request-promise');
 const cheerio = require('cheerio');
 
+// Text content from the mealpoints iFrame on My Gordon, for matching purposes
+const transfersEndedMessage = "Meal point transfers have ended";
+
 module.exports = routeMealPoints = {};
 
 /**
@@ -27,7 +30,7 @@ routeMealPoints.getMealPointsPage = function (url, auth) {
         "btnLogin": "Login"
     };
 
-    var URL = "https://my.gordon.edu/ics";
+    let URL = "https://my.gordon.edu/ics";
     const myRequest = request.defaults({jar: true, simple: false});
 
     return myRequest(URL).then((response) => {
@@ -64,13 +67,22 @@ routeMealPoints.getMealPointsPage = function (url, auth) {
  * @return {number}    Meal points, rounded to the nearest dollar
  */
 routeMealPoints.parseMealPoints = function ($) {
-    const dataString = $("body").find("table")
-        .last()
-        .children().first()
-        .children().last()
-        .text()
-        .replace(",", "")
-        .substring(1); // Remove dollar sign
+
+    // Skip processing if meal point transfers are closed
+    // Return zero because it makes more sense than an error message
+    //   when tranfsers are closed (during summer and first month of semester)
+    if ($.html().includes(transfersEndedMessage)) {
+        return 0;
+    }
+
+    const dataString = $("body")
+              .find("table")
+              .last()
+              .children().first()
+              .children().last()
+              .text()
+              .replace(",", "")
+              .substring(1); // Remove dollar sign
 
     if (dataString.length === 0 || !dataString) {
         throw new Error("Could not find meal points in HTML.");
