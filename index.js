@@ -35,9 +35,6 @@ app.use(function corsHandler(req, res, next) {
     next();
 });
 
-// Allow all OPTIONS requests
-app.opts(/.*/, (req, res) => res.send(204));
-
 app.use(restify.bodyParser());
 
 app.on('InternalServerError', (req, res, route, error) => {

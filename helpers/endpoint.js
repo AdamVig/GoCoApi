@@ -95,4 +95,7 @@ endpoint.make = function (app, endpoint) {
             utils.handleError(req, res, "Endpoint", endpoint.name, e);
         }).then(next);
     });
+
+    // Define endpoint for OPTIONS preflight request
+    app.opts(config.PREFIX + endpoint.name, (req, res) => res.send(204));
 };
