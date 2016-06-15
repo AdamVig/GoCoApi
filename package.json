@@ -22,7 +22,7 @@
     "url": "git+https://github.com/adamvig/gocoapi.git"
   },
   "author": "Adam Vigneaux",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/adamvig/gocoapi/issues"
   },
