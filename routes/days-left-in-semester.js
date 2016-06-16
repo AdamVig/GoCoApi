@@ -26,7 +26,8 @@ routeDaysLeftInSemester.ENDPOINT = {
     getter: db.get,
     location: "info",
     processor: routeDaysLeftInSemester.getDaysLeftInSemester,
-    cache: false
+    cache: false,
+    method: "get"
 };
 
 routeDaysLeftInSemester.endpoint = (app) => {

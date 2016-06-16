@@ -33,7 +33,8 @@ routeTemperature.ENDPOINT = {
     getter: routeTemperature.getForecast,
     location: "",
     processor: routeTemperature.getTemperature,
-    cache: "global"
+    cache: "global",
+    method: "get"
 };
 
 routeTemperature.endpoint = (app) => {

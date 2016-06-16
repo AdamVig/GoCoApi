@@ -31,7 +31,8 @@ routeHighlandExpress.ENDPOINT = {
     getter: db.get,
     location: "highlandexpress",
     processor: routeHighlandExpress.processHighlandExpress,
-    cache: false
+    cache: false,
+    method: "get"
 };
 
 routeHighlandExpress.endpoint = (app) => {

@@ -78,7 +78,8 @@ routeAthleticsSchedule.ENDPOINT = {
     getter: routeAthleticsSchedule.getAthleticsSchedule,
     location: "http://athletics.gordon.edu/calendar.ashx/calendar.rss",
     processor: routeAthleticsSchedule.parseAthleticsSchedule,
-    cache: "global"
+    cache: "global",
+    method: "get"
 };
 
 routeAthleticsSchedule.endpoint = (app) => {
