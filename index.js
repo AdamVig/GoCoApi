@@ -44,13 +44,16 @@ app.on('uncaughtException', (req, res, route, error) => {
     utils.handleError(req, res, "Uncaught", route.spec.path, error);
 });
 
-// Import files for all enabled routes
-for (var i = 0; i < config.ROUTES.length; i++) {
-    var routeName = config.ROUTES[i];
-
-    // Pass app object to the endpoint function on the route
-    require(`./routes/${routeName}.js`).endpoint(app);
-}
+// Get filenames of all routes (including filetype)
+fs.readdirSync("./routes/")
+    .filter((routeName) => {
+        // Ignore filenames starting with an underscore
+        return routeName.charAt(0) !== "_";
+    })
+    .map((routeName) => {
+        // Pass app object to the endpoint function on the route
+        return require(`./routes/${routeName}`).endpoint(app);
+    });
 
 app.listen(config.PORT, function() {
     console.log('%s listening at %s', app.name, app.url);

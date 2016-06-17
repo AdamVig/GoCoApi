@@ -23,6 +23,10 @@ Of course, obscuring the password is not all that needs to be done. To attain so
 2. Send parameters in the `POST` body, not a `GET` query string. This method of security through obscurity prevents sensitive user data from showing up in logs, where URLs containing query parameters often show up.
 
 # Endpoints
+Endpoints are defined in individual files in the `routes` directory. All of the files in the directory are automatically bootstrapped as endpoints when the app starts, except for filenames that start with an underscore, which are disabled. This is a convenient way to take an endpoint offline temporarily while working on it.  
+
+To add a new endpoint, duplicate `routes/_route-template.js` to `routes/your-route-name.js` (notice the removal of the underscore, otherwise the endpoint will remain disabled).
+
 ## Types of Endpoint
 - scrape user-specific data from webpage, cache in user database, return data (ex: chapel credits, meal points)
 - scrape non-user-specific data from webpage, cache in global cache, return data (ex: chapel events, athletics)
@@ -57,7 +61,7 @@ Of course, obscuring the password is not all that needs to be done. To attain so
 - Temperature
 
 # How to Test
-All endpoints listed in `config.routes`, as defined in `config.js`, are included in a simple regression test located in `tests/test.js`. This test simply checks for `200 OK` responses from all endpoints with the test username and password provided in `vars.test`, defined in `vars.js` (as specified above, you must create your own `vars.js` file based on `vars-template.js`).
+All enabled endpoints in the `routes` directory are included in a simple regression test located in `tests/test.js`. This test simply checks for `200 OK` responses from all endpoints with the test username and password provided in `vars.test`, defined in `vars.js` (as specified above, you must create your own `vars.js` file based on `vars-template.js`).
 
 You can run the tests with `npm test`.
 

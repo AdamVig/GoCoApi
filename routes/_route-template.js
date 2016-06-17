@@ -30,6 +30,11 @@ routeName.ENDPOINT = {
     name: "routename",
 
     /**
+     * HTTP method to use for route, defaults to POST if not set
+     */
+    method: "POST",
+
+    /**
      * Function that retrieves data, returns promise
      * @param {string} location (see comment on "location" property below)
      * @param {hash}   auth     Contains username and password in plaintext

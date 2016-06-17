@@ -1,5 +1,6 @@
 const vars = require('../vars');
 const config = require('../config');
+const fs = require('fs');
 const restify = require('restify');
 const assert = require('assert');
 
@@ -13,16 +14,19 @@ const client = restify.createJsonClient({
 
 /**
  * Test a route for a 200 response
- * @param {string} routeName name of route, dash-separated
+ * @param {hash} endpoint Contains lowercase name of endpoint,
+ *                        data type to get,
+ *                        location of data to get,
+ *                        processor function to extract/transform data,
+ *                        and cache settings (user, global, or false)
  */
-function testRoute(routeName) {
+function testRoute(endpoint) {
     it('should get a 200 response', function(done) {
 
         this.timeout(timeout);
 
         // Remove dashes from route name and build URL
-        const endpoint = routeName.split("-").join("");
-        const url = `/${version}/${endpoint}`;
+        const url = `/${version}/${endpoint.name}`;
 
         // Construct request body with encoded password
         const body = {
@@ -31,24 +35,48 @@ function testRoute(routeName) {
                 .toString('base64')
         };
 
-        client.post(url, body, function(err, req, res, data) {
+        /**
+         * Handle response
+         */
+        function resHandler(err, req, res, data) {
 
-            // Ignore errors from mock-error endpoint
-            if (err && routeName != "mock-error") {
+            // Handle intentional errors from mock-error endpoint
+            if (err && endpoint.name !== "mockerror") {
                 throw new Error(err);
-            } else if (typeof data.data != "object") {
-                console.log(data.data); // Print data if simple
+
+            // Print data if simple
+            } else if (typeof data.data != "undefined" && typeof data.data != "object") {
+                console.log("Received the following data:", data.data);
+
+            // Print only type of data
+            } else {
+                console.log(`Received ${typeof data}.`);
             }
 
             done();
-        });
+        }
+
+        // Make request, using specified method or defaulting to POST
+        if (endpoint.method == "get") {
+            client.get(url, resHandler);
+        } else {
+            client.post(url, body, resHandler);
+        }
     });
 }
 
 // Test all enabled routes
-for (var i = 0; i < config.ROUTES.length; i++) {
-    var routeName = config.ROUTES[i];
+// Get filenames of all routes (including filetype)
+fs.readdirSync("./routes/")
+    .filter((routeName) => {
+        // Ignore filenames starting with an underscore
+        return routeName.charAt(0) !== "_";
+    })
+    .map((routeName) => {
 
-    // testRoute must be in a function call for access to routeName
-    describe(routeName, () => { testRoute(routeName); });
-}
+        // Get endpoint configuration from file
+        const endpoint = require(`../routes/${routeName}`).ENDPOINT;
+
+        // testRoute() must be wrapped in a function call to use endpoint
+        return describe(endpoint.name, () => { testRoute(endpoint); });
+    });
