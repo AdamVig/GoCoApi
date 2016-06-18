@@ -13,9 +13,12 @@
     "restify": "4.1.0"
   },
   "devDependencies": {
+    "chalk": "1.1.3",
+    "loadtest": "1.4.3",
     "mocha": "2.4.5",
     "pm2": "1.1.3",
-    "request-debug": "0.2.0"
+    "request-debug": "0.2.0",
+    "yargs": "4.7.1"
   },
   "repository": {
     "type": "git",
@@ -31,6 +34,7 @@
     "pretest": "npm start",
     "test": "mocha test/regression-test.js || true  # Run posttest even when test fails",
     "posttest": "npm stop",
+    "loadtest": "node test/load-test.js",
     "prestart": "npm install",
     "start": "pm2 start index.js --name goco_student",
     "stop": "pm2 stop goco_student || true"

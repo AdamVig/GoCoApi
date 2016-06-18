@@ -61,11 +61,17 @@ To add a new endpoint, duplicate `routes/_route-template.js` to `routes/your-rou
 - Temperature
 
 # How to Test
+## Regression Testing
 All enabled endpoints in the `routes` directory are included in a simple regression test located in `tests/test.js`. This test simply checks for `200 OK` responses from all endpoints with the test username and password provided in `vars.test`, defined in `vars.js` (as specified above, you must create your own `vars.js` file based on `vars-template.js`).
 
 You can run the tests with `npm test`.
 
 The test will print each endpoint's name with its response status code, response time, and the data it returned (except when the data is an object, because it would be extremely long).
+
+## Load Testing
+For testing of a server running the API, there is `test/load-test.js`, which you can run with `npm run loadtest`. The script uses the server URL defined in `vars.js`.  
+
+For help, run `npm run loadtest -- --help` (note that the double `--` is necessary to pass arguments through npm to the script). The load test sends a configurable number of requests to each endpoint and reports back how long it took. Since the API depends on slow external websites, this can help you get an idea of the average response time of each endpoint.
 
 # License
 The GoCo Student API, a programmatic interface for Gordon College student data.  

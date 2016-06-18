@@ -8,6 +8,9 @@ vars.db = {
 vars.forecastio = {
     key: "" // Register at https://developer.forecast.io/
 };
+vars.server = {
+    url: "https://example.com/api" // Full URL to your server, no trailing slash
+};
 vars.test = {
     username: "", // Must be firstname.lastname
     password: ""
