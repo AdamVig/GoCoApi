@@ -43,5 +43,6 @@ utils.getErrorMessage = function (e) {
  */
 utils.handleError = function (req, res, source, route, error) {
     console.error("%s Error in %s: %s", source, route, error.message);
+    error.body.explanation = utils.getErrorMessage(error);
     res.send(error);
 };
