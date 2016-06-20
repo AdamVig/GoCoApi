@@ -1,3 +1,4 @@
+const restify = require('restify');
 const endpoint = require('../helpers/endpoint');
 const getters = require ('../helpers/getters');
 
@@ -16,7 +17,7 @@ routeStudentID.getStudentID = function ($) {
         .text();
 
     if (studentID.length === 0 || !studentID) {
-        throw new Error("Could not find student ID in HTML.");
+        throw new restify.BadGatewayError("Could not find student ID in HTML.");
     }
 
     return studentID.substring(0, 4) + " " + studentID.substring(4);

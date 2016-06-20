@@ -1,3 +1,4 @@
+const restify = require('restify');
 const config = require('../config');
 
 module.exports = utils = {};
@@ -15,7 +16,8 @@ utils.getAuth = function (req, res, next) {
     try {
         auth.password = new Buffer(auth.password, "base64").toString("ascii");
     } catch (e) {
-        throw new Error("Could not read password from request body.");
+        throw new restify.UnauthorizedError(
+            "Could not read password from request body.");
     }
 
     return auth;

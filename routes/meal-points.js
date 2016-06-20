@@ -1,7 +1,8 @@
+const cheerio = require('cheerio');
+const request = require('request-promise');
+const restify = require('restify');
 const endpoint = require('../helpers/endpoint');
 const getters = require ('../helpers/getters');
-const request = require('request-promise');
-const cheerio = require('cheerio');
 
 // Text content from the mealpoints iFrame on My Gordon, for matching purposes
 const transfersEndedMessage = "Meal point transfers have ended";
@@ -85,13 +86,15 @@ routeMealPoints.parseMealPoints = function ($) {
               .substring(1); // Remove dollar sign
 
     if (dataString.length === 0 || !dataString) {
-        throw new Error("Could not find meal points in HTML.");
+        throw new restify.BadGatewayError(
+            "Could not find meal points in HTML.");
     }
 
     const mealPoints = Number.parseFloat(dataString);
 
     if (isNaN(mealPoints)) {
-        throw new Error("Could not convert meal points into float.");
+        throw new restify.NotAcceptableError(
+            "Could not convert meal points into float.");
     }
 
     return Math.round(mealPoints);

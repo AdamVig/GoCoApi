@@ -1,3 +1,4 @@
+const restify = require('restify');
 const config = require('../config');
 const db = require('./db');
 const moment = require('moment');
@@ -81,7 +82,8 @@ cache.cacheData = function (data, endpoint, cacheType, username) {
         // Will overwrite global cache used by current API
         //return cacheGlobal(endpoint, data);
     } else {
-        throw new Error(`Unrecognized cache type: ${cacheType}`);
+        throw new restify.InternalServerError(
+            `Unrecognized cache type: ${cacheType}`);
     }
 };
 
@@ -144,6 +146,7 @@ cache.getData = function (endpoint, cacheType, username) {
             }
         });
     } else {
-        throw new Error(`Unrecognized cache type: ${cacheType}`);
+        throw new restify.InternalServerError(
+            `Unrecognized cache type: ${cacheType}`);
     }
 };

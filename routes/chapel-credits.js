@@ -1,3 +1,4 @@
+const restify = require('restify');
 const endpoint = require('../helpers/endpoint');
 const getters = require ('../helpers/getters');
 
@@ -16,13 +17,15 @@ routeChapelCredits.getChapelCredits = function ($) {
         .text();
 
     if (dataString.length === 0 || !dataString) {
-        throw new Error("Could not find chapel credits in HTML.");
+        throw new restify.BadGatewayError(
+            "Could not find chapel credits in HTML.");
     }
 
     const chapelCredits = Number.parseInt(dataString);
 
     if (isNaN(chapelCredits)) {
-        throw new Error("Could not convert chapel credits into integer.");
+        throw new restify.NotAcceptableError(
+            "Could not convert chapel credits into integer.");
     }
 
     return chapelCredits;
