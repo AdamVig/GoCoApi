@@ -86,6 +86,7 @@ endpoint.make = function (app, endpoint) {
         }
 
         getData(endpoint, auth).then((data) => {
+            res.setHeader('content-type', 'application/json');
             if (typeof data === "object") {
                 res.send(data);
             } else {

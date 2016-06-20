@@ -1,6 +1,5 @@
 const config = require('./config');
 const utils = require('./helpers/utils');
-const responseFormatter = require('./helpers/response-formatter');
 const fs = require('fs');
 const restify = require('restify');
 
@@ -13,10 +12,7 @@ try {
 }
 
 const app = restify.createServer({
-    name: config.APP_NAME,
-    formatters: {
-        "application/json": responseFormatter
-    }
+    name: config.APP_NAME
 });
 
 // Add CORS headers to all responses
