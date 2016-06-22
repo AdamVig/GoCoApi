@@ -36,6 +36,9 @@ app.use(restify.bodyParser());
 app.on('InternalServerError', (req, res, route, error) => {
     utils.handleError(req, res, "Internal Server", route.spec.path, error);
 });
+app.on('MethodNotAllowed', (req, res, error, next) => {
+    utils.handleError(req, res, "Method Not Allowed", req.url, error);
+});
 app.on('uncaughtException', (req, res, route, error) => {
     utils.handleError(req, res, "Uncaught", route.spec.path, error);
 });
