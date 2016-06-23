@@ -1,7 +1,8 @@
+// Dependencies are in order based on dependency on each other
 const vars = require("../vars");
+
 const nano = require("nano")("https://" + vars.db.user + ":" +
         vars.db.password + "@" + vars.db.url);
-
 const couch = nano.use(vars.db.name);
 
 const db = module.exports = {};

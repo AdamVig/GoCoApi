@@ -1,6 +1,7 @@
-const endpoint = require("../helpers/endpoint");
 const restify = require("restify");
+
 const config = require("../config.js");
+const endpoint = require("../helpers/endpoint");
 
 const routeMockError = module.exports = {};
 

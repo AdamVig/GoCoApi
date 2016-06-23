@@ -1,6 +1,6 @@
 const endpoint = require("../helpers/endpoint");
-const routeMealPoints = require("./meal-points");
 const routeDaysLeft = require("./days-left-in-semester");
+const routeMealPoints = require("./meal-points");
 
 const routeMealPointsPerDay = module.exports = {};
 

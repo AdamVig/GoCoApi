@@ -1,7 +1,8 @@
-const config = require("../config");
-const vars = require("../vars");
-const endpoint = require("../helpers/endpoint");
 const Forecast = require("forecast.io-bluebird");
+
+const config = require("../config");
+const endpoint = require("../helpers/endpoint");
+const vars = require("../vars");
 
 const routeTemperature = module.exports = {};
 

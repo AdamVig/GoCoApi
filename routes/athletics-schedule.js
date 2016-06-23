@@ -1,9 +1,10 @@
-const config = require("../config");
-const endpoint = require("../helpers/endpoint");
-const moment = require("moment");
-const rp = require("request-promise");
 const agents = require("browser-agents");
 const cheerio = require("cheerio");
+const moment = require("moment");
+const rp = require("request-promise");
+
+const config = require("../config");
+const endpoint = require("../helpers/endpoint");
 
 const routeAthleticsSchedule = module.exports = {};
 

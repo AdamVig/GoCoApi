@@ -1,7 +1,8 @@
+const moment = require("moment");
 const restify = require("restify");
+
 const config = require("../config");
 const db = require("./db");
-const moment = require("moment");
 
 const cache = module.exports = {};
 

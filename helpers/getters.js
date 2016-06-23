@@ -1,5 +1,5 @@
-const request = require("request-promise");
 const cheerio = require("cheerio");
+const request = require("request-promise");
 
 const getters = module.exports =  {};
 

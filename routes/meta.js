@@ -1,5 +1,5 @@
-const endpoint = require("../helpers/endpoint");
 const db = require("../helpers/db");
+const endpoint = require("../helpers/endpoint");
 
 const routeMeta = module.exports = {};
 

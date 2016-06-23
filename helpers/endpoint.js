@@ -1,6 +1,6 @@
+const cache = require("./cache");
 const config = require("../config");
 const utils = require("./utils");
-const cache = require("./cache");
 
 const endpoint = module.exports = {};
 

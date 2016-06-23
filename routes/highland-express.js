@@ -1,6 +1,7 @@
-const endpoint = require("../helpers/endpoint");
-const db = require("../helpers/db");
 const moment = require("moment");
+
+const db = require("../helpers/db");
+const endpoint = require("../helpers/endpoint");
 
 const routeHighlandExpress = module.exports = {};
 

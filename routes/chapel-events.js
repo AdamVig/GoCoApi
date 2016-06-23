@@ -1,7 +1,8 @@
+const moment = require("moment");
+
 const config = require("../config");
 const endpoint = require("../helpers/endpoint");
 const getters = require("../helpers/getters");
-const moment = require("moment");
 
 const routeChapelEvents = module.exports = {};
 
