@@ -1,19 +1,19 @@
-const endpoint = require('../helpers/endpoint');
+const endpoint = require("../helpers/endpoint");
 
-modules.exports = routeName = {};
+const routeName = module.exports = {};
 
 /**
- * Get the endpoint's data
+ * Get the endpoint"s data
  * @param {string} location Where to get the data from
  * @param {hash}   auth     Contains username and password in plaintext
  * @return {promise}        Will return data
  */
 routeName.getter = function (location, auth) {
-    return null;
+    return [location, auth]; // Replace with actual data
 };
 
 /**
- * Process the data into a format suitable for the endpoint's response
+ * Process the data into a format suitable for the endpoint"s response
  * @param {varies} data Data from getter function
  * @return {varies} Processed data
  */

@@ -6,7 +6,7 @@ const EMOJI = {
     "crossed_swords": "\u2694"
 };
 
-module.exports = config = {};
+const config = module.exports = {};
 config.APP_NAME = "GoCoAPI";
 config.PREFIX = "/:version/";
 config.PORT = "4626";

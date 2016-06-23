@@ -1,7 +1,7 @@
-const endpoint = require('../helpers/endpoint');
-const getters = require ('../helpers/getters');
+const endpoint = require("../helpers/endpoint");
+const getters = require ("../helpers/getters");
 
-module.exports = routeCheckLogin = {};
+const routeCheckLogin = module.exports = {};
 
 routeCheckLogin.ENDPOINT = {
     name: "checklogin",

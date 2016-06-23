@@ -1,8 +1,8 @@
-const config = require('../config');
-const utils = require('./utils');
-const cache = require('./cache');
+const config = require("../config");
+const utils = require("./utils");
+const cache = require("./cache");
 
-module.exports = endpoint = {};
+const endpoint = module.exports = {};
 
 /**
  * Get current data from an endpoint
@@ -82,11 +82,11 @@ endpoint.make = function (app, endpoint) {
         // Auth is only required when method is POST
         let auth = {};
         if (method === "post") {
-            auth = utils.getAuth(req, res, next);
+            auth = utils.getAuth(req);
         }
 
         getData(endpoint, auth).then((data) => {
-            res.setHeader('content-type', 'application/json');
+            res.setHeader("content-type", "application/json");
             if (typeof data === "object") {
                 res.send(data);
             } else {

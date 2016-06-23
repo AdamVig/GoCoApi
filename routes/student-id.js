@@ -1,8 +1,8 @@
-const restify = require('restify');
-const endpoint = require('../helpers/endpoint');
-const getters = require ('../helpers/getters');
+const restify = require("restify");
+const endpoint = require("../helpers/endpoint");
+const getters = require ("../helpers/getters");
 
-module.exports = routeStudentID = {};
+const routeStudentID = module.exports = {};
 
 /**
  * Get student ID from page

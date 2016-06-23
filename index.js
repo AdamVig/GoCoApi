@@ -1,7 +1,7 @@
-const config = require('./config');
-const utils = require('./helpers/utils');
-const fs = require('fs');
-const restify = require('restify');
+const config = require("./config");
+const utils = require("./helpers/utils");
+const fs = require("fs");
+const restify = require("restify");
 
 // Check for existence of environment variables file
 try {
@@ -22,10 +22,10 @@ app.use(function corsHandler(req, res, next) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header("Access-Control-Allow-Origin", req.headers.origin);
     res.header("Access-Control-Allow-Headers",
-               req.headers['access-control-request-headers'] ||
+               req.headers["access-control-request-headers"] ||
                "Accept, Content-Type");
     res.header("Access-Control-Allow-Methods",
-               req.headers['access-control-request-method'] ||
+               req.headers["access-control-request-method"] ||
                "POST, GET, PUT, DELETE, OPTIONS");
 
     next();
@@ -33,13 +33,13 @@ app.use(function corsHandler(req, res, next) {
 
 app.use(restify.bodyParser());
 
-app.on('InternalServerError', (req, res, route, error) => {
+app.on("InternalServerError", (req, res, route, error) => {
     utils.handleError(req, res, "Internal Server", route.spec.path, error);
 });
-app.on('MethodNotAllowed', (req, res, error, next) => {
+app.on("MethodNotAllowed", (req, res, error) => {
     utils.handleError(req, res, "Method Not Allowed", req.url, error);
 });
-app.on('uncaughtException', (req, res, route, error) => {
+app.on("uncaughtException", (req, res, route, error) => {
     utils.handleError(req, res, "Uncaught", route.spec.path, error);
 });
 
@@ -55,5 +55,5 @@ fs.readdirSync("./routes/")
     });
 
 app.listen(config.PORT, function() {
-    console.log('%s listening at %s', app.name, app.url);
+    console.log("%s listening at %s", app.name, app.url);
 });

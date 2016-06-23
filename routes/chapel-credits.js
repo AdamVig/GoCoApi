@@ -1,8 +1,8 @@
-const restify = require('restify');
-const endpoint = require('../helpers/endpoint');
-const getters = require ('../helpers/getters');
+const restify = require("restify");
+const endpoint = require("../helpers/endpoint");
+const getters = require ("../helpers/getters");
 
-module.exports = routeChapelCredits = {};
+const routeChapelCredits = module.exports = {};
 
 /**
  * Get chapel credits from page

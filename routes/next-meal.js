@@ -1,7 +1,7 @@
-const endpoint = require('../helpers/endpoint');
-const getters = require ('../helpers/getters');
+const endpoint = require("../helpers/endpoint");
+const getters = require ("../helpers/getters");
 
-module.exports = routeNextMeal = {};
+const routeNextMeal = module.exports = {};
 
 /**
  * Get next meal from page

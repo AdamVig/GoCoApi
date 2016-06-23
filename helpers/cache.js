@@ -1,9 +1,9 @@
-const restify = require('restify');
-const config = require('../config');
-const db = require('./db');
-const moment = require('moment');
+const restify = require("restify");
+const config = require("../config");
+const db = require("./db");
+const moment = require("moment");
 
-module.exports = cache = {};
+const cache = module.exports = {};
 
 /**
  * Get cache length for endpoint, either custom setting or default
@@ -12,7 +12,7 @@ module.exports = cache = {};
  */
 function getExpiration(endpoint) {
 
-    var cacheLength;
+    let cacheLength;
 
     if (config.CACHE_LENGTH[endpoint]) {
         cacheLength = config.CACHE_LENGTH[endpoint];
@@ -129,7 +129,7 @@ function isFresh(cacheData, endpoint) {
  *                            otherwise cached data
  */
 cache.getData = function (endpoint, cacheType, username) {
-    if (cacheType == "user") {
+    if (cacheType === "user") {
         return db.get(username).then((userData) => {
             if (isFresh(userData.cache, endpoint)) {
                 return userData.cache[endpoint];
@@ -137,7 +137,7 @@ cache.getData = function (endpoint, cacheType, username) {
                 return false;
             }
         });
-    } else if (cacheType == "global") {
+    } else if (cacheType === "global") {
         return db.get(config.CACHE_DOC_NAME).then((globalCache) => {
             if (isFresh) {
                 return globalCache[endpoint];

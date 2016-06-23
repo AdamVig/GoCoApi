@@ -1,13 +1,12 @@
-const cheerio = require('cheerio');
-const request = require('request-promise');
-const restify = require('restify');
-const endpoint = require('../helpers/endpoint');
-const getters = require ('../helpers/getters');
+const cheerio = require("cheerio");
+const request = require("request-promise");
+const restify = require("restify");
+const endpoint = require("../helpers/endpoint");
 
 // Text content from the mealpoints iFrame on My Gordon, for matching purposes
 const transfersEndedMessage = "Meal point transfers have ended";
 
-module.exports = routeMealPoints = {};
+const routeMealPoints = module.exports = {};
 
 /**
  * Get meal points page from My Gordon
@@ -42,7 +41,7 @@ routeMealPoints.getMealPointsPage = function (url, auth) {
             .attr("value");
         return myRequest.post({url: URL, formData: formData});
 
-    }).then((response) => {
+    }).then(() => {
 
         URL = "https://my.gordon.edu/ICS/Students/Mealpoints.jnz";
         return myRequest(URL);
@@ -54,7 +53,7 @@ routeMealPoints.getMealPointsPage = function (url, auth) {
         URL = "https://my.gordon.edu" + $("#pg0_V_frame").attr("src");
         return myRequest(URL);
 
-    }).then((response) => {
+    }).then(() => {
 
         URL = "https://my.gordon.edu/GMEX/";
         return myRequest.get(URL);

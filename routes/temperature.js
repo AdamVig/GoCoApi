@@ -1,9 +1,9 @@
-const config = require('../config');
-const vars = require('../vars');
-const endpoint = require('../helpers/endpoint');
-const Forecast = require('forecast.io-bluebird');
+const config = require("../config");
+const vars = require("../vars");
+const endpoint = require("../helpers/endpoint");
+const Forecast = require("forecast.io-bluebird");
 
-module.exports = routeTemperature = {};
+const routeTemperature = module.exports = {};
 
 /**
  * Get weather forecast from Forecast API

@@ -1,8 +1,8 @@
-const endpoint = require('../helpers/endpoint');
-const db = require('../helpers/db');
-const moment = require('moment');
+const endpoint = require("../helpers/endpoint");
+const db = require("../helpers/db");
+const moment = require("moment");
 
-module.exports = routeHighlandExpress = {};
+const routeHighlandExpress = module.exports = {};
 
 /**
  * Add data to Highland Express doc
@@ -13,7 +13,7 @@ routeHighlandExpress.processHighlandExpress = function (highlandExpressDoc) {
 
     const weekdayNum = moment().day(); // Sunday = 0, Saturday = 6
 
-    // Add key of today's schedule
+    // Add key of today"s schedule
     if (weekdayNum < 0 && weekdayNum < 5) {
         highlandExpressDoc.day = "weekday";
     } else {

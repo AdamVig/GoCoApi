@@ -1,7 +1,7 @@
-const request = require('request-promise');
-const cheerio = require('cheerio');
+const request = require("request-promise");
+const cheerio = require("cheerio");
 
-module.exports = getters = {};
+const getters = module.exports =  {};
 
 /**
  * Get a page from Go Gordon

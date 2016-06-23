@@ -1,16 +1,14 @@
-const restify = require('restify');
-const config = require('../config');
+const restify = require("restify");
+const config = require("../config");
 
-module.exports = utils = {};
+const utils = module.exports = {};
 
 /**
  * Get authentication parameters from request
- * @param  {request}   req  Contains parameters in 'body'
- * @param  {response}  res  Response object
- * @param  {Function}  next Callback
+ * @param  {request}   req  Contains parameters in "body"
  * @return {object}         Contains username and password in plaintext
  */
-utils.getAuth = function (req, res, next) {
+utils.getAuth = function (req) {
     const auth = req.body;
 
     try {
@@ -27,7 +25,7 @@ utils.getAuth = function (req, res, next) {
  * Get user-friendly error message and log actual error
  * Defaults to 500 Internal Server Error if unknown status code
  * @param  {error} e HttpError from Requests library, contains statusCode
- * @return {error}   restify error from restify's errors module
+ * @return {error}   restify error from restify"s errors module
  */
 utils.getErrorMessage = function (e) {
     const statusCode = e.statusCode || 500;
@@ -39,9 +37,9 @@ utils.getErrorMessage = function (e) {
  * Log and send error
  * @param  {request}  req    Request object
  * @param  {response} res    Response object
- * @param  {string}   source Name of error's origin function
- * @param  {string}   route  Name of error's origin route
- * @param  {Error}    error  Error object, contains 'message'
+ * @param  {string}   source Name of error"s origin function
+ * @param  {string}   route  Name of error"s origin route
+ * @param  {Error}    error  Error object, contains "message"
  */
 utils.handleError = function (req, res, source, route, error) {
     console.error("%s Error in %s: %s", source, route, error.message);

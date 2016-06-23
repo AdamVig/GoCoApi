@@ -1,9 +1,9 @@
-const config = require('../config');
-const endpoint = require('../helpers/endpoint');
-const getters = require('../helpers/getters');
-const moment = require('moment');
+const config = require("../config");
+const endpoint = require("../helpers/endpoint");
+const getters = require("../helpers/getters");
+const moment = require("moment");
 
-module.exports = routeChapelEvents = {};
+const routeChapelEvents = module.exports = {};
 
 /**
  * Get chapel events from page

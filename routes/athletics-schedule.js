@@ -1,11 +1,11 @@
-const config = require('../config');
-const endpoint = require('../helpers/endpoint');
-const moment = require('moment');
-const rp = require('request-promise');
-const agents = require('browser-agents');
-const cheerio = require('cheerio');
+const config = require("../config");
+const endpoint = require("../helpers/endpoint");
+const moment = require("moment");
+const rp = require("request-promise");
+const agents = require("browser-agents");
+const cheerio = require("cheerio");
 
-module.exports = routeAthleticsSchedule = {};
+const routeAthleticsSchedule = module.exports = {};
 
 /**
  * Get athletics schedule

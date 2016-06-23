@@ -1,7 +1,8 @@
-const restify = require('restify');
-const config = require('../config.js');
+const endpoint = require("../helpers/endpoint");
+const restify = require("restify");
+const config = require("../config.js");
 
-module.exports = routeMockError = {};
+const routeMockError = module.exports = {};
 
 // Returns a random integer between min (included) and max (excluded)
 // From MDN reference on Math.random()

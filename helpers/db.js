@@ -1,10 +1,10 @@
-const vars = require('../vars');
-const nano = require('nano')("https://" + vars.db.user + ":" +
+const vars = require("../vars");
+const nano = require("nano")("https://" + vars.db.user + ":" +
         vars.db.password + "@" + vars.db.url);
 
 const couch = nano.use(vars.db.name);
 
-module.exports = db = {};
+const db = module.exports = {};
 
 /**
  * Get document from database

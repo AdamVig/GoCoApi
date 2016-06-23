@@ -1,8 +1,8 @@
-const endpoint = require('../helpers/endpoint');
-const db = require('../helpers/db');
-const moment = require('moment');
+const endpoint = require("../helpers/endpoint");
+const db = require("../helpers/db");
+const moment = require("moment");
 
-module.exports = routeDaysLeftInSemester = {};
+const routeDaysLeftInSemester = module.exports = {};
 
 /**
  * Get days left in semester from info document
