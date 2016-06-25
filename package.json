@@ -35,7 +35,6 @@
     "test": "mocha test/regression-test.js || true  # Run posttest even when test fails",
     "posttest": "npm stop",
     "loadtest": "node test/load-test.js",
-    "prestart": "npm install",
     "start": "pm2 start index.js --name goco_student",
     "stop": "pm2 stop goco_student || true"
   }
