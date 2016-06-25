@@ -87,7 +87,7 @@ endpoint.make = function (app, endpoint) {
 
         getData(endpoint, auth).then((data) => {
             res.setHeader("content-type", "application/json");
-            if (typeof data === "object") {
+            if (data.hasOwnProperty("data")) {
                 res.send(data);
             } else {
                 res.send({data: data});
