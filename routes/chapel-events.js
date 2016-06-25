@@ -23,7 +23,7 @@ routeChapelEvents.getChapelEvents = function ($) {
         const event = {
             title: eventData.eq(1).text().trim(),
             date: eventData.eq(2).text().trim(),
-            time: eventData.last().text().trim(),
+            time: eventData.last().text().trim()
         };
 
         const originalDateTime = moment(event.date + " " + event.time,

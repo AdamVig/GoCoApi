@@ -66,6 +66,7 @@ routeName.ENDPOINT = {
 
 /**
  * Register the endpoint with Restify
+ * @param {Restify} app Restify application
  */
 routeName.endpoint = (app) => {
     endpoint.make(app, routeName.ENDPOINT);

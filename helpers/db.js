@@ -14,7 +14,7 @@ const db = module.exports = {};
  */
 db.get = function (key) {
     return new Promise((resolve, reject) => {
-        couch.get(key, (err, body)  => {
+        couch.get(key, (err, body) => {
             if (!err) {
                 resolve(body);
             } else {
@@ -27,6 +27,7 @@ db.get = function (key) {
 /**
  * Save document in database
  * @param {object} doc CouchDB document, containing _id and _rev
+ * @return {Promise}   Fulfilled by inserted doc
  */
 db.save = function (doc) {
     return new Promise((resolve, reject) => {

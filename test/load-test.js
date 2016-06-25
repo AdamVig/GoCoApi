@@ -3,7 +3,6 @@ const fs = require("fs");
 const loadtest = require("loadtest");
 const yargs = require("yargs");
 const vars = require("../vars");
-const config = require("../config");
 
 yargs.usage("$0 [args]")
     .option("requests", {
@@ -22,7 +21,7 @@ const options = {
     body: {
         username: vars.test.username,
         password: new Buffer(vars.test.password)
-            .toString('base64')
+            .toString("base64")
     },
     concurrency: yargs.argv.c || yargs.argv.concurrency || 5,
     contentType: "application/json",

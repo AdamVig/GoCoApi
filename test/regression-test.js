@@ -1,13 +1,12 @@
-const vars = require('../vars');
-const config = require('../config');
-const fs = require('fs');
-const restify = require('restify');
-const assert = require('assert');
+const vars = require("../vars");
+const config = require("../config");
+const fs = require("fs");
+const restify = require("restify");
 
 const version = "2.7.0";
 const timeout = 20000; // 20 seconds
 const client = restify.createJsonClient({
-    version: '*',
+    version: "*",
     url: `http://localhost:${config.PORT}`,
     requestTimeout: timeout
 });
@@ -21,9 +20,10 @@ const client = restify.createJsonClient({
  *                        and cache settings (user, global, or false)
  */
 function testRoute(endpoint) {
-    it('should get a 200 response', function(done) {
+    it("should get a 200 response", (done) => {
 
-        this.timeout(timeout);
+        // Set test-specific timeout
+        setTimeout(done, timeout);
 
         // Remove dashes from route name and build URL
         const url = `/${version}/${endpoint.name}`;
@@ -32,20 +32,25 @@ function testRoute(endpoint) {
         const body = {
             username: vars.test.username,
             password: new Buffer(vars.test.password)
-                .toString('base64')
+                .toString("base64")
         };
 
         /**
          * Handle response
+         * @param {restify.HttpError|restify.RestError} err When status >= 400,
+         * will be RestError when data has keys "code" and "message"
+         * @param {http.ClientRequest} req Request
+         * @param {http.IncomingMessage} res Response
+         * @param {hash} data JSON payload, if exists
          */
         function resHandler(err, req, res, data) {
-
             // Handle intentional errors from mock-error endpoint
             if (err && endpoint.name !== "mockerror") {
                 throw new Error(err);
 
             // Print data if simple
-            } else if (typeof data.data != "undefined" && typeof data.data != "object") {
+            } else if (typeof data.data !== "undefined" &&
+                       typeof data.data !== "object") {
                 console.log("Received the following data:", data.data);
 
             // Print only type of data
@@ -58,7 +63,7 @@ function testRoute(endpoint) {
         }
 
         // Make request, using specified method or defaulting to POST
-        if (endpoint.method == "get") {
+        if (endpoint.method === "get") {
             client.get(url, resHandler);
         } else {
             client.post(url, body, resHandler);

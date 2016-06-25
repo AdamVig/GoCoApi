@@ -5,10 +5,15 @@ const endpoint = require("../helpers/endpoint");
 
 const routeMockError = module.exports = {};
 
-// Returns a random integer between min (included) and max (excluded)
-// From MDN reference on Math.random()
+/**
+ * Returns a random number
+ * From MDN reference on Math.random()
+ * @param {number} min Minimum
+ * @param {number} max Maximum
+ * @return {number}    Random integer between min (included) and max (excluded)
+ */
 function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
+    return Math.floor(Math.random() * (max - min)) + min;
 }
 
 /**
@@ -19,7 +24,7 @@ function getRandomInt(min, max) {
  */
 routeMockError.getErrorCodes = function () {
     return Promise.resolve(Object.keys(config.ERROR)
-                               .map((code) => parseInt(code, 10)));
+                               .map((code) => parseInt(code)));
 };
 
 /**

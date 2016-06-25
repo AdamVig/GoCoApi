@@ -1,7 +1,7 @@
 const cheerio = require("cheerio");
 const request = require("request-promise");
 
-const getters = module.exports =  {};
+const getters = module.exports = {};
 
 /**
  * Get a page from Go Gordon
@@ -26,8 +26,8 @@ getters.getGoGordon = function (url, auth) {
 getters.getGoGordonSecure = function (url, auth) {
     const reauthURL = "https://go.gordon.edu/lib/auth/level3logon.cfm";
     const form = {
-	action: "logon",
-	password: auth.password
+        action: "logon",
+        password: auth.password
     };
     const requestConfig = {
         url: reauthURL,
@@ -38,6 +38,6 @@ getters.getGoGordonSecure = function (url, auth) {
     };
 
     return request.post(requestConfig).then(() => {
-	return getters.getGoGordon(url, auth);
+        return getters.getGoGordon(url, auth);
     });
 };

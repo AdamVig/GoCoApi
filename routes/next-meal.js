@@ -1,5 +1,5 @@
 const endpoint = require("../helpers/endpoint");
-const getters = require ("../helpers/getters");
+const getters = require("../helpers/getters");
 
 const routeNextMeal = module.exports = {};
 

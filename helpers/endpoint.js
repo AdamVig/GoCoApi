@@ -35,9 +35,9 @@ function getCurrentData(endpoint, auth) {
  */
 function getData(endpoint, auth) {
     if (endpoint.cache) {
-            return cache.getData(endpoint.name,
-                                 endpoint.cache,
-                                 auth.username)
+        return cache.getData(endpoint.name,
+                             endpoint.cache,
+                             auth.username)
             .then((cachedData) => {
 
                 // Cache does not exist or is expired

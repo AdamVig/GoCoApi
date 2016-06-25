@@ -1,7 +1,7 @@
 const restify = require("restify");
 
 const endpoint = require("../helpers/endpoint");
-const getters = require ("../helpers/getters");
+const getters = require("../helpers/getters");
 
 const routeChapelCredits = module.exports = {};
 

@@ -37,9 +37,13 @@ routeMealPoints.getMealPointsPage = function (url, auth) {
     return myRequest(URL).then((response) => {
 
         const $ = cheerio.load(response);
+
+        /* eslint-disable no-underscore-dangle */
         formData.__VIEWSTATE = $("#__VIEWSTATE").attr("value");
         formData.__VIEWSTATEGENERATOR = $("#__VIEWSTATEGENERATOR")
             .attr("value");
+        /* eslint-enable no-underscore-dangle */
+
         return myRequest.post({url: URL, formData: formData});
 
     }).then(() => {

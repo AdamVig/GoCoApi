@@ -50,11 +50,12 @@ function cacheUser(username, endpoint, data) {
 
 /**
  * Cache global data relevant to all users
+ * FIXME: See #17 Fix global caching; remove eslint-disable-line
  * @param {string} endpoint Name of endpoint, used as key in cache
  * @param {varies} data     Data to cache
  * @return {promise}        Resolved by body of CouchDB response
  */
-function cacheGlobal(endpoint, data) {
+function cacheGlobal(endpoint, data) { // eslint-disable-line no-unused-vars
     return db.get(config.CACHE_DOC_NAME).then((dataCache) => {
 
         dataCache[endpoint] = {
@@ -76,12 +77,12 @@ function cacheGlobal(endpoint, data) {
  * @return {promise}          Resolved by body of CouchDB response
  */
 cache.cacheData = function (data, endpoint, cacheType, username) {
-    if (cacheType == "user") {
+    if (cacheType === "user") {
         return cacheUser(username, endpoint, data);
-    } else if (cacheType == "global") {
+    } else if (cacheType === "global") {
         // DISABLED UNTIL SWITCHING TO THIS API
         // Will overwrite global cache used by current API
-        //return cacheGlobal(endpoint, data);
+        return Promise.resolve(); // cacheGlobal(endpoint, data);
     } else {
         throw new restify.InternalServerError(
             `Unrecognized cache type: ${cacheType}`);
