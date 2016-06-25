@@ -50,7 +50,8 @@ function testRoute(endpoint) {
 
             // Print only type of data
             } else {
-                console.log(`Received ${typeof data}.`);
+                console.log(`Received ${typeof data} ` +
+                            `containing keys: ${Object.keys(data)}.`);
             }
 
             done();
