@@ -5,7 +5,8 @@ const db = require("../helpers/db");
 /**
  * Add data to Highland Express doc
  * @param  {object} highlandExpressDoc Contains announcement and schedule
- * @return {object}                    Contains announcement, day, days, and schedule
+ * @return {object}                    Contains announcement, day, days,
+ *                                     and schedule
  */
 function processHighlandExpress(highlandExpressDoc) {
 
