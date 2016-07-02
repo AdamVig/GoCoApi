@@ -22,9 +22,6 @@ const client = restify.createJsonClient({
 function testRoute(endpoint) {
     it("should get a 200 response", (done) => {
 
-        // Set test-specific timeout
-        setTimeout(done, timeout);
-
         // Remove dashes from route name and build URL
         const url = `/${version}/${endpoint.name}`;
 
@@ -84,5 +81,8 @@ fs.readdirSync("./routes/")
         const endpoint = require(`../routes/${routeName}`);
 
         // testRoute() must be wrapped in a function call to use endpoint
-        return describe(endpoint.name, () => { testRoute(endpoint); });
+        return describe(endpoint.name, () => {
+            this.timeout = timeout;
+            testRoute(endpoint);
+        });
     });
