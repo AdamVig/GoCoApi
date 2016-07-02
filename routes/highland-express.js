@@ -1,7 +1,6 @@
 const moment = require("moment");
 
 const db = require("../helpers/db");
-const endpoint = require("../helpers/endpoint");
 
 const routeHighlandExpress = module.exports = {};
 
@@ -34,8 +33,4 @@ routeHighlandExpress.ENDPOINT = {
     processor: routeHighlandExpress.processHighlandExpress,
     cache: false,
     method: "get"
-};
-
-routeHighlandExpress.endpoint = (app) => {
-    endpoint.make(app, routeHighlandExpress.ENDPOINT);
 };

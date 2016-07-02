@@ -1,7 +1,6 @@
 const moment = require("moment");
 
 const db = require("../helpers/db");
-const endpoint = require("../helpers/endpoint");
 
 const routeDaysLeftInSemester = module.exports = {};
 
@@ -29,8 +28,4 @@ routeDaysLeftInSemester.ENDPOINT = {
     processor: routeDaysLeftInSemester.getDaysLeftInSemester,
     cache: false,
     method: "get"
-};
-
-routeDaysLeftInSemester.endpoint = (app) => {
-    endpoint.make(app, routeDaysLeftInSemester.ENDPOINT);
 };

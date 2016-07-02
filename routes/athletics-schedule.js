@@ -4,7 +4,6 @@ const moment = require("moment");
 const rp = require("request-promise");
 
 const config = require("../config");
-const endpoint = require("../helpers/endpoint");
 
 const routeAthleticsSchedule = module.exports = {};
 
@@ -81,8 +80,4 @@ routeAthleticsSchedule.ENDPOINT = {
     processor: routeAthleticsSchedule.parseAthleticsSchedule,
     cache: "global",
     method: "get"
-};
-
-routeAthleticsSchedule.endpoint = (app) => {
-    endpoint.make(app, routeAthleticsSchedule.ENDPOINT);
 };

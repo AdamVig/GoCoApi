@@ -2,6 +2,7 @@ const fs = require("fs");
 const restify = require("restify");
 
 const config = require("./config");
+const Endpoint = require("./helpers/Endpoint");
 const utils = require("./helpers/utils");
 
 // Check for existence of environment variables file
@@ -52,7 +53,8 @@ fs.readdirSync("./routes/")
     })
     .map((routeName) => {
         // Pass app object to the endpoint function on the route
-        return require(`./routes/${routeName}`).endpoint(app);
+        const routeConfig = require(`./routes/${routeName}`).ENDPOINT;
+        new Endpoint(app, routeConfig);
     });
 
 app.listen(config.PORT, function() {

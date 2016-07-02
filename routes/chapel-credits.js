@@ -1,6 +1,5 @@
 const restify = require("restify");
 
-const endpoint = require("../helpers/endpoint");
 const getters = require("../helpers/getters");
 
 const routeChapelCredits = module.exports = {};
@@ -39,8 +38,4 @@ routeChapelCredits.ENDPOINT = {
     location: "/student/chapelcredits/viewattendance.cfm",
     processor: routeChapelCredits.getChapelCredits,
     cache: "user"
-};
-
-routeChapelCredits.endpoint = (app) => {
-    endpoint.make(app, routeChapelCredits.ENDPOINT);
 };

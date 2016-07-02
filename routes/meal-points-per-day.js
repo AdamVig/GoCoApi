@@ -1,4 +1,3 @@
-const endpoint = require("../helpers/endpoint");
 const routeDaysLeft = require("./days-left-in-semester");
 const routeMealPoints = require("./meal-points");
 
@@ -31,8 +30,4 @@ routeMealPointsPerDay.ENDPOINT = {
     location: "",
     processor: routeMealPointsPerDay.calculateMealPointsPerDay,
     cache: "user"
-};
-
-routeMealPointsPerDay.endpoint = (app) => {
-    endpoint.make(app, routeMealPointsPerDay.ENDPOINT);
 };

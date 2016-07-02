@@ -1,7 +1,6 @@
 const restify = require("restify");
 
 const config = require("../config.js");
-const endpoint = require("../helpers/endpoint");
 
 const routeMockError = module.exports = {};
 
@@ -48,8 +47,4 @@ routeMockError.ENDPOINT = {
     method: "get",
     name: "mockerror",
     processor: routeMockError.pickRandomError
-};
-
-routeMockError.endpoint = (app) => {
-    endpoint.make(app, routeMockError.ENDPOINT);
 };

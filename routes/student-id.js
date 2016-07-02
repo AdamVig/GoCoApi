@@ -1,6 +1,5 @@
 const restify = require("restify");
 
-const endpoint = require("../helpers/endpoint");
 const getters = require("../helpers/getters");
 
 const routeStudentID = module.exports = {};
@@ -30,8 +29,4 @@ routeStudentID.ENDPOINT = {
     location: "general/whoami.cfm",
     processor: routeStudentID.getStudentID,
     cache: false
-};
-
-routeStudentID.endpoint = (app) => {
-    endpoint.make(app, routeStudentID.ENDPOINT);
 };

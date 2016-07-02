@@ -5,24 +5,6 @@ const config = require("../config");
 const utils = module.exports = {};
 
 /**
- * Get authentication parameters from request
- * @param  {request}   req  Contains parameters in "body"
- * @return {object}         Contains username and password in plaintext
- */
-utils.getAuth = function (req) {
-    const auth = req.body;
-
-    try {
-        auth.password = new Buffer(auth.password, "base64").toString("ascii");
-    } catch (e) {
-        throw new restify.UnauthorizedError(
-            "Could not read password from request body.");
-    }
-
-    return auth;
-};
-
-/**
  * Get user-friendly error message and log actual error
  * Defaults to 500 Internal Server Error if unknown status code
  * @param  {error} e HttpError from Requests library, contains statusCode

@@ -1,4 +1,3 @@
-const endpoint = require("../helpers/endpoint");
 const getters = require("../helpers/getters");
 
 const routeNextMeal = module.exports = {};
@@ -31,8 +30,4 @@ routeNextMeal.ENDPOINT = {
     location: "departments/dining",
     processor: routeNextMeal.getNextMeal,
     cache: "global"
-};
-
-routeNextMeal.endpoint = (app) => {
-    endpoint.make(app, routeNextMeal.ENDPOINT);
 };

@@ -2,7 +2,6 @@ const cheerio = require("cheerio");
 const request = require("request-promise");
 const restify = require("restify");
 
-const endpoint = require("../helpers/endpoint");
 
 // Text content from the mealpoints iFrame on My Gordon, for matching purposes
 const transfersEndedMessage = "Meal point transfers have ended";
@@ -110,8 +109,4 @@ routeMealPoints.ENDPOINT = {
     location: "/ICS/Students/Mealpoints.jnz",
     processor: routeMealPoints.parseMealPoints,
     cache: "user"
-};
-
-routeMealPoints.endpoint = (app) => {
-    endpoint.make(app, routeMealPoints.ENDPOINT);
 };

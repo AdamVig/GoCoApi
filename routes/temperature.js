@@ -1,7 +1,6 @@
 const Forecast = require("forecast.io-bluebird");
 
 const config = require("../config");
-const endpoint = require("../helpers/endpoint");
 const vars = require("../vars");
 
 const routeTemperature = module.exports = {};
@@ -36,8 +35,4 @@ routeTemperature.ENDPOINT = {
     processor: routeTemperature.getTemperature,
     cache: "global",
     method: "get"
-};
-
-routeTemperature.endpoint = (app) => {
-    endpoint.make(app, routeTemperature.ENDPOINT);
 };

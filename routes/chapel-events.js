@@ -1,7 +1,6 @@
 const moment = require("moment");
 
 const config = require("../config");
-const endpoint = require("../helpers/endpoint");
 const getters = require("../helpers/getters");
 
 const routeChapelEvents = module.exports = {};
@@ -46,8 +45,4 @@ routeChapelEvents.ENDPOINT = {
     location: "student/chapelcredits/viewupcoming.cfm",
     processor: routeChapelEvents.getChapelEvents,
     cache: "global"
-};
-
-routeChapelEvents.endpoint = (app) => {
-    endpoint.make(app, routeChapelEvents.ENDPOINT);
 };

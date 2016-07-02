@@ -2,7 +2,7 @@ const cache = require("./cache");
 const config = require("../config");
 const utils = require("./utils");
 
-const endpoint = module.exports = {};
+// Private:
 
 /**
  * Get current data from an endpoint
@@ -59,44 +59,70 @@ function getData(endpoint, auth) {
     }
 }
 
-/**
- * Make an endpoint
- * 1. Request a webpage
- * 2. Extract data from raw HTML using processor function
- * 3. Return data or error response
- * @param  {restify}  app       restify server
- * @param  {object}   endpoint  Contains lowercase name of endpoint,
- *                              data type to get,
- *                              location of data to get,
- *                              processor function to extract/transform data,
- *                              and cache settings (user, global, or false)
- */
-endpoint.make = function (app, endpoint) {
+// Public:
 
-    // Get method type from endpoint definition, default to "post"
-    const method = endpoint.method || "post";
+class Endpoint {
+    /**
+     * Make an endpoint
+     * 1. Request a webpage
+     * 2. Extract data from raw HTML using processor function
+     * 3. Return data or error response
+     * @param  {restify}  app       restify server
+     * @param  {object}   endpoint  Contains lowercase name of endpoint,
+     *                              data type to get,
+     *                              location of data to get,
+     *                              processor function to extract/transform data,
+     *                              and cache settings (user, global, or false)
+     */
+    constructor(app, endpoint) {
 
-    // Define endpoint on app
-    app[method](config.PREFIX + endpoint.name, (req, res, next) => {
+        // Get method type from endpoint definition, default to "post"
+        const method = endpoint.method || "post";
 
-        // Auth is only required when method is POST
-        let auth = {};
-        if (method === "post") {
-            auth = utils.getAuth(req);
+        // Define endpoint on app
+        app[method](config.PREFIX + endpoint.name, (req, res, next) => {
+
+            // Auth is only required when method is POST
+            let auth = {};
+            if (method === "post") {
+                auth = this.getAuth(req);
+            }
+
+            getData(endpoint, auth).then((data) => {
+                res.setHeader("content-type", "application/json");
+                if (data.hasOwnProperty("data")) {
+                    res.send(data);
+                } else {
+                    res.send({data: data});
+                }
+            }).catch((e) => {
+                utils.handleError(req, res, "Endpoint", endpoint.name, e);
+            }).then(next);
+        });
+
+        // Define endpoint for OPTIONS preflight request
+        app.opts(config.PREFIX + endpoint.name, (req, res) => res.send(204));
+    }
+
+    /**
+     * Get authentication parameters from request
+     * @param  {request}   req  Contains parameters in "body"
+     * @return {object}         Contains username and password in plaintext
+     */
+    getAuth(req) {
+        const auth = req.body;
+
+        try {
+            auth.password = new Buffer(auth.password, "base64")
+                .toString("ascii");
+        } catch (e) {
+            throw new restify.UnauthorizedError(
+                "Could not read password from request body.");
         }
 
-        getData(endpoint, auth).then((data) => {
-            res.setHeader("content-type", "application/json");
-            if (data.hasOwnProperty("data")) {
-                res.send(data);
-            } else {
-                res.send({data: data});
-            }
-        }).catch((e) => {
-            utils.handleError(req, res, "Endpoint", endpoint.name, e);
-        }).then(next);
-    });
+        return auth;
+    }
 
-    // Define endpoint for OPTIONS preflight request
-    app.opts(config.PREFIX + endpoint.name, (req, res) => res.send(204));
-};
+}
+
+module.exports = Endpoint;
