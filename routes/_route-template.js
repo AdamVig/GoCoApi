@@ -1,26 +1,24 @@
-const routeName = module.exports = {};
-
 /**
  * Get the endpoint"s data
  * @param {string} location Where to get the data from
  * @param {hash}   auth     Contains username and password in plaintext
  * @return {promise}        Will return data
  */
-routeName.getter = function (location, auth) {
+function getter(location, auth) {
     return [location, auth]; // Replace with actual data
-};
+}
 
 /**
  * Process the data into a format suitable for the endpoint"s response
  * @param {varies} data Data from getter function
  * @return {varies} Processed data
  */
-routeName.processor = function (data) {
+function processor(data) {
     return data;
-};
+}
 
 
-routeName.ENDPOINT = {
+module.exports = {
 
     /**
      * Name of route, all lowercase, used for URL definition
@@ -38,7 +36,7 @@ routeName.ENDPOINT = {
      * @param {hash}   auth     Contains username and password in plaintext
      * @return {promise} Will return data
      */
-    getter: routeName.getter,
+    getter: getter,
 
     /**
      * Location of data, first parameter passed to getter
@@ -51,7 +49,7 @@ routeName.ENDPOINT = {
      * @param {varies} data Data retrieved by getter
      * @return {varies} Transformed data
      */
-    processor: routeName.processor,
+    processor: processor,
 
     /**
      * Possible Values:

@@ -6,8 +6,6 @@ const restify = require("restify");
 // Text content from the mealpoints iFrame on My Gordon, for matching purposes
 const transfersEndedMessage = "Meal point transfers have ended";
 
-const routeMealPoints = module.exports = {};
-
 /**
  * Get meal points page from My Gordon
  * Login, navigate to meal points viewing page, get token, use token to
@@ -16,7 +14,7 @@ const routeMealPoints = module.exports = {};
  * @param  {object}  auth  Contains username and password in plaintext
  * @return {promise}       Resolved by meal points webpage as Cheerio object
  */
-routeMealPoints.getMealPointsPage = function (url, auth) {
+function getMealPointsPage(url, auth) {
 
     const formData = {
         "userName": auth.username,
@@ -63,14 +61,14 @@ routeMealPoints.getMealPointsPage = function (url, auth) {
         return myRequest.get(URL);
 
     }).then(cheerio.load);
-};
+}
 
 /**
  * Get meal points from page
  * @param  {cheerio} $ Cheerio page object
  * @return {number}    Meal points, rounded to the nearest dollar
  */
-routeMealPoints.parseMealPoints = function ($) {
+function parseMealPoints($) {
 
     // Skip processing if meal point transfers are closed
     // Return zero because it makes more sense than an error message
@@ -101,12 +99,12 @@ routeMealPoints.parseMealPoints = function ($) {
     }
 
     return Math.round(mealPoints);
-};
+}
 
-routeMealPoints.ENDPOINT = {
+module.exports = {
     name: "mealpoints",
-    getter: routeMealPoints.getMealPointsPage,
+    getter: getMealPointsPage,
     location: "/ICS/Students/Mealpoints.jnz",
-    processor: routeMealPoints.parseMealPoints,
+    processor: parseMealPoints,
     cache: "user"
 };

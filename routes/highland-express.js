@@ -2,14 +2,12 @@ const moment = require("moment");
 
 const db = require("../helpers/db");
 
-const routeHighlandExpress = module.exports = {};
-
 /**
  * Add data to Highland Express doc
  * @param  {object} highlandExpressDoc Contains announcement and schedule
  * @return {object}                    Contains announcement, day, days, and schedule
  */
-routeHighlandExpress.processHighlandExpress = function (highlandExpressDoc) {
+function processHighlandExpress(highlandExpressDoc) {
 
     const weekdayNum = moment().day(); // Sunday = 0, Saturday = 6
 
@@ -24,13 +22,13 @@ routeHighlandExpress.processHighlandExpress = function (highlandExpressDoc) {
     highlandExpressDoc.days = Object.keys(highlandExpressDoc.schedule);
 
     return highlandExpressDoc;
-};
+}
 
-routeHighlandExpress.ENDPOINT = {
+module.exports = {
     name: "highlandexpress",
     getter: db.get,
     location: "highlandexpress",
-    processor: routeHighlandExpress.processHighlandExpress,
+    processor: processHighlandExpress,
     cache: false,
     method: "get"
 };

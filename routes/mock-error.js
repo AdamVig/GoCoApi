@@ -2,8 +2,6 @@ const restify = require("restify");
 
 const config = require("../config.js");
 
-const routeMockError = module.exports = {};
-
 /**
  * Returns a random number
  * From MDN reference on Math.random()
@@ -21,10 +19,10 @@ function getRandomInt(min, max) {
  *       endpoint.make() expects it to
  * @return {promise} Resolves to array containing error codes as numbers
  */
-routeMockError.getErrorCodes = function () {
+function getErrorCodes() {
     return Promise.resolve(Object.keys(config.ERROR)
                                .map((code) => parseInt(code)));
-};
+}
 
 /**
  * Pick a random error
@@ -33,18 +31,18 @@ routeMockError.getErrorCodes = function () {
  * @param {array} errorCodes Contains error codes as numbers
  * @return {promise}         Rejects with random error
  */
-routeMockError.pickRandomError = function (errorCodes) {
+function pickRandomError(errorCodes) {
     const randomIndex = getRandomInt(0, errorCodes.length - 1);
     const errorCode = errorCodes[randomIndex];
     const error = restify.errors.codeToHttpError(errorCode);
     error.message = error.body.message = "This is a random error message.";
 
     return Promise.reject(error);
-};
+}
 
-routeMockError.ENDPOINT = {
-    getter: routeMockError.getErrorCodes,
+module.exports = {
+    getter: getErrorCodes,
     method: "get",
     name: "mockerror",
-    processor: routeMockError.pickRandomError
+    processor: pickRandomError
 };

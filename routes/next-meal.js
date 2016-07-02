@@ -1,13 +1,11 @@
 const getters = require("../helpers/getters");
 
-const routeNextMeal = module.exports = {};
-
 /**
  * Get next meal from page
  * @param  {cheerio} $ Cheerio page object
  * @return {string}    Description of next meal
  */
-routeNextMeal.getNextMeal = function ($) {
+function getNextMeal($) {
     const nextMeal = $("body").find("table")
               .last()
               .children().last()
@@ -22,12 +20,12 @@ routeNextMeal.getNextMeal = function ($) {
               .filter(item => (item !== ""));    // Remove empty lines
 
     return nextMeal;
-};
+}
 
-routeNextMeal.ENDPOINT = {
+module.exports = {
     name: "nextmeal",
     getter: getters.getGoGordon,
     location: "departments/dining",
-    processor: routeNextMeal.getNextMeal,
+    processor: getNextMeal,
     cache: "global"
 };

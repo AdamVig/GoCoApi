@@ -3,20 +3,18 @@ const Forecast = require("forecast.io-bluebird");
 const config = require("../config");
 const vars = require("../vars");
 
-const routeTemperature = module.exports = {};
-
 /**
  * Get weather forecast from Forecast API
  * @return {promise} Resolved by forecast response
  */
-routeTemperature.getForecast = function () {
+function getForecast() {
     const forecast = new Forecast({
         key: vars.forecastio.key,
         timeout: 2500
     });
     return forecast.fetch(config.COORDINATES.latitude,
         config.COORDINATES.longitude);
-};
+}
 
 /**
  * Get temperature from forecast
@@ -24,15 +22,15 @@ routeTemperature.getForecast = function () {
  * @return {number}            Current temperature in degrees Fahrenheit,
  *                             rounded to nearest degree
  */
-routeTemperature.getTemperature = function (forecast) {
+ function getTemperature(forecast) {
     return Math.round(forecast.currently.temperature);
-};
+}
 
-routeTemperature.ENDPOINT = {
+module.exports = {
     name: "temperature",
-    getter: routeTemperature.getForecast,
+    getter: getForecast,
     location: "",
-    processor: routeTemperature.getTemperature,
+    processor: getTemperature,
     cache: "global",
     method: "get"
 };

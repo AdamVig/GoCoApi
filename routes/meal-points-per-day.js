@@ -1,18 +1,16 @@
 const routeDaysLeft = require("./days-left-in-semester");
 const routeMealPoints = require("./meal-points");
 
-const routeMealPointsPerDay = module.exports = {};
-
-routeMealPointsPerDay.getMealPointsPerDay = function (location, auth) {
+function getMealPointsPerDay(location, auth) {
     const dataRequests = [
-        routeMealPoints.ENDPOINT.getter("", auth)
-            .then(routeMealPoints.ENDPOINT.processor),
-        routeDaysLeft.ENDPOINT.getter(
-                routeDaysLeft.ENDPOINT.location, auth)
-            .then(routeDaysLeft.ENDPOINT.processor)
+        routeMealPoints.getter("", auth)
+            .then(routeMealPoints.processor),
+        routeDaysLeft.getter(
+                routeDaysLeft.location, auth)
+            .then(routeDaysLeft.processor)
     ];
     return Promise.all(dataRequests);
-};
+}
 
 /**
  * Calculate meal points per day
@@ -20,14 +18,14 @@ routeMealPointsPerDay.getMealPointsPerDay = function (location, auth) {
  *                       0: mealPoints, 1: daysLeftInSemester
  * @return {number}      Meal points, rounded to the nearest dollar
  */
-routeMealPointsPerDay.calculateMealPointsPerDay = function (data) {
+function calculateMealPointsPerDay(data) {
     return Math.round(data[0] / data[1]);
-};
+}
 
-routeMealPointsPerDay.ENDPOINT = {
+module.exports = {
     name: "mealpointsperday",
-    getter: routeMealPointsPerDay.getMealPointsPerDay,
+    getter: getMealPointsPerDay,
     location: "",
-    processor: routeMealPointsPerDay.calculateMealPointsPerDay,
+    processor: calculateMealPointsPerDay,
     cache: "user"
 };

@@ -3,14 +3,12 @@ const moment = require("moment");
 const config = require("../config");
 const getters = require("../helpers/getters");
 
-const routeChapelEvents = module.exports = {};
-
 /**
  * Get chapel events from page
  * @param  {cheerio} $ Cheerio page object
  * @return {array}     Chapel events
  */
-routeChapelEvents.getChapelEvents = function ($) {
+function getChapelEvents($) {
     const chapelEvents = [];
     const chapelEventsTable = $("body").find("table")
         .last()
@@ -37,12 +35,12 @@ routeChapelEvents.getChapelEvents = function ($) {
     });
 
     return chapelEvents;
-};
+}
 
-routeChapelEvents.ENDPOINT = {
+module.exports = {
     name: "chapelevents",
     getter: getters.getGoGordon,
     location: "student/chapelcredits/viewupcoming.cfm",
-    processor: routeChapelEvents.getChapelEvents,
+    processor: getChapelEvents,
     cache: "global"
 };

@@ -5,8 +5,6 @@ const rp = require("request-promise");
 
 const config = require("../config");
 
-const routeAthleticsSchedule = module.exports = {};
-
 /**
  * Get athletics schedule
  *
@@ -18,7 +16,7 @@ const routeAthleticsSchedule = module.exports = {};
  * @param  {string} url Location of schedule
  * @return {promise}    Resolved by RSS feed object
  */
-routeAthleticsSchedule.getAthleticsSchedule = function (url) {
+function getAthleticsSchedule(url) {
     return rp({
         url: url,
         headers: { "User-Agent": agents.random() },
@@ -27,7 +25,7 @@ routeAthleticsSchedule.getAthleticsSchedule = function (url) {
             normalizeWhitespace: true
         })
     });
-};
+}
 
 /**
  * Parse athletics schedule RSS feed
@@ -44,7 +42,7 @@ routeAthleticsSchedule.getAthleticsSchedule = function (url) {
  * @return {array}     List of athletics events, each containing title, url,
  *                     location, opponentLogoURL, datetime, and relative time
  */
-routeAthleticsSchedule.parseAthleticsSchedule = function ($) {
+function parseAthleticsSchedule($) {
 
     const athleticsEvents = [];
 
@@ -71,13 +69,13 @@ routeAthleticsSchedule.parseAthleticsSchedule = function ($) {
     });
 
     return athleticsEvents;
-};
+}
 
-routeAthleticsSchedule.ENDPOINT = {
+module.exports = {
     name: "athleticsschedule",
-    getter: routeAthleticsSchedule.getAthleticsSchedule,
+    getter: getAthleticsSchedule,
     location: "http://athletics.gordon.edu/calendar.ashx/calendar.rss",
-    processor: routeAthleticsSchedule.parseAthleticsSchedule,
+    processor: parseAthleticsSchedule,
     cache: "global",
     method: "get"
 };

@@ -2,14 +2,12 @@ const restify = require("restify");
 
 const getters = require("../helpers/getters");
 
-const routeChapelCredits = module.exports = {};
-
 /**
  * Get chapel credits from page
  * @param  {cheerio} $ Cheerio page object
  * @return {number}    Chapel credits
  */
-routeChapelCredits.getChapelCredits = function ($) {
+function getChapelCredits($) {
     const dataString = $("body").find("table")
         .last()
         .children().first()
@@ -29,13 +27,13 @@ routeChapelCredits.getChapelCredits = function ($) {
     }
 
     return chapelCredits;
-};
+}
 
 
-routeChapelCredits.ENDPOINT = {
+module.exports = {
     name: "chapelcredits",
     getter: getters.getGoGordon,
     location: "/student/chapelcredits/viewattendance.cfm",
-    processor: routeChapelCredits.getChapelCredits,
+    processor: getChapelCredits,
     cache: "user"
 };

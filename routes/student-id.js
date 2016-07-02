@@ -2,14 +2,12 @@ const restify = require("restify");
 
 const getters = require("../helpers/getters");
 
-const routeStudentID = module.exports = {};
-
 /**
  * Get student ID from page
  * @param  {cheerio} $ Cheerio page object
  * @return {string}    Student ID with space inserted after 4 digits
  */
-routeStudentID.getStudentID = function ($) {
+function getStudentID($) {
     const studentID = $("body").find("table")
         .last()
         .children().last()
@@ -21,12 +19,12 @@ routeStudentID.getStudentID = function ($) {
     }
 
     return studentID.substring(0, 4) + " " + studentID.substring(4);
-};
+}
 
-routeStudentID.ENDPOINT = {
+module.exports = {
     name: "studentid",
     getter: getters.getGoGordonSecure,
     location: "general/whoami.cfm",
-    processor: routeStudentID.getStudentID,
+    processor: getStudentID,
     cache: false
 };

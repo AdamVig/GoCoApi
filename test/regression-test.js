@@ -81,7 +81,7 @@ fs.readdirSync("./routes/")
     .map((routeName) => {
 
         // Get endpoint configuration from file
-        const endpoint = require(`../routes/${routeName}`).ENDPOINT;
+        const endpoint = require(`../routes/${routeName}`);
 
         // testRoute() must be wrapped in a function call to use endpoint
         return describe(endpoint.name, () => { testRoute(endpoint); });

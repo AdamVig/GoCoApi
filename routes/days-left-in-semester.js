@@ -2,14 +2,12 @@ const moment = require("moment");
 
 const db = require("../helpers/db");
 
-const routeDaysLeftInSemester = module.exports = {};
-
 /**
  * Get days left in semester from info document
  * @param {object}  infoDoc Contains global app information
  * @return {number}         Number of days left in semester
  */
-routeDaysLeftInSemester.getDaysLeftInSemester = function (infoDoc) {
+function getDaysLeftInSemester(infoDoc) {
     const endDate = moment(infoDoc.lastDayOfSemester, "MM/DD/YYYY");
     let daysLeft = endDate.diff(moment(), "days");
 
@@ -19,13 +17,13 @@ routeDaysLeftInSemester.getDaysLeftInSemester = function (infoDoc) {
     }
 
     return daysLeft;
-};
+}
 
-routeDaysLeftInSemester.ENDPOINT = {
+module.exports = {
     name: "daysleftinsemester",
     getter: db.get,
     location: "info",
-    processor: routeDaysLeftInSemester.getDaysLeftInSemester,
+    processor: getDaysLeftInSemester,
     cache: false,
     method: "get"
 };

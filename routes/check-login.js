@@ -1,8 +1,6 @@
 const getters = require("../helpers/getters");
 
-const routeCheckLogin = module.exports = {};
-
-routeCheckLogin.ENDPOINT = {
+module.exports = {
     name: "checklogin",
     getter: getters.getGoGordon,
     location: "/",

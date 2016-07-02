@@ -1,8 +1,6 @@
 const db = require("../helpers/db");
 
-const routeMeta = module.exports = {};
-
-routeMeta.ENDPOINT = {
+module.exports = {
     name: "meta",
     getter: db.get,
     location: "info",

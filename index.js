@@ -53,7 +53,7 @@ fs.readdirSync("./routes/")
     })
     .map((routeName) => {
         // Pass app object to the endpoint function on the route
-        const routeConfig = require(`./routes/${routeName}`).ENDPOINT;
+        const routeConfig = require(`./routes/${routeName}`);
         new Endpoint(app, routeConfig);
     });
 
