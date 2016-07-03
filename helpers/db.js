@@ -1,8 +1,12 @@
 // Dependencies are in order based on dependency on each other
 const vars = require("../vars");
 
-const nano = require("nano")("https://" + vars.db.user + ":" +
-        vars.db.password + "@" + vars.db.url);
+// Build database URL, encoding parts that could have illegal chars
+const protocol = vars.db.ssl ? "https://" : "http://";
+const dbURL = `${protocol}${encodeURIComponent(vars.db.user)}:` +
+          `${encodeURIComponent(vars.db.password)}@${vars.db.url}`;
+
+const nano = require("nano")(dbURL);
 const couch = nano.use(vars.db.name);
 
 const db = module.exports = {};

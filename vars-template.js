@@ -1,5 +1,6 @@
 module.exports = vars = {};
 vars.db = {
+    ssl: false,  // Set to 'true' to use https, otherwise will use http
     name: "",    // Name of database
     url: "",     // URL to access database at (ex: accountname.cloudant.com)
     user: "",    // API key username
