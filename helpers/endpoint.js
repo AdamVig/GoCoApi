@@ -88,7 +88,19 @@ class Endpoint {
                 auth = this.getAuth(req);
             }
 
-            getData(endpoint, auth).then((data) => {
+            // Use Model's get method if present; default to standard getter
+            let getter;
+            if (endpoint.model) {
+                getter = endpoint.model.get(endpoint.location);
+            } else if (endpoint.getter) {
+                getter = endpoint.getter(endpoint.location, auth);
+            } else {
+                throw new Error(`Endpoint ${endpoint.name} is missing either ` +
+                                `a model or a getter.`);
+            }
+
+            getter.then(endpoint.processor)
+                .then((data) => {
                 res.setHeader("content-type", "application/json");
                 if (data.hasOwnProperty("data")) {
                     res.send(data);

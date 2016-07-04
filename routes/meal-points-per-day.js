@@ -14,7 +14,7 @@ function getMealPointsPerDay(location, auth) {
     const dataRequests = [
         routeMealPoints.getter("", auth)
             .then(routeMealPoints.processor),
-        routeDaysLeft.getter(
+        routeDaysLeft.model.get(
                 routeDaysLeft.location, auth)
             .then(routeDaysLeft.processor)
     ];

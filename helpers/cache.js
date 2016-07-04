@@ -2,7 +2,8 @@ const moment = require("moment");
 const restify = require("restify");
 
 const config = require("../config");
-const db = require("./db");
+const AppData = require("../models/AppData");
+const User = require("../models/User");
 
 const cache = module.exports = {};
 
@@ -25,30 +26,6 @@ function getExpiration(endpoint) {
 }
 
 /**
- * Cache user data
- * @param {string} username Username, firstname,lastname
- * @param {string} endpoint Name of endpoint, used as key in cache
- * @param {varies} data     Data to cache
- * @return {promise}        Resolved by body of CouchDB response
- */
-function cacheUser(username, endpoint, data) {
-    return db.get(username).then((userData) => {
-
-        // Create cache object if does not exist
-        if (!userData.cache) {
-            userData.cache = {};
-        }
-
-        userData.cache[endpoint] = {
-            data: data,
-            expiration: getExpiration(endpoint)
-        };
-
-        return db.save(userData);
-    });
-}
-
-/**
  * Cache global data relevant to all users
  * FIXME: See #17 Fix global caching; remove eslint-disable-line
  * @param {string} endpoint Name of endpoint, used as key in cache
@@ -56,15 +33,11 @@ function cacheUser(username, endpoint, data) {
  * @return {promise}        Resolved by body of CouchDB response
  */
 function cacheGlobal(endpoint, data) { // eslint-disable-line no-unused-vars
-    return db.get(config.CACHE_DOC_NAME).then((dataCache) => {
-
-        dataCache[endpoint] = {
+    return new AppData(config.CACHE_DOC_NAME)
+        .set(endpoint, {
             data: data,
             expiration: getExpiration(endpoint)
-        };
-
-        return db.save(dataCache);
-    });
+        });
 }
 
 /**
@@ -78,7 +51,7 @@ function cacheGlobal(endpoint, data) { // eslint-disable-line no-unused-vars
  */
 cache.cacheData = function (data, endpoint, cacheType, username) {
     if (cacheType === "user") {
-        return cacheUser(username, endpoint, data);
+        return new User(username).cache(endpoint, data);
     } else if (cacheType === "global") {
         // DISABLED UNTIL SWITCHING TO THIS API
         // Will overwrite global cache used by current API
@@ -91,6 +64,7 @@ cache.cacheData = function (data, endpoint, cacheType, username) {
 
 /**
  * Check if a date is in the future
+ * FIXME this function does not need to exist
  * @param {string} date Date in ISO 8601 format
  * @return {boolean}    True if date is in future, false if date is
  *                      equal to current time or in the past
@@ -131,8 +105,11 @@ function isFresh(cacheData, endpoint) {
  *                            otherwise cached data
  */
 cache.getData = function (endpoint, cacheType, username) {
+    console.log("Hey in cache!");
     if (cacheType === "user") {
-        return db.get(username).then((userData) => {
+        return new User(username)
+            .load()
+            .then((userData) => {
             if (isFresh(userData.cache, endpoint)) {
                 return userData.cache[endpoint];
             } else {
@@ -140,7 +117,9 @@ cache.getData = function (endpoint, cacheType, username) {
             }
         });
     } else if (cacheType === "global") {
-        return db.get(config.CACHE_DOC_NAME).then((globalCache) => {
+        return new AppData(config.CACHE_DOC_NAME)
+            .load()
+            .then((globalCache) => {
             if (isFresh) {
                 return globalCache[endpoint];
             } else {

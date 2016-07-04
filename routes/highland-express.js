@@ -1,6 +1,6 @@
 const moment = require("moment");
 
-const db = require("../helpers/db");
+const AppData = require("../models/AppData");
 
 /**
  * Add data to Highland Express doc
@@ -27,8 +27,7 @@ function processHighlandExpress(highlandExpressDoc) {
 
 module.exports = {
     name: "highlandexpress",
-    getter: db.get,
-    location: "highlandexpress",
+    model: new AppData("highlandexpress"),
     processor: processHighlandExpress,
     cache: false,
     method: "get"

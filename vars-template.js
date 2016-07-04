@@ -1,10 +1,13 @@
 module.exports = vars = {};
-vars.db = {
-    ssl: false,  // Set to 'true' to use https, otherwise will use http
-    name: "",    // Name of database
-    url: "",     // URL to access database at (ex: accountname.cloudant.com)
-    user: "",    // API key username
-    password: "" // API key password
+vars.couchDB = {
+    ssl: false,    // Set to 'true' to use https, otherwise will use http
+    url: "",       // URL to access database at (ex: accountname.cloudant.com)
+    username: "",  // API key/username
+    password: "",  // API key/password
+    db: {         // Names of databases, ex: { genericName: "actualDBName" }
+        info: "info",
+        users: "users"
+    }
 };
 vars.forecastio = {
     key: "" // Register at https://developer.forecast.io/

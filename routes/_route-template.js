@@ -32,6 +32,7 @@ module.exports = {
 
     /**
      * Function that retrieves data, returns promise
+     * Either a getter or a model must be present or an error will be thrown.
      * @param {string} location (see comment on "location" property below)
      * @param {hash}   auth     Contains username and password in plaintext
      * @return {promise} Will return data
@@ -43,6 +44,12 @@ module.exports = {
      * Likely to be a full URL, partial URL, or database document ID
      */
     location: "",
+
+    /**
+     * A Model or a class that extends Model
+     * Either a getter or a model must be present or an error will be thrown.
+     */
+    //model: new Model("docName")
 
     /**
      * Function that transforms data into the correct format

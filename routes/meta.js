@@ -1,9 +1,8 @@
-const db = require("../helpers/db");
+const AppData = require("../models/AppData");
 
 module.exports = {
     name: "meta",
-    getter: db.get,
-    location: "info",
+    model: new AppData("info"),
     processor: (data) => data, // Pass data through
     cache: false,
     method: "get"

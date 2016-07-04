@@ -1,14 +1,14 @@
 const moment = require("moment");
 
-const db = require("../helpers/db");
+const AppData = require("../models/AppData");
 
 /**
  * Get days left in semester from info document
- * @param {object}  infoDoc Contains global app information
- * @return {number}         Number of days left in semester
+ * @param {string} lastDayOfSemester Last day of semester in MM/DD/YYYY format
+ * @return {number} Number of days left in semester
  */
-function getDaysLeftInSemester(infoDoc) {
-    const endDate = moment(infoDoc.lastDayOfSemester, "MM/DD/YYYY");
+function getDaysLeftInSemester(lastDayOfSemester) {
+    const endDate = moment(lastDayOfSemester, "MM/DD/YYYY");
     let daysLeft = endDate.diff(moment(), "days");
 
     // Correct negative numbers to zero
@@ -21,8 +21,8 @@ function getDaysLeftInSemester(infoDoc) {
 
 module.exports = {
     name: "daysleftinsemester",
-    getter: db.get,
-    location: "info",
+    model: new AppData("info"),
+    location: "lastDayOfSemester",
     processor: getDaysLeftInSemester,
     cache: false,
     method: "get"
