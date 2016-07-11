@@ -26,6 +26,12 @@ utils.getErrorMessage = function (e) {
  */
 utils.handleError = function (req, res, source, route, error) {
     console.error("%s Error in %s: %s", source, route, error.message);
+    console.error(error.stack);
+
+    if (!error.body) {
+        error = new restify.InternalServerError(error.message);
+    }
+
     error.body.explanation = utils.getErrorMessage(error);
     res.send(error);
 };
