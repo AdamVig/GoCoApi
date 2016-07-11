@@ -5,21 +5,6 @@ const utils = require("./utils");
 // Private:
 
 /**
- * Get current data from an endpoint
- * @param {object} endpoint Contains lowercase name of endpoint,
- *                          data type to get,
- *                          location of data to get,
- *                          processor function to extract/transform data,
- *                          and cache settings (user, global, or false)
- * @param {object} auth     Contains username and password
- * @return {promise}        Resolved by data from endpoint
- */
-function getCurrentData(endpoint, auth) {
-    return endpoint.getter(endpoint.location, auth)
-            .then(endpoint.processor);
-}
-
-/**
  * Get cached or current data from endpoint
  * If caching is enabled and cached data is not expired, then cached
  * data is returned.
