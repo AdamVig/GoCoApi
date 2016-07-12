@@ -81,8 +81,8 @@ fs.readdirSync("./routes/")
         const endpoint = require(`../routes/${routeName}`);
 
         // testRoute() must be wrapped in a function call to use endpoint
-        return describe(endpoint.name, () => {
-            this.timeout = timeout;
+        return describe(endpoint.name, function () {
+            this.timeout(timeout);
             testRoute(endpoint);
         });
     });
