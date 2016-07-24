@@ -98,7 +98,7 @@ function testAllRoutes() {
         })
         .map((routeName) => {
             // Get endpoint configuration from file
-            const endpoint = require(`../routes/${routeName}`).ENDPOINT;
+            const endpoint = require(`../routes/${routeName}`);
             return testRoute(endpoint);
         });
 }
