@@ -1,5 +1,9 @@
 const vars = require("../vars");
 const config = require("../config");
+const schema = require("./assets/schema");
+
+const chai = require("chai");
+chai.use(require("chai-json-schema"));
 const fs = require("fs");
 const restify = require("restify");
 
@@ -20,6 +24,9 @@ const client = restify.createJsonClient({
  *                        and cache settings (user, global, or false)
  */
 function testRoute(endpoint) {
+
+    let responseData = {};
+
     it("should get a 200 response", (done) => {
 
         // Remove dashes from route name and build URL
@@ -56,6 +63,8 @@ function testRoute(endpoint) {
                             `containing keys: ${Object.keys(data)}.`);
             }
 
+            responseData = data;
+
             done();
         }
 
@@ -65,6 +74,11 @@ function testRoute(endpoint) {
         } else {
             client.post(url, body, resHandler);
         }
+    });
+
+    it("should have the correct JSON schema", () => {
+        const endpointSchema = schema[endpoint.name] || schema.default;
+        chai.expect(responseData).to.be.jsonSchema(endpointSchema);
     });
 }
 

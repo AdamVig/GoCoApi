@@ -1,0 +1,253 @@
+{
+    "default": {
+        "properties": {
+            "data": {
+                "type": ["array", "boolean", "number", "object",  "string"]
+            }
+        },
+        "required": ["data"]
+    },
+    "athleticsschedule": {
+        "definitions": {
+            "athletics-event": {
+                "type": "object",
+                "properties": {
+                    "datetime": {"type": "string"},
+                    "location": {"type": "string"},
+                    "relative": {"type": "string"},
+                    "title": {"type": "string"},
+                    "url": {
+                        "oneOf": [
+                            {
+                                "type": "string",
+                                "pattern": "((http|https):\/{2})+(athletics.gordon+.)+(edu)\/images\/logos\/.+.(png|gif)"
+                            },
+                            {
+                                "type": "string",
+                                "maxLength": 0
+                            }
+                        ]
+                    }
+                },
+                "required": [
+                    "datetime",
+                    "location",
+                    "relative",
+                    "title",
+                    "url"
+                ]
+            }
+        },
+        "properties": {
+            "data": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/athletics-event"
+                }
+            }
+        },
+        "required": ["data"]
+    },
+    "chapelcredits": {
+        "properties": {
+            "data": {
+                "type": "integer",
+                "minimum": 0
+            }
+        },
+        "required": ["data"]
+    },
+    "chapelevents": {
+        "definitions": {
+            "chapel-event": {
+                "type": "object",
+                "properties": {
+                    "date": {"type": "string"},
+                    "datetime": {"type": "string"},
+                    "relative": {"type": "string"},
+                    "time": {
+                        "type": "string",
+                        "pattern": "^(([1-9]|1[0-9]):[0-5][0-9]) (AM|PM)$"
+                    },
+                    "title": {"type": "string"}
+                },
+                "required": [
+                    "date",
+                    "datetime",
+                    "relative",
+                    "time",
+                    "title"
+                ]
+            }
+        },
+        "properties": {
+            "data": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/chapel-event"
+                }
+            }
+        },
+        "required": ["data"]
+    },
+    "checklogin": {
+        "properties": {
+            "data": {
+                "type": "boolean"
+            }
+        },
+        "required": ["data"]
+    },
+    "daysleftinsemester": {
+        "properties": {
+            "data": {
+                "type": "integer",
+                "minimum": 0
+            }
+        },
+        "required": ["data"]
+    },
+    "highlandexpress": {
+        "definitions": {
+            "announcement": {
+                "type": "object",
+                "properties": {
+                    "body": {"type": "string"},
+                    "enabled":  {"type": "boolean"},
+                    "title": {"type": "string"}
+                },
+                "required": [
+                    "body",
+                    "enabled",
+                    "title"
+                ]
+            },
+            "schedule-day": {
+                "type": "object",
+                "properties": {
+                    "destinations": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "times": {
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {"type": "string"}
+                        }
+                    }
+                },
+                "required": [
+                    "destinations",
+                    "times"
+                ]
+            }
+        },
+        "properties": {
+            "data": {
+                "type": "object",
+                "properties": {
+                    "announcement": {
+                        "$ref": "#/definitions/announcement"
+                    },
+                    "day": {"type": "string"},
+                    "days": {
+                        "type": "array",
+                        "items": {"type": "string"}
+                    },
+                    "schedule": {
+                        "type": "object",
+                        "properties": {
+                            "friday": {"$ref": "#/definitions/schedule-day"},
+                            "saturday": {"$ref": "#/definitions/schedule-day"},
+                            "sunday": {"$ref": "#/definitions/schedule-day"},
+                            "weekday": {"$ref": "#/definitions/schedule-day"}
+                        },
+                        "required": [
+                            "friday",
+                            "saturday",
+                            "sunday",
+                            "weekday"
+                        ]
+                    }
+                },
+                "required": [
+                    "announcement",
+                    "day",
+                    "days",
+                    "schedule"
+                ]
+            }
+        },
+        "required": ["data"]
+    },
+    "mealpointsperday": {
+        "properties": {
+            "data": {
+                "type": "integer",
+                "minimum": 0
+            }
+        },
+        "required": ["data"]
+    },
+    "mealpoints": {
+        "properties": {
+            "data": {
+                "type": "integer",
+                "minimum": 0
+            }
+        },
+        "required": ["data"]
+    },
+    "meta": {
+        "properties": {
+            "data": {
+                "type": "object"
+            }
+        },
+        "required": ["data"]
+    },
+    "mockerror": {
+        "properties": {
+            "code": {"type": "string"},
+            "message": {"type": "string"},
+            "explanation": {"type": "string"}
+        },
+        "required": [
+            "code",
+            "message",
+            "explanation"
+        ]
+    },
+    "nextmeal": {
+        "properties": {
+            "data": {
+                "type": "array",
+                "items": {"type": "string"}
+            }
+        },
+        "required": ["data"]
+    },
+    "studentid": {
+        "properties": {
+            "data": {
+                "type": "string",
+                "minLength": 9,
+                "maxLength": 9
+            }
+        },
+        "required": ["data"]
+    },
+    "temperature": {
+        "properties": {
+            "data": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 110
+            }
+        },
+        "required": ["data"]
+    }
+}
