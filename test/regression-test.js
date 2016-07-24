@@ -51,20 +51,9 @@ function testRoute(endpoint) {
             // Handle intentional errors from mock-error endpoint
             if (err && endpoint.name !== "mockerror") {
                 throw new Error(err);
-
-            // Print data if simple
-            } else if (typeof data.data !== "undefined" &&
-                       typeof data.data !== "object") {
-                console.log("Received the following data:", data.data);
-
-            // Print only type of data
-            } else {
-                console.log(`Received ${typeof data} ` +
-                            `containing keys: ${Object.keys(data)}.`);
             }
 
             responseData = data;
-
             done();
         }
 
