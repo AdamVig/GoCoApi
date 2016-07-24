@@ -29,7 +29,7 @@ function getMealPointsPerDay(location, auth) {
  */
 function calculateMealPointsPerDay(data) {
     const [mealPoints, daysLeftInSemester] = data;
-    return Math.round(mealPoints / daysLeftInSemester);
+    return Math.round(mealPoints / daysLeftInSemester) || 0;
 }
 
 module.exports = {
