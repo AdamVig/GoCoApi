@@ -16,7 +16,6 @@ yargs.usage("$0 [args]")
     .help("help");
 
 
-const version = "2.7.0";
 const options = {
     body: {
         username: vars.test.username,
@@ -25,6 +24,9 @@ const options = {
     },
     concurrency: yargs.argv.c || yargs.argv.concurrency || 5,
     contentType: "application/json",
+    headers: {
+        "accept-version": "*"
+    },
     maxRequests: yargs.argv.r || yargs.argv.requests || 10,
     method: "POST",
     timeout: 20000 // 20 seconds
@@ -66,7 +68,7 @@ function printLoadTest(test) {
  * @param {hash} endpoint Contains name, method, and other endpoint config
  */
 function testRoute(endpoint) {
-    const url = `/${version}/${endpoint.name}`;
+    const url = `/${endpoint.name}`;
 
     options.url = vars.server.url + url;
 

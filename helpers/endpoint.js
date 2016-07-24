@@ -1,5 +1,4 @@
 const cache = require("./cache");
-const config = require("../config");
 const utils = require("./utils");
 
 // Private:
@@ -65,7 +64,7 @@ class Endpoint {
         const method = endpoint.method || "post";
 
         // Define endpoint on app
-        app[method](config.PREFIX + endpoint.name, (req, res, next) => {
+        app[method](endpoint.name, (req, res, next) => {
 
             // Auth is only required when method is POST
             let auth = {};
@@ -98,7 +97,7 @@ class Endpoint {
         });
 
         // Define endpoint for OPTIONS preflight request
-        app.opts(config.PREFIX + endpoint.name, (req, res) => res.send(204));
+        app.opts(endpoint.name, (req, res) => res.send(204));
     }
 
     /**

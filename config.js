@@ -8,7 +8,6 @@ const EMOJI = {
 
 const config = module.exports = {};
 config.APP_NAME = "GoCoAPI";
-config.PREFIX = "/:version/";
 config.PORT = "4626";
 config.ERROR = {
     // Character measurement:

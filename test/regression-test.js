@@ -7,10 +7,9 @@ chai.use(require("chai-json-schema"));
 const fs = require("fs");
 const restify = require("restify");
 
-const version = "2.7.0";
 const timeout = 20000; // 20 seconds
 const client = restify.createJsonClient({
-    version: "*",
+    version: "*",    // Semver string to set the Accept-Version header to
     url: `http://localhost:${config.PORT}`,
     requestTimeout: timeout
 });
@@ -30,7 +29,7 @@ function testRoute(endpoint) {
     it("should get a 200 response", (done) => {
 
         // Remove dashes from route name and build URL
-        const url = `/${version}/${endpoint.name}`;
+        const url = `/${endpoint.name}`;
 
         // Construct request body with encoded password
         const body = {
