@@ -45,18 +45,9 @@ app.on("uncaughtException", (req, res, route, error) => {
     utils.handleError(req, res, "Uncaught", route.spec.path, error);
 });
 
-// Get filenames of all routes (including filetype)
-fs.readdirSync("./routes/")
-    .filter((routeName) => {
-        // Ignore filenames starting with an underscore
-        return routeName.charAt(0) !== "_";
-    })
-    .map((routeName) => {
-        // Pass app object to the endpoint function on the route
-        const routeConfig = require(`./routes/${routeName}`);
-        new Endpoint(app, routeConfig);
-    });
+// Load all enabled routes
+require("./routes/routes").create(app);
 
-app.listen(config.PORT, function() {
+app.listen(config.PORT, () => {
     console.log("%s listening at %s", app.name, app.url);
 });

@@ -1,10 +1,10 @@
 const vars = require("../vars");
 const config = require("../config");
+const routes = require("../routes/routes");
 const schema = require("./assets/schema");
 
 const chai = require("chai");
 chai.use(require("chai-json-schema"));
-const fs = require("fs");
 const restify = require("restify");
 
 const timeout = 20000; // 20 seconds
@@ -72,19 +72,13 @@ function testRoute(endpoint) {
 
 // Test all enabled routes
 // Get filenames of all routes (including filetype)
-fs.readdirSync("./routes/")
-    .filter((routeName) => {
-        // Ignore filenames starting with an underscore
-        return routeName.charAt(0) !== "_";
-    })
-    .map((routeName) => {
+routes.enabled.forEach((routeName) => {
+    // Get endpoint configuration from file
+    const endpoint = require(`../routes/${routeName}`);
 
-        // Get endpoint configuration from file
-        const endpoint = require(`../routes/${routeName}`);
-
-        // testRoute() must be wrapped in a function call to use endpoint
-        return describe(endpoint.name, function () {
-            this.timeout(timeout);
-            testRoute(endpoint);
-        });
+    // testRoute() must be wrapped in a function call to use endpoint
+    return describe(endpoint.name, function () {
+        this.timeout(timeout);
+        testRoute(endpoint);
     });
+});
