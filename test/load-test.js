@@ -1,7 +1,8 @@
 const chalk = require("chalk");
-const fs = require("fs");
 const loadtest = require("loadtest");
 const yargs = require("yargs");
+
+const routes = require("../routes/routes");
 const vars = require("../vars");
 
 yargs.usage("$0 [args]")
@@ -88,21 +89,12 @@ function testRoute(endpoint) {
     });
 }
 
-/**
- * Test all enabled routes
- */
-function testAllRoutes() {
-    // Get filenames of all routes (including filetype)
-    fs.readdirSync("./routes/")
-        .filter((routeName) => {
-            // Ignore filenames starting with an underscore
-            return routeName.charAt(0) !== "_";
-        })
-        .map((routeName) => {
-            // Get endpoint configuration from file
-            const endpoint = require(`../routes/${routeName}`);
-            return testRoute(endpoint);
-        });
-}
+// Test all enabled routes
+// Get filenames of all routes (including filetype)
+routes.enabled.forEach((routeName) => {
+    // Get endpoint configuration from file
+    const ThisEndpoint = require(`../routes/${routeName}`);
+    const endpoint = new ThisEndpoint();
 
-testAllRoutes();
+    return testRoute(endpoint);
+});

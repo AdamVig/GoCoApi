@@ -2,7 +2,6 @@ const fs = require("fs");
 const restify = require("restify");
 
 const config = require("./config");
-const Endpoint = require("./helpers/Endpoint");
 const utils = require("./helpers/utils");
 
 // Check for existence of environment variables file

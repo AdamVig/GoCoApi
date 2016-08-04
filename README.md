@@ -24,7 +24,41 @@ Of course, obscuring the password is not all that needs to be done. To attain so
 # Endpoints
 Endpoints are defined in individual files in the `routes` directory. All of the files in the directory are automatically bootstrapped as endpoints when the app starts, except for filenames that start with an underscore, which are disabled. This is a convenient way to take an endpoint offline temporarily while working on it.
 
-To add a new endpoint, duplicate `routes/_route-template.js` to `routes/your-route-name.js` (notice the removal of the underscore, otherwise the endpoint will remain disabled).
+## Adding an Endpoint
+To add a new endpoint, create a file in the `routes` directory. The file should look like this:
+```javascript
+const Endpoint = require("./endpoint");
+
+module.exports = class MyNewEndpoint extends Endpoint {
+    constructor(app) {
+        super(app, {
+            cache: "global",    // Default is false
+            name: "mynewendpoint",    // Required, will be endpoint URL
+            location: "myNewEndpointLocation",
+            method: "get"    // Default is POST
+        });
+    }
+
+    /**
+     * Get data
+     * @return {Promise} Fulfilled by data
+     */
+    getter() {
+        return new Promise.resolve([]);
+    }
+
+    /**
+     * Process data into the correct format for the client
+     * @param {any} data Data to process
+     * @return {any} Processed data
+     */
+    processor(data) {
+        return data;
+    }
+}
+```
+
+All you need to do is fill in the name of the class, the endpoint configuration in the constructor, and the `getter` and `processor` functions. Look at the existing endpoints for examples of database access and using helper functions as `getter`s.
 
 ## Types of Endpoint
 - scrape user-specific data from webpage, cache in user database, return data (ex: chapel credits, meal points)
@@ -32,7 +66,7 @@ To add a new endpoint, duplicate `routes/_route-template.js` to `routes/your-rou
 - get data from an external API, cache in database, return data (ex: temperature)
 - get data from database, return data (ex: days left in semester, Highland Express)
 
-## Endpoint Parts
+## Endpoint Steps
 1. Definition (app.get())
 2. Get authentication
 3. Get raw data

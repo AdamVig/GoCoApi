@@ -1,4 +1,6 @@
-/** Represents a Model in the database */
+/**
+ *  Model in a Database
+ */
 class Model {
 
     /**
@@ -22,8 +24,8 @@ class Model {
         if (!this.loadInProgress) {
             this.loadInProgress = this.db.get(this.id)
                 .catch((err) => {
-                    console.error("Model Error: Could not load document", this.id);
-                    throw err;
+                    throw new Error("Model Error: Could not load document",
+                                    this.id, err);
                 })
                 .then(body => this.data = body)
                 .then(() => this.loadInProgress = false);

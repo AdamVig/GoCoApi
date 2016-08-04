@@ -1,46 +1,57 @@
 const moment = require("moment");
 
 const config = require("../config");
+const Endpoint = require("./endpoint");
 const getters = require("../helpers/getters");
 
-/**
- * Get chapel events from page
- * @param  {cheerio} $ Cheerio page object
- * @return {array}     Chapel events
- */
-function getChapelEvents($) {
-    const chapelEvents = [];
-    const chapelEventsTable = $("body").find("table")
-        .last()
-        .children()
-        .not("tr:first-child"); // Remove header row
+module.exports = class ChapelEvents extends Endpoint {
+    constructor(app) {
+        super(app, {
+            name: "chapelevents",
+            location: "student/chapelcredits/viewupcoming.cfm",
+            cache: "global"
+        });
+    }
 
-    chapelEventsTable.each((index, element) => {
-        const eventData = $(element).find("td");
-        const event = {
-            title: eventData.eq(1).text().trim(),
-            date: eventData.eq(2).text().trim(),
-            time: eventData.last().text().trim()
-        };
+    /**
+     * Get Go Gordon pages
+     * @return {function} Getter for Go Gordon pages
+     */
+    getter(...args) {
+        return getters.getGoGordon(...args);
+    }
 
-        const originalDateTime = moment(event.date + " " + event.time,
-            "MM/DD/YYYY hh:mm A");
+    /**
+     * Get chapel events from page
+     * @param  {cheerio} $ Cheerio page object
+     * @return {array}     Chapel events
+     */
+    processor($) {
+        const chapelEvents = [];
+        const chapelEventsTable = $("body").find("table")
+                  .last()
+                  .children()
+                  .not("tr:first-child"); // Remove header row
 
-        event.datetime = originalDateTime.format(config.FORMAT.datetime);
-        event.relative = originalDateTime.fromNow();
-        event.time = originalDateTime.format(config.FORMAT.time);
-        event.date = originalDateTime.format(config.FORMAT.date);
+        chapelEventsTable.each((index, element) => {
+            const eventData = $(element).find("td");
+            const event = {
+                title: eventData.eq(1).text().trim(),
+                date: eventData.eq(2).text().trim(),
+                time: eventData.last().text().trim()
+            };
 
-        chapelEvents.push(event);
-    });
+            const originalDateTime = moment(event.date + " " + event.time,
+                                            "MM/DD/YYYY hh:mm A");
 
-    return chapelEvents;
+            event.datetime = originalDateTime.format(config.FORMAT.datetime);
+            event.relative = originalDateTime.fromNow();
+            event.time = originalDateTime.format(config.FORMAT.time);
+            event.date = originalDateTime.format(config.FORMAT.date);
+
+            chapelEvents.push(event);
+        });
+
+        return chapelEvents;
+    }
 }
-
-module.exports = {
-    name: "chapelevents",
-    getter: getters.getGoGordon,
-    location: "student/chapelcredits/viewupcoming.cfm",
-    processor: getChapelEvents,
-    cache: "global"
-};

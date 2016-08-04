@@ -28,8 +28,8 @@ function testRoute(endpoint) {
 
     it("should get a 200 response", (done) => {
 
-        // Remove dashes from route name and build URL
-        const url = `/${endpoint.name}`;
+        // Use endpoint class name as URL
+        const url = `/${endpoint.name.toLowerCase()}`;
 
         // Construct request body with encoded password
         const body = {
@@ -74,7 +74,8 @@ function testRoute(endpoint) {
 // Get filenames of all routes (including filetype)
 routes.enabled.forEach((routeName) => {
     // Get endpoint configuration from file
-    const endpoint = require(`../routes/${routeName}`);
+    const ThisEndpoint = require(`../routes/${routeName}`);
+    const endpoint = new ThisEndpoint();
 
     // testRoute() must be wrapped in a function call to use endpoint
     return describe(endpoint.name, function () {

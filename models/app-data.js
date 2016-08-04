@@ -1,5 +1,5 @@
-const Database = require("./Database");
-const Model = require("./Model");
+const Database = require("./database");
+const Model = require("./model");
 const vars = require("../vars");
 
 /**

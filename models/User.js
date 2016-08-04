@@ -1,9 +1,9 @@
-const Database = require("./Database");
-const Model = require("./Model");
+const Database = require("./database");
+const Model = require("./model");
 const vars = require("../vars");
 
 /**
- * Represents a document from the User database
+ * Document from the User database
  * @extends Model
  */
 class User extends Model {
@@ -23,7 +23,7 @@ class User extends Model {
      * @return {Promise} Fulfilled by results of `this.save()`
      */
     cache(key, data) {
-        this.loadIfEmpty().then((userData) => {
+        return this.loadIfEmpty().then((userData) => {
 
             // Add cache property if does not exist
             if (!userData.hasOwnKey("cache")) {

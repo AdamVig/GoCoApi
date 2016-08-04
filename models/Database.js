@@ -1,6 +1,8 @@
 const nano = require("nano");
 
-/** Class representing a database. */
+/**
+ * CouchDB database
+ */
 class Database {
 
     /**
@@ -13,7 +15,7 @@ class Database {
         const url = this.buildURL(config.ssl, config.username,
                              config.password, config.url);
         this.couch = nano(url).use(name);
-        this.couch.info((err, body) => {
+        this.couch.info((err) => {
             if (err) {
                 throw new Error(`Could not connect to ` +
                                 `database ${name} at ${config.url}`)

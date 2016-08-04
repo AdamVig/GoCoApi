@@ -2,8 +2,8 @@ const moment = require("moment");
 const restify = require("restify");
 
 const config = require("../config");
-const AppData = require("../models/AppData");
-const User = require("../models/User");
+const AppData = require("../models/app-data");
+const User = require("../models/user");
 
 const cache = module.exports = {};
 
@@ -105,7 +105,6 @@ function isFresh(cacheData, endpoint) {
  *                            otherwise cached data
  */
 cache.getData = function (endpoint, cacheType, username) {
-    console.log("Hey in cache!");
     if (cacheType === "user") {
         return new User(username)
             .load()

@@ -1,5 +1,3 @@
-const Endpoint = require("./Endpoint");
-
 const routes = module.exports = {};
 
 // Filenames of enabled routes without extensions
@@ -25,6 +23,7 @@ routes.enabled = [
  */
 routes.create = (app) => {
     routes.enabled.forEach((endpoint) => {
-        new Endpoint(app, require(`./${endpoint}`));
+        const thisEndpoint = require(`./${endpoint}`);
+        new thisEndpoint(app);
     });
 };
