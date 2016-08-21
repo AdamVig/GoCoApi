@@ -40,6 +40,7 @@
     "posttest": "npm stop",
     "loadtest": "node test/load-test.js",
     "start": "pm2 start index.js --name goco_student",
-    "stop": "pm2 stop goco_student || true"
+    "stop": "pm2 stop goco_student || true",
+    "dev": "nodemon index.js"
   }
 }
