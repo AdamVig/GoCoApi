@@ -6,7 +6,7 @@ const Endpoint = require("./endpoint");
 
 
 // Text content from the mealpoints iFrame on My Gordon, for matching purposes
-const transfersEndedMessage = "Meal point transfers have ended";
+const transfersEndedMessage = "Meal point transfers will begin on";
 
 module.exports = class MealPoints extends Endpoint {
     constructor(app) {
