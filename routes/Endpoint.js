@@ -88,7 +88,7 @@ module.exports = class Endpoint {
     }
 
     create(app) {
-                // Get method type from endpoint definition, default to "post"
+        // Get method type from endpoint definition, default to "post"
         const method = this.method || "post";
 
         // Define endpoint on app

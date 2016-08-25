@@ -1,3 +1,8 @@
+const restify = require("restify");
+
+const Database = require("./database");
+const vars = require("../vars");
+
 /**
  *  Model in a Database
  */
@@ -14,6 +19,16 @@ class Model {
         this.data = null;
         this.load();
     }
+
+    /**
+     * Delete document from database
+     * @return {Promise} Fulfilled by object like the following:
+     *     {data: {id: firstname.lastname, ok: true, rev: 1-longhash}}
+     */
+    delete() {
+        return this.db.delete(this.id);
+    }
+
 
     /**
      * Load data from database, store in `this.data`
@@ -53,8 +68,17 @@ class Model {
      */
     save(data = this.data) {
         return this.db.save(data)
-            .then(body => this.data = body)
-            .catch((err) => { throw err; });
+            .then(() => {
+                return this.db.get(this.id);
+            })
+            .then(newData => this.data = newData)
+            .catch((err) => {
+                if (err.statusCode === 409) {
+                    throw new restify.ConflictError("Document update conflict.");
+                } else {
+                    throw err;
+                }
+            });
     }
 
     /**
@@ -86,6 +110,27 @@ class Model {
             this.data[key] = value;
             return this.save();
         });
+    }
+
+    /**
+     * Create document in database
+     * @param {string} id Unique ID of document
+     * @param {object} data Document contents
+     * @param {string} dbName Name of database to use
+     * @return {Promise} Fulfilled by object like the following:
+     *     {data: {id: firstname.lastname, ok: true, rev: 1-longhash}}
+     */
+    static create(id, data, dbName) {
+        return new Database(vars.couchDB, dbName)
+            .create(id, data)
+            .catch((err) => {
+                if (err.error === "conflict") {
+                    throw new restify.ConflictError(
+                        `Document ${id} already exists.`);
+                } else {
+                    throw err;
+                }
+            });
     }
 }
 

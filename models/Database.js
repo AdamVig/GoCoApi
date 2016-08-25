@@ -41,9 +41,51 @@ class Database {
     }
 
     /**
+     * Create document in database
+     * @param {string} id Unique ID for document
+     * @param {object} data Contents of document
+     * @return {Promise} Fulfilled by object like the following:
+     *     {data: {id: firstname.lastname, ok: true, rev: 1-longhash}}
+     */
+    create(id, data) {
+        data._id = id;
+        return this.save(data);
+    }
+
+    /**
+     * Delete document in database
+     * @param {string} id Unique ID for document
+     * @return {Promise} Fulfilled by deleted doc object
+     */
+    delete(id) {
+        return this.get(id)
+            .then((doc) => {
+                return this.destroy(id, doc._rev);
+            });
+    }
+
+    /** Delete document at a certain rev in the database
+     * @param {string} id Unique ID for document
+     * @param {string} rev Revision hash of document
+     * @return {Promise} Fulfilled by object like the following:
+     *     {data: {id: firstname.lastname, ok: true, rev: 1-longhash}}
+     */
+    destroy(id, rev) {
+        return new Promise((resolve, reject) => {
+            this.couch.destroy(id, rev, (err, body) => {
+                if (!err) {
+                    resolve(body);
+                } else {
+                    reject(err);
+                }
+            });
+        });
+    }
+
+    /**
      * Get document from database
      * @param  {string} key _id of doc to get
-     * @return {promise}     Resolved by doc object
+     * @return {Promise} Fulfilled by doc object
      */
     get(key) {
         return new Promise((resolve, reject) => {
@@ -58,19 +100,30 @@ class Database {
     }
 
     /**
-     * Save document in database
-     * @param {object} doc CouchDB document, containing _id and _rev
-     * @return {Promise}   Fulfilled by inserted doc
+     * Create or update document in database
+     * Document will be updated, not created, if it contains the _rev field.
+     * @param {object} doc CouchDB document, containing _id and optionally _rev
+     * @return {Promise} Fulfilled by inserted doc
      */
     save(doc) {
         return new Promise((resolve, reject) => {
-            this.couch.insert(doc, (err, body) => {
-                if (!err) {
-                    resolve(body);
-                } else {
-                    reject(err);
-                }
-            });
+            if (doc._rev) {
+                this.couch.insert(doc, (err, body) => {
+                    if (!err) {
+                        resolve(body);
+                    } else {
+                        reject(err);
+                    }
+                });
+            } else {
+                this.couch.insert(doc, (err, body) => {
+                    if (!err) {
+                        resolve(body);
+                    } else {
+                        reject(err);
+                    }
+                });
+            }
         });
     }
 }
