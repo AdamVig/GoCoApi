@@ -1,6 +1,6 @@
 {
   "name": "goco-api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "API server for the GoCo Student app.",
   "main": "index.js",
   "dependencies": {
@@ -36,7 +36,7 @@
   "homepage": "https://github.com/adamvig/gocoapi#readme",
   "scripts": {
     "pretest": "npm start",
-    "test": "mocha test/regression-test.js || true  # Run posttest even when test fails",
+    "test": "mocha test/regression-test.js test/user-test.js || true  # Run posttest even when test fails",
     "posttest": "npm stop",
     "loadtest": "node test/load-test.js",
     "start": "pm2 start index.js --name goco_student",

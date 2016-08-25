@@ -14,7 +14,8 @@ routes.enabled = [
     "mock-error",
     "next-meal",
     "student-id",
-    "temperature"
+    "temperature",
+    "user",
 ];
 
 /**

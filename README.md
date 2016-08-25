@@ -92,14 +92,13 @@ All you need to do is fill in the name of the class, the endpoint configuration 
 - Next Meal
 - Student ID
 - Temperature
+- User
 
 # How to Test
 ## Regression Testing
-All enabled endpoints in the `routes` directory are included in a simple regression test located in `tests/test.js`. This test simply checks for `200 OK` responses from all endpoints with the test username and password provided in `vars.test`, defined in `vars.js` (as specified above, you must create your own `vars.js` file based on `vars-template.js`).
+All simple endpoints in the `routes` directory are included in a simple regression test located in `tests/regression-test.js`. This test simply checks for `200 OK` responses from all endpoints with the test username and password provided in `vars.test`, defined in `vars.js` (as specified above, you must create your own `vars.js` file based on `vars-template.js`). A more complex test for the `/user` endpoint is located in `tests/user-test.js`.
 
 You can run the tests with `npm test`.
-
-The test will print each endpoint's name with its response status code, response time, and the data it returned (except when the data is an object, because it would be extremely long).
 
 ## Load Testing
 For testing of a server running the API, there is `test/load-test.js`, which you can run with `npm run loadtest`. The script uses the server URL defined in `vars.js`.

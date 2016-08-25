@@ -7,6 +7,7 @@ const chai = require("chai");
 chai.use(require("chai-json-schema"));
 const restify = require("restify");
 
+const excludedRoutes = ["user"];
 const timeout = 20000; // 20 seconds
 const client = restify.createJsonClient({
     version: "*",    // Semver string to set the Accept-Version header to
@@ -72,7 +73,9 @@ function testRoute(endpoint) {
 
 // Test all enabled routes
 // Get filenames of all routes (including filetype)
-routes.enabled.forEach((routeName) => {
+routes.enabled.filter((routeName) => {
+    return !excludedRoutes.includes(routeName);
+}).forEach((routeName) => {
     // Get endpoint configuration from file
     const ThisEndpoint = require(`../routes/${routeName}`);
     const endpoint = new ThisEndpoint();

@@ -34,6 +34,17 @@ class User extends Model {
             return this.save(userData);
         });
     }
+
+    /**
+     * Create user in database
+     * @param {string} name Unique ID of document
+     * @param {object} data Document contents
+     * @return {Promise} Fulfilled by object like the following:
+     *     {data: {id: firstname.lastname, ok: true, rev: 1-longhash}}
+     */
+    static create(name, data) {
+        return super.create(name, data, vars.couchDB.db.users);
+    }
 }
 
 module.exports = User;
