@@ -1,0 +1,6 @@
+{
+    "_id": "message",
+    "active": false,
+    "body": "Test message containing <b>HTML</b> and an emoji: 😂",
+    "title": "Look at this!"
+}

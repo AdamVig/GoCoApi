@@ -57,7 +57,7 @@ module.exports = class Endpoint {
      * 1. Request a webpage
      * 2. Extract data from raw HTML using processor function
      * 3. Return data or error response
-     * @param {restify}  app Restify server
+     * @param {restify} app Restify server
      * @param {object} config Endpoint configuration
      * @param {boolean|string} [config.cache=false] Cache setting: global, user,
      *     or false (disabled)
@@ -87,6 +87,10 @@ module.exports = class Endpoint {
         }
     }
 
+    /**
+     * Register endpoint on Restify app
+     * @param {restify} app Restify server
+     */
     create(app) {
         // Get method type from endpoint definition, default to "post"
         const method = this.method || "post";

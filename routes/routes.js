@@ -10,6 +10,7 @@ routes.enabled = [
     "highland-express",
     "meal-points-per-day",
     "meal-points",
+    "message",
     "meta",
     "mock-error",
     "next-meal",
