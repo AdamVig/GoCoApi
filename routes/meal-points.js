@@ -90,12 +90,14 @@ module.exports = class MealPoints extends Endpoint {
 
         const dataString = $("body")
                   .find("table")
-                  .last()
-                  .children().first()
-                  .children().last()
+                  .find("table")
+                  .find("tr")
+                  .find("td")
+                  .eq(1)
+                  .find("span")
                   .text()
-                  .replace(",", "")
-                  .substring(1); // Remove dollar sign
+                  .replace(",", "")    // Remove comma
+                  .substring(1);    // Remove dollar sign
 
         if (dataString.length === 0 || !dataString) {
             throw new restify.BadGatewayError(
