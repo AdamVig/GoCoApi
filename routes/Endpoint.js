@@ -1,48 +1,9 @@
+const moment = require("moment");
 const restify = require("restify");
 
-const cache = require("../helpers/cache");
+const AppData = require("../models/app-data");
+const User = require("../models/user");
 const utils = require("../helpers/utils");
-
-/**
- * Get cached or current data from endpoint
- * If caching is enabled and cached data is not expired, then cached
- * data is returned.
- * If caching is disabled or cached data is expired, then current data
- * is returned.
- * @param {object} endpoint Contains lowercase name of endpoint,
- *                          data type to get,
- *                          location of data to get,
- *                          processor function to extract/transform data,
- *                          and cache settings (user, global, or false)
- * @param {object} auth     Contains username and password
- * @return {promise}        Resolved by data from endpoint
- */
-function getData(endpoint, auth) {
-    if (endpoint.cache) {
-        return cache.getData(endpoint.name,
-                             endpoint.cache,
-                             auth.username)
-            .then((cachedData) => {
-
-                // Cache does not exist or is expired
-                if (!cachedData) {
-                    return getCurrentData(endpoint, auth)
-                        .then((freshData) => {
-                            cache.cacheData(freshData,
-                                            endpoint.name,
-                                            endpoint.cache,
-                                            auth.username);
-                            return freshData;
-                        });
-                } else {
-                    return cachedData;
-                }
-            });
-    } else {
-        return getCurrentData(endpoint, auth);
-    }
-}
-
 
 /**
  * Generic endpoint on a Restify app
@@ -102,6 +63,11 @@ module.exports = class Endpoint {
             let auth = {};
             if (method === "post") {
                 auth = this.getAuth(req);
+
+                // Store username for use in cache function
+                this.request = {
+                    username: auth.username
+                };
             }
 
             // Use Model's get method if present; default to standard getter
@@ -115,17 +81,21 @@ module.exports = class Endpoint {
                                 `a model or a getter.`);
             }
 
-            getter.then(this.processor)
+            this.getData(getter)
                 .then((data) => {
-                res.setHeader("content-type", "application/json");
-                if (data.hasOwnProperty("data")) {
-                    res.send(data);
-                } else {
-                    res.send({data: data});
-                }
-            }).catch((e) => {
-                utils.handleError(req, res, "Endpoint", this.name, e);
-            }).then(next);
+                    res.setHeader("content-type", "application/json");
+                    if (data.hasOwnProperty("data")) {
+                        res.send(data);
+                    } else {
+                        res.send({data: data});
+                    }
+                    return data;
+                })
+                .then(this.saveToCache.bind(this))
+                .catch((e) => {
+                    utils.handleError(req, res, "Endpoint", this.name, e);
+                })
+                .then(next);
         });
 
         // Define endpoint for OPTIONS preflight request
@@ -156,6 +126,38 @@ module.exports = class Endpoint {
     }
 
     /**
+     * Get data
+     * @param {promise} getter Fulfilled by data
+     * @return {object} Contains data
+     */
+    getData(getter) {
+        return this.getDataFromCache()
+            .then((data) => {
+                // If cached data exists and is not expired, return it
+                if (data && !this.isExpired(data)) {
+                    return data;
+
+                // Else get fresh data, process, and return it
+                } else {
+                    return getter.then(this.processor);
+                }
+            });
+    }
+
+    /**
+     * Get data from cache if it exists
+     * @return {object|boolean} Data if exists, false otherwise
+     */
+    getDataFromCache() {
+        if (this.cache === "global") {
+            return new AppData("cache").get(this.name);
+        } else if (this.cache === "user") {
+            return new User(this.request.username).getFromCache(this.name);
+        }
+        return Promise.resolve(false);
+    }
+
+    /**
      * Get raw data from location
      * Placeholder function to be overridden by subclasses
      * @param {string} location URL or database document id
@@ -173,5 +175,50 @@ module.exports = class Endpoint {
      */
     processor(data) {
         return data;
+    }
+
+    /**
+     * Cache retrieved data according to the route's cache settings
+     * If `cache` is `false`, skip caching.
+     * If `cache` is `"user"`, cache data in user's document.
+     * If `cache` is `"global"`, cache data in the global cache document.
+     * @param {any} data Data to cache
+     * @return {Promise|any} Provided data (pass-through for chaining) or
+     *     Promise from cache request
+     */
+    saveToCache(data) {
+        const expiration = moment().add(1, "hours");
+
+        // Extract data from cache object if necessary
+        if (typeof data === "object") {
+            data = data.data;
+        }
+
+        if (this.cache === "global") {
+            const globalCache = new AppData("cache");
+            return globalCache.set(this.name, {
+                data: data,
+                expiration: expiration.toISOString(),
+            });
+        } else if (this.cache === "user") {
+            return new User(this.request.username)
+                .saveToCache(this.name, data, expiration)
+                .catch((err) => {
+                    throw new Error(`Failed to cache ${this.name} for user ` +
+                                    `${this.request.username}. ${err}`);
+                });
+        }
+        return data;
+    }
+
+    /**
+     * Test if data is expired
+     * @param {object} data Contains key `expiration` with date in ISO 8601
+     *     format, ex: {expiration: "2016-09-09T00:41:33+00:00"}
+     * @return {boolean} True if data is expired, false otherwise
+     */
+    isExpired(data) {
+        // If expiration is before current time, data is expired
+        return new moment(data.expiration).isBefore();
     }
 }
