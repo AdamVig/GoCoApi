@@ -17,21 +17,40 @@ class User extends Model {
     }
 
     /**
+     * Get data from cache by key
+     * @param {string} key Key to get
+     * @return {object} Contains data and expiration, ex: { data: 67,
+     *     expiration: "2016-09-09T00:41:33+00:00" }
+     */
+    getFromCache(key) {
+        return this.loadIfEmpty().then(() => {
+            if (this.data.cache) {
+                return this.data.cache[key];
+            }
+        });
+    }
+
+    /**
      * Add data to user cache
      * @param {string} key Key to store data under
      * @param {any} data Data to store
+     * @param {Moment} expiration When data expires
      * @return {Promise} Fulfilled by results of `this.save()`
      */
-    cache(key, data) {
-        return this.loadIfEmpty().then((userData) => {
+    saveToCache(key, data, expiration) {
+        return this.loadIfEmpty().then(() => {
 
             // Add cache property if does not exist
-            if (!userData.hasOwnKey("cache")) {
-                userData.cache = {};
+            if (!this.data.hasOwnProperty("cache")) {
+                this.data.cache = {};
             }
 
-            userData.cache[key] = data;
-            return this.save(userData);
+            // Add data to user cache with expiration
+            this.data.cache[key] = {
+                data: data,
+                expiration: expiration.toISOString(),
+            };
+            return this.save();
         });
     }
 
