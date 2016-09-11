@@ -44,6 +44,10 @@ module.exports = class MealPointsPerDay extends Endpoint {
      */
     processor(data) {
         const [mealPoints, daysLeft] = data;
-        return Math.round(mealPoints / daysLeft) || 0;
+        if (daysLeft > 0) {
+            return Math.round(mealPoints / daysLeft) || 0;
+        } else {
+            return 0;
+        }
     }
 }
