@@ -1,3 +1,5 @@
+const moment = require("moment");
+
 const Database = require("./database");
 const Model = require("./model");
 const vars = require("../vars");
@@ -66,6 +68,30 @@ class User extends Model {
             version: version,
         });
     }
+
+    /**
+     * Update usage statistics for an endpoint
+     * @param {string} endpointName Name of endpoint, ex: "mealpoints"
+     * @return {Promise} Fulfilled by updated model data with latest `_rev`
+     */
+    updateUsage(endpointName) {
+        const usage = this.get("usage") || {};
+
+        // Update requests count
+        let requestCount = usage.total || 0;
+        usage.total = requestCount++;
+
+        // Update requests count for endpoint
+        let endpointRequestCount = usage[endpointName] || 0;
+        usage[endpointName] = endpointRequestCount++;
+
+        // Update date of last request
+        usage.lastRequest = new moment().toISOString();
+
+        return this.set("usage", usage);
+    }
+
+    /**
      * Create user in database
      * @param {string} name Unique ID of document
      * @param {object} data Document contents
