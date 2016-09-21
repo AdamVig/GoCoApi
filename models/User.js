@@ -55,6 +55,17 @@ class User extends Model {
     }
 
     /**
+     * Set user's platform and platform version
+     * @param {string} platform Name of platform, ex: "iOS"
+     * @param {string} version Version of platform, ex: "10.0"
+     * @return {Promise} Fulfilled by updated model data with latest `_rev`
+     */
+    setPlatform(platform, version) {
+        return this.set("platform", {
+            name: platform,
+            version: version,
+        });
+    }
      * Create user in database
      * @param {string} name Unique ID of document
      * @param {object} data Document contents
