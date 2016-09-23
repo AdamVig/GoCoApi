@@ -77,5 +77,8 @@ module.exports = class UserRoute extends Endpoint {
                 utils.handleError(req, res, "Endpoint", this.name, err);
             }).then(next);
         });
+
+        // Define endpoint for OPTIONS preflight request
+        app.opts(this.name, (req, res) => res.send(204));
     }
 };
