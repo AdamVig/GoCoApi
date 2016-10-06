@@ -1,5 +1,6 @@
 const moment = require("moment");
 const restify = require("restify");
+const _ = require("underscore");
 
 const AppData = require("../models/app-data");
 const User = require("../models/user");
@@ -42,6 +43,7 @@ module.exports = class Endpoint {
         this.method = method;
         this.model = model;
         this.name = name;
+        this.request = {};
 
         if (app) {
             this.create(app);
@@ -58,30 +60,21 @@ module.exports = class Endpoint {
 
         // Define endpoint on app
         app[method](this.name, (req, res, next) => {
+            this.request.platform = req.headers["x-platform"];
+            this.request.platformVersion = req.headers["x-platform-version"];
 
-            // Auth is only required when method is POST
-            let auth = {};
+            // Get auth when method is POST
             if (method === "post") {
-                auth = this.getAuth(req);
+                this.request.auth = this.getAuth(req);
 
-                // Store username for use in cache function
-                this.request = {
-                    username: auth.username
+            // Else just get username
+            } else if (req.body) {
+                this.request.auth = {
+                    username: JSON.parse(req.body).username,
                 };
             }
 
-            // Use Model's get method if present; default to standard getter
-            let getter;
-            if (this.model) {
-                getter = this.model.get(this.location);
-            } else if (this.getter) {
-                getter = this.getter(this.location, auth);
-            } else {
-                throw new Error(`Endpoint ${this.name} is missing either ` +
-                                `a model or a getter.`);
-            }
-
-            this.getData(getter)
+            this.getData()
                 .then((data) => {
                     res.setHeader("content-type", "application/json");
                     if (data.hasOwnProperty("data")) {
@@ -91,7 +84,7 @@ module.exports = class Endpoint {
                     }
                     return data;
                 })
-                .then(this.saveToCache.bind(this))
+                .then(this.logRequest.bind(this))
                 .catch((e) => {
                     utils.handleError(req, res, "Endpoint", this.name, e);
                 })
@@ -105,13 +98,15 @@ module.exports = class Endpoint {
     /**
      * Get authentication parameters from request
      * @param  {request}   req  Contains parameters in "body"
-     * @return {object}         Contains username and password in plaintext
+     * @return {object|boolean} Username and password in plaintext, false if no
+     *     request body provided
      */
     getAuth(req) {
         const auth = req.body;
 
         if (!auth) {
-            throw new restify.BadRequestError("Did not receive a request body.")
+            throw new restify.BadRequestError(
+                "Did not receive a request body.")
         }
 
         try {
@@ -127,10 +122,20 @@ module.exports = class Endpoint {
 
     /**
      * Get data
-     * @param {promise} getter Fulfilled by data
      * @return {object} Contains data
      */
-    getData(getter) {
+    getData() {
+        // Use Model's get method if present; default to standard getter
+        let dataRequest;
+        if (this.model) {
+            dataRequest = this.model.get(this.location);
+        } else if (this.getter) {
+            dataRequest = this.getter(this.location, this.request.auth);
+        } else {
+            throw new Error(`Endpoint ${this.name} is missing either ` +
+                            `a model or a getter.`);
+        }
+
         return this.getDataFromCache()
             .then((data) => {
                 // If cached data exists and is not expired, return it
@@ -139,7 +144,11 @@ module.exports = class Endpoint {
 
                 // Else get fresh data, process, and return it
                 } else {
-                    return getter.then(this.processor);
+                    return dataRequest.then(this.processor)
+                        .then((data) => {
+                            this.saveToCache(data);
+                            return data;
+                        });
                 }
             });
     }
@@ -152,7 +161,7 @@ module.exports = class Endpoint {
         if (this.cache === "global") {
             return new AppData("cache").get(this.name);
         } else if (this.cache === "user") {
-            return new User(this.request.username).getFromCache(this.name);
+            return new User(this.request.auth.username).getFromCache(this.name);
         }
         return Promise.resolve(false);
     }
@@ -165,6 +174,18 @@ module.exports = class Endpoint {
      */
     getter(location) {
         return Promise.resolve(location);
+    }
+
+    /**
+     * Log request in user data
+     */
+    logRequest() {
+        if (this.request.auth.username) {
+            const user = new User(this.request.auth.username);
+            user.setPlatform(this.request.platform,
+                             this.request.platformVersion);
+            user.updateUsage(this.name);
+        }
     }
 
     /**
@@ -190,7 +211,7 @@ module.exports = class Endpoint {
         const expiration = moment().add(1, "hours");
 
         // Extract data from cache object if necessary
-        if (typeof data === "object") {
+        if (_.isObject(data) && !_.isArray(data)) {
             data = data.data;
         }
 
@@ -201,11 +222,11 @@ module.exports = class Endpoint {
                 expiration: expiration.toISOString(),
             });
         } else if (this.cache === "user") {
-            return new User(this.request.username)
+            return new User(this.request.auth.username)
                 .saveToCache(this.name, data, expiration)
                 .catch((err) => {
                     throw new Error(`Failed to cache ${this.name} for user ` +
-                                    `${this.request.username}. ${err}`);
+                                    `${this.request.auth.username}. ${err}`);
                 });
         }
         return data;
