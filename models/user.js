@@ -1,3 +1,5 @@
+const moment = require("moment");
+
 const Database = require("./database");
 const Model = require("./model");
 const vars = require("../vars");
@@ -51,6 +53,51 @@ class User extends Model {
                 expiration: expiration.toISOString(),
             };
             return this.save();
+        });
+    }
+
+    /**
+     * Set user's platform and platform version
+     * @param {string} platform Name of platform, ex: "iOS"
+     * @param {string} version Version of platform, ex: "10.0"
+     * @return {Promise} Fulfilled by updated model data with latest `_rev`
+     */
+    setPlatform(platform, version) {
+        return this.set("platform", {
+            name: platform,
+            version: version,
+        });
+    }
+
+    /**
+     * Update usage statistics for an endpoint
+     * @param {string} endpointName Name of endpoint, ex: "mealpoints"
+     * @return {Promise} Fulfilled by updated model data with latest `_rev`
+     */
+    updateUsage(endpointName) {
+        return this.get("usage").then((usage) => {
+
+            if (!usage) {
+                usage = {};
+            }
+
+            // Update requests count
+            if (!usage.total) {
+                usage.total = 0;
+            }
+
+            usage.total++;
+
+            if (!usage[endpointName]) {
+                usage[endpointName] = 0;
+            }
+
+            // Update requests count for endpoint
+            usage[endpointName]++;
+
+            // Update date of last request
+            usage.lastRequest = new moment().toISOString();
+            return this.set("usage", usage);
         });
     }
 
