@@ -75,20 +75,30 @@ class User extends Model {
      * @return {Promise} Fulfilled by updated model data with latest `_rev`
      */
     updateUsage(endpointName) {
-        const usage = this.get("usage") || {};
+        return this.get("usage").then((usage) => {
 
-        // Update requests count
-        let requestCount = usage.total || 0;
-        usage.total = requestCount++;
+            if (!usage) {
+                usage = {};
+            }
 
-        // Update requests count for endpoint
-        let endpointRequestCount = usage[endpointName] || 0;
-        usage[endpointName] = endpointRequestCount++;
+            // Update requests count
+            if (!usage.total) {
+                usage.total = 0;
+            }
 
-        // Update date of last request
-        usage.lastRequest = new moment().toISOString();
+            usage.total++;
 
-        return this.set("usage", usage);
+            if (!usage[endpointName]) {
+                usage[endpointName] = 0;
+            }
+
+            // Update requests count for endpoint
+            usage[endpointName]++;
+
+            // Update date of last request
+            usage.lastRequest = new moment().toISOString();
+            return this.set("usage", usage);
+        });
     }
 
     /**
