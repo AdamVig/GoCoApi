@@ -60,12 +60,16 @@ class User extends Model {
      * Set user's platform and platform version
      * @param {string} platform Name of platform, ex: "iOS"
      * @param {string} version Version of platform, ex: "10.0"
-     * @return {Promise} Fulfilled by updated model data with latest `_rev`
+     * @return {Promise} Fulfilled by model data
      */
     setPlatform(platform, version) {
-        return this.set("platform", {
-            name: platform,
-            version: version,
+        return this.loadIfEmpty().then(() => {
+            if (platform && version) {
+                this.data.platform = {
+                    name: platform,
+                    version: version,
+                };
+            }
         });
     }
 

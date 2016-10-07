@@ -183,8 +183,8 @@ module.exports = class Endpoint {
         if (this.request.auth.username) {
             const user = new User(this.request.auth.username);
             user.setPlatform(this.request.platform,
-                             this.request.platformVersion);
-            user.updateUsage(this.name);
+                             this.request.platformVersion)
+                .then(user.updateUsage(this.name));
         }
     }
 
