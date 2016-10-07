@@ -33,6 +33,7 @@ app.use(function corsHandler(req, res, next) {
 });
 
 app.use(restify.bodyParser());
+app.use(restify.queryParser());
 
 app.on("InternalServerError", (req, res, route, error) => {
     utils.handleError(req, res, "Internal Server", route.spec.path, error);

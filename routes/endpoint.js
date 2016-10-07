@@ -68,9 +68,9 @@ module.exports = class Endpoint {
                 this.request.auth = this.getAuth(req);
 
             // Else just get username
-            } else if (req.body) {
+            } else if (req.params && req.params.username) {
                 this.request.auth = {
-                    username: JSON.parse(req.body).username,
+                    username: req.params.username,
                 };
             }
 
