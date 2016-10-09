@@ -126,6 +126,25 @@ class Database {
             }
         });
     }
+
+    /**
+     * Get view from database
+     * @param  {string} id _id of design doc to get
+     * @param  {string} viewName Name of view to get
+     * @param  {object} params Parameters to pass with view request
+     * @return {Promise} Fulfilled by result of view
+     */
+    view(id, viewName, params) {
+        return new Promise((resolve, reject) => {
+            this.couch.view(id, viewName, params, (err, body) => {
+                if (!err) {
+                    resolve(body);
+                } else {
+                    reject(err);
+                }
+            });
+        });
+    }
 }
 
 module.exports = Database;
