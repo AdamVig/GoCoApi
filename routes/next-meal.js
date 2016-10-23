@@ -29,10 +29,10 @@ module.exports = class NextMeal extends Endpoint {
                   .children().last()
                   .children().last()
                   .text()
-                  .split("\r\n")    // Split into array at newlines
+                  .split(/\r\n|\n/)    // Split into array at newlines
                   .map((item) => {    // Remove extraneous whitespace
                       return item
-                          .replace(/(\r\n|\r)/g, "")
+                          .replace(/(\r\n|\r|,)/g, "")
                           .trim();
                   })
                   .filter(item => (item !== ""));    // Remove empty lines
