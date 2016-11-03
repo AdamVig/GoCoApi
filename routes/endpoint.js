@@ -62,6 +62,7 @@ module.exports = class Endpoint {
         app[method](this.name, (req, res, next) => {
             this.request.platform = req.headers["x-platform"];
             this.request.platformVersion = req.headers["x-platform-version"];
+            this.request.skipCache = req.params.bust == "true" || false;
 
             // Get auth when method is POST
             if (method === "post") {
@@ -158,9 +159,9 @@ module.exports = class Endpoint {
      * @return {object|boolean} Data if exists, false otherwise
      */
     getDataFromCache() {
-        if (this.cache === "global") {
+        if (this.cache === "global" && !this.request.skipCache) {
             return new AppData("cache").get(this.name);
-        } else if (this.cache === "user") {
+        } else if (this.cache === "user" && !this.request.skipCache) {
             return new User(this.request.auth.username).getFromCache(this.name);
         }
         return Promise.resolve(false);

@@ -21,6 +21,9 @@ Of course, obscuring the password is not all that needs to be done. To attain so
 1. Use HTTPS for all communication to and from the server.
 2. Send parameters in the `POST` body, not a `GET` query string. This method of security through obscurity prevents sensitive user data from showing up in logs, where URLs containing query parameters often show up.
 
+### Caching
+All retrieved data is cached either in a global- or user-level cache. Data that is stored directly in the database is not cached. The cache can be skipped on a per-request level by adding `&bust=true` to the URL of either a `GET` or `POST` request.
+
 # Endpoints
 Endpoints are defined in individual files in the `routes` directory. All of the files in the directory are automatically bootstrapped as endpoints when the app starts, except for filenames that start with an underscore, which are disabled. This is a convenient way to take an endpoint offline temporarily while working on it.
 
