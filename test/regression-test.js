@@ -7,7 +7,7 @@ const chai = require("chai");
 chai.use(require("chai-json-schema"));
 const restify = require("restify");
 
-const excludedRoutes = ["user"];
+const excludedRoutes = ["statistics", "user"];
 const timeout = 20000; // 20 seconds
 const client = restify.createJsonClient({
     version: "*",    // Semver string to set the Accept-Version header to

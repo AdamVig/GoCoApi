@@ -14,6 +14,7 @@ routes.enabled = [
     "meta",
     "mock-error",
     "next-meal",
+    "statistics",
     "student-id",
     "temperature",
     "user",
