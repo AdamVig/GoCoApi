@@ -80,7 +80,10 @@ module.exports = class AthleticsSchedule extends Endpoint {
             event.datetime = originalDateTime.format(config.FORMAT.datetime);
             event.relative = originalDateTime.fromNow();
 
-            athleticsEvents.push(event);
+            // Filter out events already occurred
+            if (originalDateTime.isSameOrAfter(moment(), "day")) {
+                athleticsEvents.push(event);
+            }
         });
 
         return athleticsEvents;
