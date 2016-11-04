@@ -1,4 +1,4 @@
-module.exports = vars = {};
+const vars = module.exports = {};
 vars.couchDB = {
     ssl: false,    // Set to 'true' to use https, otherwise will use http
     url: "",       // URL to access database at (ex: accountname.cloudant.com)
