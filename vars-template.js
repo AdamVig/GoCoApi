@@ -12,6 +12,11 @@ vars.couchDB = {
 vars.forecastio = {
     key: "" // Register at https://developer.forecast.io/
 };
+vars.log = {
+    paperTrailURL: "", // PaperTrail URL to log to, ex: logs.papertrailapp.com
+    paperTrailPort: 99999, // PaperTrail port to log to
+    traceLogPath: "", // File path to log traces to, ex: trace.log
+};
 vars.server = {
     url: "https://example.com/api" // Full URL to your server, no trailing slash
 };

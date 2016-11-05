@@ -1,3 +1,5 @@
+const Bunyan = require('bunyan');
+const bunyanSysLog = require('bunyan-syslog');
 const fs = require("fs");
 const restify = require("restify");
 
@@ -9,11 +11,33 @@ const utils = require("./helpers/utils");
 try {
     fs.accessSync("./vars.js", fs.F_OK);
 } catch (e) {
-    throw new Error("Could not start server: No vars file found. " +
-        "Check README for instructions.");
+    throw new Error('Could not start server: No vars file found. ' +
+              'Check README for instructions.');
 }
+const vars = require("./vars.js");
+const log = new Bunyan({
+    name: config.APP_NAME,
+    serializers: restify.bunyan.serializers,
+    streams: [
+        {
+            level: "debug",
+            type: "raw",
+            stream: bunyanSysLog.createBunyanStream({
+                type: "sys",
+                facility: bunyanSysLog.local0,
+                host: vars.log.paperTrailURL,
+                port: vars.log.paperTrailPort,
+            }),
+        },
+        {
+            path: vars.log.traceLogPath,
+            level: 'trace',
+        },
+    ],
+});
 
 const app = restify.createServer({
+    log: log,
     name: config.APP_NAME,
     version: npmConfig.version,
 });
@@ -51,5 +75,5 @@ app.on("uncaughtException", (req, res, route, error) => {
 require("./routes/routes").create(app);
 
 app.listen(config.PORT, () => {
-    console.log("%s listening at %s", app.name, app.url);
+    log.info("%s listening at %s", app.name, app.url);
 });
