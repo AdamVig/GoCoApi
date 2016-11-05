@@ -2,6 +2,7 @@ const fs = require("fs");
 const restify = require("restify");
 
 const config = require("./config");
+const npmConfig  = require("./package.json");
 const utils = require("./helpers/utils");
 
 // Check for existence of environment variables file
@@ -13,7 +14,8 @@ try {
 }
 
 const app = restify.createServer({
-    name: config.APP_NAME
+    name: config.APP_NAME,
+    version: npmConfig.version,
 });
 
 // Add CORS headers to all responses
