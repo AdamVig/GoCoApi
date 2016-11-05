@@ -16,7 +16,7 @@
                     "location": {"type": "string"},
                     "relative": {"type": "string"},
                     "title": {"type": "string"},
-                    "url": {
+                    "opponentLogoURL": {
                         "oneOf": [
                             {
                                 "type": "string",
@@ -34,7 +34,7 @@
                     "location",
                     "relative",
                     "title",
-                    "url"
+                    "opponentLogoURL"
                 ]
             }
         },
