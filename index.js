@@ -1,5 +1,4 @@
 const Bunyan = require('bunyan');
-const bunyanSysLog = require('bunyan-syslog');
 const fs = require("fs");
 const restify = require("restify");
 
@@ -18,22 +17,13 @@ const vars = require("./vars.js");
 const log = new Bunyan({
     name: config.APP_NAME,
     serializers: restify.bunyan.serializers,
-    streams: [
-        {
-            level: "debug",
-            type: "raw",
-            stream: bunyanSysLog.createBunyanStream({
-                type: "sys",
-                facility: bunyanSysLog.local0,
-                host: vars.log.paperTrailURL,
-                port: vars.log.paperTrailPort,
-            }),
-        },
-        {
-            path: vars.log.traceLogPath,
-            level: 'trace',
-        },
-    ],
+    streams: [{
+        type: 'rotating-file',
+        path: vars.logFileName,
+        period: '1d',   // daily rotation
+        count: 3,        // keep 3 back copies
+        level: "debug",
+    },],
 });
 
 const app = restify.createServer({

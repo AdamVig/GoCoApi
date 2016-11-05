@@ -6,7 +6,6 @@
   "dependencies": {
     "browser-agents": "0.1.0",
     "bunyan": "1.8.4",
-    "bunyan-syslog": "github:mcavage/node-bunyan-syslog",
     "cheerio": "0.19.0",
     "forecast.io-bluebird": "0.0.1",
     "moment": "2.11.1",
