@@ -37,14 +37,16 @@ class Model {
      */
     load() {
         if (!this.loadInProgress) {
-            this.loadInProgress = this.db.get(this.id)
+            return this.loadInProgress = this.db.get(this.id)
                 .catch((err) => {
                     console.log(this.id, this.data);
                     throw new Error(`Model Error: Could not load document `
                                     + `'${this.id}': ${err}`);
                 })
-                .then(body => this.data = body)
-                .then(() => this.loadInProgress = false);
+                .then((body) => {
+                    this.data = body;
+                    this.loadInProgress = false;
+                });
         }
         return this.loadInProgress;
     }

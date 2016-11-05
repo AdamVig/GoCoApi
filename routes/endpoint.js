@@ -130,7 +130,10 @@ module.exports = class Endpoint {
         // Use Model's get method if present; default to standard getter
         let dataRequest;
         if (this.model) {
-            dataRequest = this.model.get(this.location);
+            dataRequest = this.model.load()
+                .then((data) => {
+                    return this.model.get(this.location)
+                });
         } else if (this.getter) {
             dataRequest = this.getter(this.location, this.request.auth);
         } else {
