@@ -1,3 +1,5 @@
+const restify = require("restify");
+
 const Endpoint = require("./endpoint");
 const getters = require("../helpers/getters");
 
@@ -15,7 +17,17 @@ module.exports = class CheckLogin extends Endpoint {
      * @return {function} Getter for Go Gordon pages
      */
     getter(...args) {
-        return getters.getGoGordon(...args);
+        return getters.getGoGordon(...args)
+            .catch((err) => {
+                if (err.statusCode === 401) {
+                    throw new restify.UnauthorizedError(
+                        "Username or password is incorrect.");
+                } else {
+                    throw new restify.InternalServerError(
+                        "Go Gordon rejected the credentials or is currently " +
+                            "down.");
+                }
+            });
     }
 
 
