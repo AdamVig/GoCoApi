@@ -16,21 +16,23 @@ module.exports = class HighlandExpress extends Endpoint {
             method: "get"
         });
 
-        app.put(this.name, (req, res, next) => {
-            // Throw errors if missing necessary data
-            if (!req.params.data) {
-                throw new restify.UnprocessableEntityError("Missing data.");
-            } else if (!req.params.data._rev) {
-                throw new restify.UnprocessableEntityError(
-                    "Missing revision field.");
-            }
-            new AppData(highlandExpressDocID).save(req.params.data)
-                .then((metaData) => {
-                    res.send({data: metaData});
-                }).catch((err) => {
-                    utils.handleError(req, res, "Endpoint", this.name, err);
-                }).then(next);
-        });
+        if (app) {
+            app.put(this.name, (req, res, next) => {
+                // Throw errors if missing necessary data
+                if (!req.params.data) {
+                    throw new restify.UnprocessableEntityError("Missing data.");
+                } else if (!req.params.data._rev) {
+                    throw new restify.UnprocessableEntityError(
+                        "Missing revision field.");
+                }
+                new AppData(highlandExpressDocID).save(req.params.data)
+                    .then((metaData) => {
+                        res.send({data: metaData});
+                    }).catch((err) => {
+                        utils.handleError(req, res, "Endpoint", this.name, err);
+                    }).then(next);
+            });
+        }
     }
 
     /**
