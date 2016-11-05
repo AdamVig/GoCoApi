@@ -68,7 +68,7 @@ module.exports = class AthleticsSchedule extends Endpoint {
             // Namespaced XML tags must be escaped, ex: ns\\:tagname
             const event = {
                 title: eventData.find("description").text().trim(),
-                url: eventData.find("s\\:opponentlogo").text().trim(),
+                opponentLogoURL: eventData.find("s\\:opponentlogo").text().trim(),
                 location: eventData.find("ev\\:location").text().trim(),
                 datetime: eventData.find("s\\:localstartdate").text().trim()
             };
