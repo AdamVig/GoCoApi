@@ -1,15 +1,35 @@
 const moment = require("moment");
+const restify = require("restify");
 
 const AppData = require("../models/app-data");
 const Endpoint = require("./endpoint");
+const utils = require("../helpers/utils");
+
+const highlandExpressDocID = "highlandexpress";
 
 module.exports = class HighlandExpress extends Endpoint {
     constructor(app) {
         super(app, {
             name: "highlandexpress",
-            model: new AppData("highlandexpress"),
+            model: new AppData(highlandExpressDocID),
             cache: false,
             method: "get"
+        });
+
+        app.put(this.name, (req, res, next) => {
+            // Throw errors if missing necessary data
+            if (!req.params.data) {
+                throw new restify.UnprocessableEntityError("Missing data.");
+            } else if (!req.params.data._rev) {
+                throw new restify.UnprocessableEntityError(
+                    "Missing revision field.");
+            }
+            new AppData(highlandExpressDocID).save(req.params.data)
+                .then((metaData) => {
+                    res.send({data: metaData});
+                }).catch((err) => {
+                    utils.handleError(req, res, "Endpoint", this.name, err);
+                }).then(next);
         });
     }
 
