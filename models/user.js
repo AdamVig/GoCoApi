@@ -57,6 +57,19 @@ class User extends Model {
     }
 
     /**
+     * Set user's current app version
+     * @param {string} version Version of app, ex: "2.6.0"
+     * @return {Promise} Fulfilled by model data
+     */
+    setAppVersion(version) {
+        return this.loadIfEmpty().then(() => {
+            if (version) {
+                this.data.appVersion = version;
+            }
+        });
+    }
+
+    /**
      * Set user's platform and platform version
      * @param {string} platform Name of platform, ex: "iOS"
      * @param {string} version Version of platform, ex: "10.0"

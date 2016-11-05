@@ -62,6 +62,7 @@ module.exports = class Endpoint {
         app[method](this.name, (req, res, next) => {
             this.request.platform = req.headers["x-platform"];
             this.request.platformVersion = req.headers["x-platform-version"];
+            this.request.appVersion = req.headers["x-app-version"];
             this.request.skipCache = req.params.bust == "true" || false;
 
             // Get auth when method is POST
@@ -185,6 +186,7 @@ module.exports = class Endpoint {
             const user = new User(this.request.auth.username);
             user.setPlatform(this.request.platform,
                              this.request.platformVersion)
+                .then(user.setAppVersion(this.request.appVersion))
                 .then(user.updateUsage(this.name));
         }
     }
