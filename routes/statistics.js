@@ -41,7 +41,7 @@ module.exports = class StatisticsRoute extends Endpoint {
      * @return {Promise.<Object>} Usage totals for all user-facing endpoints
      */
     getEndpointUsage() {
-        return new View("test-usage", "all").get()
+        return new View("usage", "all").get()
             .then((usage) => {
                 return usage.rows[0].value;
             });
@@ -54,7 +54,7 @@ module.exports = class StatisticsRoute extends Endpoint {
      */
     getActiveUsersCount() {
         let usersCount;
-        return new View("test-counts", "users-count").get()
+        return new View("counts", "users-count").get()
             .then((view) => {
                 usersCount = view.rows[0].value;
                 return new AppData("info").get();
@@ -73,7 +73,7 @@ module.exports = class StatisticsRoute extends Endpoint {
      *     each platform
      */
     getPlatformUsage() {
-        return new View("test-counts", "platforms", {group: true}).get()
+        return new View("counts", "platforms", {group: true}).get()
             .then((view) => {
                 let totalUsers = 0;
                 return view.rows.map((platformData) => {
@@ -96,7 +96,7 @@ module.exports = class StatisticsRoute extends Endpoint {
      *     each version
      */
     getVersionUsage() {
-        return new View("test-counts", "versions", {group: true}).get()
+        return new View("counts", "versions", {group: true}).get()
             .then((view) => {
                 // Get version number of latest version and parse data
                 let latestVersion;
