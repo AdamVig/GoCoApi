@@ -16,6 +16,15 @@ class User extends Model {
      */
     constructor(id) {
         super(new Database(vars.couchDB, vars.couchDB.db.users), id);
+        this.loadIfEmpty()
+            .catch((err) => {
+                if (err.statusCode === 404) {
+                    return User.create(id, {}).then(this.load);
+                } else {
+                    throw new Error("Error in User constructor:",
+                                    err.description);
+                }
+            });
     }
 
     /**
@@ -58,41 +67,43 @@ class User extends Model {
 
     /**
      * Set user's current app version
+     * Note: depends on user data being loaded
      * @param {string} version Version of app, ex: "2.6.0"
-     * @return {Promise} Fulfilled by model data
      */
     setAppVersion(version) {
-        return this.loadIfEmpty().then(() => {
-            if (version) {
-                this.data.appVersion = version;
-            }
-        });
+        if (version) {
+            this.data.appVersion = version;
+        }
     }
 
     /**
      * Set user's platform and platform version
+     * Note: depends on user data being loaded
      * @param {string} platform Name of platform, ex: "iOS"
      * @param {string} version Version of platform, ex: "10.0"
-     * @return {Promise} Fulfilled by model data
      */
     setPlatform(platform, version) {
-        return this.loadIfEmpty().then(() => {
-            if (platform && version) {
-                this.data.platform = {
-                    name: platform,
-                    version: version,
-                };
-            }
-        });
+        if (platform && version) {
+            this.data.platform = {
+                name: platform,
+                version: version,
+            };
+        }
     }
 
     /**
      * Update usage statistics for an endpoint
      * @param {string} endpointName Name of endpoint, ex: "mealpoints"
+     * @param {string} platform Name of platform, ex: "iOS"
+     * @param {string} platformVersion Version of platform, ex: "10.0"
+     * @param {string} appVersion Version of app, ex: "2.6.0"
      * @return {Promise} Fulfilled by updated model data with latest `_rev`
      */
-    updateUsage(endpointName) {
+    updateUsage(endpointName, platform, platformVersion, appVersion) {
         return this.get("usage").then((usage) => {
+
+            this.setAppVersion(appVersion);
+            this.setPlatform(platform, platformVersion);
 
             if (!usage) {
                 usage = {};

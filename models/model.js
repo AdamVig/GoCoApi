@@ -17,7 +17,6 @@ class Model {
         this.db = database;
         this.id = id;
         this.data = null;
-        this.load();
     }
 
     /**
@@ -38,17 +37,13 @@ class Model {
     load() {
         if (!this.loadInProgress) {
             return this.loadInProgress = this.db.get(this.id)
-                .catch((err) => {
-                    console.log(this.id, this.data);
-                    throw new Error(`Model Error: Could not load document `
-                                    + `'${this.id}': ${err}`);
-                })
                 .then((body) => {
                     this.data = body;
                     this.loadInProgress = false;
                 });
+        } else {
+            return this.loadInProgress;
         }
-        return this.loadInProgress;
     }
 
     /**
