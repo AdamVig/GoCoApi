@@ -72,7 +72,9 @@ class Model {
             .then(newData => this.data = newData)
             .catch((err) => {
                 if (err.statusCode === 409) {
-                    throw new restify.ConflictError("Document update conflict.");
+                    throw new restify.ConflictError(
+                        `Document update conflict on ` +
+                        `${this.db.couch.config.db}/${this.id}.`);
                 } else {
                     throw err;
                 }
