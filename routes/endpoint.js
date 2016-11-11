@@ -127,20 +127,6 @@ module.exports = class Endpoint {
      * @return {object} Contains data
      */
     getData() {
-        // Use Model's get method if present; default to standard getter
-        let dataRequest;
-        if (this.model) {
-            dataRequest = this.model.load()
-                .then((data) => {
-                    return this.model.get(this.location)
-                });
-        } else if (this.getter) {
-            dataRequest = this.getter(this.location, this.request.auth);
-        } else {
-            throw new Error(`Endpoint ${this.name} is missing either ` +
-                            `a model or a getter.`);
-        }
-
         return this.getDataFromCache()
             .then((data) => {
                 // If cached data exists and is not expired, return it
@@ -149,6 +135,20 @@ module.exports = class Endpoint {
 
                 // Else get fresh data, process, and return it
                 } else {
+                    // Use Model's get method or standard getter
+                    let dataRequest;
+                    if (this.model) {
+                        dataRequest = this.model.load()
+                            .then(() => {
+                                return this.model.get(this.location)
+                            });
+                    } else if (this.getter) {
+                        dataRequest = this.getter(this.location,
+                                                  this.request.auth);
+                    } else {
+                        throw new Error(`Endpoint ${this.name} is missing ` +
+                                        `a model or a getter.`);
+                    }
                     return dataRequest.then(this.processor)
                         .then((data) => {
                             this.saveToCache(data);
