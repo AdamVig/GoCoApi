@@ -1,6 +1,7 @@
 const restify = require("restify");
 
 const config = require("../config");
+const log = require("./log");
 
 const utils = module.exports = {};
 
@@ -25,9 +26,6 @@ utils.getErrorMessage = function (e) {
  * @param  {Error}    error  Error object, contains "message"
  */
 utils.handleError = function (req, res, source, route, error) {
-    console.error("%s Error in %s: %s", source, route, error.message);
-    console.error(error.stack);
-
     if (!error.body) {
         error = new restify.InternalServerError(error.message);
     }

@@ -1,8 +1,8 @@
-const Bunyan = require('bunyan');
 const fs = require("fs");
 const restify = require("restify");
 
 const config = require("./config");
+const log = require("./helpers/log");
 const npmConfig  = require("./package.json");
 const utils = require("./helpers/utils");
 
@@ -14,23 +14,17 @@ try {
               'Check README for instructions.');
 }
 const vars = require("./vars.js");
-const log = new Bunyan({
-    name: config.APP_NAME,
-    serializers: restify.bunyan.serializers,
-    streams: [{
-        type: 'rotating-file',
-        path: vars.logFileName,
-        period: '1d',   // daily rotation
-        count: 3,        // keep 3 back copies
-        level: "debug",
-    },],
-});
-
 const app = restify.createServer({
     log: log,
     name: config.APP_NAME,
     version: npmConfig.version,
 });
+
+// Log every incoming request
+app.pre((req, res, next) => {
+  req.log.info({req}, 'start')
+  return next()
+})
 
 // Add CORS headers to all responses
 // Send back CORS headers set in the request,
@@ -52,13 +46,10 @@ app.use(restify.bodyParser());
 app.use(restify.queryParser());
 
 app.on("InternalServerError", (req, res, route, error) => {
-    utils.handleError(req, res, "Internal Server", route.spec.path, error);
-});
-app.on("MethodNotAllowed", (req, res, error) => {
-    utils.handleError(req, res, "Method Not Allowed", req.url, error);
+    utils.handleError(req, res, "Internal Server", route, error);
 });
 app.on("uncaughtException", (req, res, route, error) => {
-    utils.handleError(req, res, "Uncaught", route.spec.path, error);
+    utils.handleError(req, res, "Uncaught", route, error);
 });
 
 // Load all enabled routes
