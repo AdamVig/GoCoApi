@@ -45,8 +45,8 @@ module.exports = class HighlandExpress extends Endpoint {
 
         const weekdayNum = moment().day(); // Sunday = 0, Saturday = 6
 
-        // Add key of today"s schedule
-        if (weekdayNum < 0 && weekdayNum < 5) {
+        // Add key of today's schedule
+        if (weekdayNum > 0 && weekdayNum < 5) {
             highlandExpressDoc.day = "weekday";
         } else {
             highlandExpressDoc.day = moment().format("dddd").toLowerCase();
