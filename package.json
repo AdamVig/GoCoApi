@@ -1,6 +1,6 @@
 {
   "name": "goco-api",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "API server for the GoCo Student app.",
   "main": "index.js",
   "dependencies": {
@@ -22,7 +22,7 @@
     "loadtest": "1.4.3",
     "mocha": "2.4.5",
     "nodemon": "1.10.2",
-    "pm2": "1.1.3",
+    "pm2": "2.4.2",
     "request-debug": "0.2.0",
     "yargs": "4.7.1"
   },
