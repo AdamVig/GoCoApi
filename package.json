@@ -1,6 +1,6 @@
 {
   "name": "goco-api",
-  "version": "0.2.6",
+  "version": "0.3.0",
   "description": "API server for the GoCo Student app.",
   "main": "index.js",
   "dependencies": {
