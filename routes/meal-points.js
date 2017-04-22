@@ -63,7 +63,7 @@ module.exports = class MealPoints extends Endpoint {
 
             // Use src of iFrame to make request
             const $ = cheerio.load(response);
-            URL = "https://my.gordon.edu" + $("#pg0_V_frame").attr("src");
+            URL = "https://my.gordon.edu" + $("#pg0_V_litFrame").attr("src");
             return myRequest(URL);
 
         }).then(() => {
